@@ -20,6 +20,18 @@ public class LoginServices {
 	private String[] urlAccess = {"http://localhost"};
 	
 	@GET
+	@Path("/prueba")
+	@Produces("application/json")
+	public Response prueba(@DefaultValue("null") @QueryParam("user") String user, 
+	          @DefaultValue("null") @QueryParam("pass") String pass){
+		JSONObject account = new JSONObject();
+		account.put("user", user);
+		account.put("pass", pass);
+		return Response.ok(account.toString()).header("Access-Control-Allow-Origin", "*").build();
+	
+	}
+	
+	@GET
 	@Path("/login")
 	@Produces("application/json")
 	public Response login(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
