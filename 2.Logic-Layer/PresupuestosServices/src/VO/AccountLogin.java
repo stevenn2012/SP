@@ -1,4 +1,4 @@
-package Data;
+package VO;
 
 public class AccountLogin{
 	private String nameEmployee;

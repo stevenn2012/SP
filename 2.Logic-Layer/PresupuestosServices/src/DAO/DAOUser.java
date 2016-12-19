@@ -1,12 +1,14 @@
-package Data;
+package DAO;
 
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import VO.User;
+
 public class DAOUser {
 	
-	private static String dataBase = "jdbc:mysql://localhost:3306/users";
+	private static String dataBase = "jdbc:mysql://localhost:3306/SPDB";
 	private static String dataBaseUser = "root";
 	private static String dataBasePass = "";
 	
@@ -26,9 +28,9 @@ public class DAOUser {
 	public static User getUserByUsernameAndPassword(String username, String password) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).open()){
-			String query="select * from user where username = :username and password = :password";
+			String query="select * from user where userName = :username and password = :password";
 			List<User> users = connection.createQuery(query)
-					.addParameter("username", username)
+					.addParameter("userName", username)
 					.addParameter("password", password)
 			        .executeAndFetch(User.class);
 			return users.get(0);
@@ -51,15 +53,16 @@ public class DAOUser {
 		}
 	}
 
-	public static boolean insertUser(String name, String username, String password, int rolnumber) {
+	public static boolean insertUser(String document, String name, String username, String password, int idArea) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
-			String query="insert into user(username, password, name, Rol_idRol) values(:username, :password, :name, :rolnumber)";
+			String query="insert into user(document, name, userName, password, idArea) values(:document, :name, :username, :password, :idArea)";
 			connection.createQuery(query)
+					.addParameter("document", document)
+					.addParameter("name", name)
 					.addParameter("username", username)
 					.addParameter("password", password)
-					.addParameter("name", name)
-					.addParameter("rolnumber", rolnumber)
+					.addParameter("idArea", idArea)
 					.executeUpdate();
 			connection.commit();
 			return true;

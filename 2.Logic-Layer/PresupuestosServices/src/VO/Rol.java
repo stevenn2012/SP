@@ -1,4 +1,4 @@
-package Data;
+package VO;
 
 public class Rol {
 	private int idRol;

@@ -3,9 +3,11 @@ package Logic;
 import java.math.BigInteger;
 import java.util.HashMap;
 import org.json.JSONObject;
-import Data.AccountLogin;
-import Data.DAOUser;
-import Data.User;
+
+import DAO.DAOArea;
+import DAO.DAOUser;
+import VO.AccountLogin;
+import VO.User;
 
 public class UsersLogic {
 
@@ -21,12 +23,13 @@ public class UsersLogic {
 		if(user != null){
 			System.out.println(" -> The user was found");
 			obj.put("access", true);
-			obj.put("nameEmployee", user.getName());
-			obj.put("username", user.getUsername());
-			obj.put("rol", user.getRol_idRol());
+			obj.put("document", user.getDocument());
+			obj.put("name", user.getName());
+			obj.put("username", user.getUserName());
+			obj.put("area", DAOArea.getAreaByIdArea(user.getIdArea()));
 			obj.put("loginCode", generateLoginCode(username, password));
-			loginAccounts.put(user.getUsername().toLowerCase(), 
-					new AccountLogin(user.getName(), user.getUsername(), obj.getString("loginCode"), ip, obj.getInt("rol")));
+			loginAccounts.put(user.getUserName().toLowerCase(), 
+					new AccountLogin(user.getName(), user.getUserName(), obj.getString("loginCode"), ip, obj.getInt("rol")));
 			return obj;
 		}else{
 			obj.put("access", false);
@@ -94,7 +97,7 @@ public class UsersLogic {
 					rolnumber = 2;
 				}
 				obj.remove("create");
-				obj.put("create", DAOUser.insertUser(name, username, password, rolnumber));
+				//obj.put("create", DAOUser.insertUser(document, name, username, password, idArea));
 			}else{
 				obj.remove("permit");
 				obj.remove("create");
