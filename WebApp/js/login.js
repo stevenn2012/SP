@@ -23,10 +23,10 @@ function login () {
 				cleanInfo("loginValidation");
 				if (typeof(Storage) !== "undefined") {
 					$('#pass').val("");
-				    sessionStorage.setItem("nameEmployee", data.nameEmployee);
+				    sessionStorage.setItem("namel", data.namel);
 				    sessionStorage.setItem("username", data.username);
-				    sessionStorage.setItem("loginCode", data.loginCode);
-				    sessionStorage.setItem("rol", data.rol);
+				    sessionStorage.setItem("logincode", data.logincode);
+				    sessionStorage.setItem("roll", data.roll);
 				    window.location.assign('pages/');
 				} else {
 					$('#pass').val("");
