@@ -23,13 +23,12 @@ public class UsersLogic {
 		if(user != null){
 			System.out.println(" -> The user was found");
 			obj.put("access", true);
-			obj.put("document", user.getDocument());
-			obj.put("name", user.getName());
+			obj.put("namel", user.getName());
 			obj.put("username", user.getUserName());
-			obj.put("area", DAOArea.getAreaByIdArea(user.getIdArea()));
 			obj.put("loginCode", generateLoginCode(username, password));
+			obj.put("roll", );
 			loginAccounts.put(user.getUserName().toLowerCase(), 
-					new AccountLogin(user.getName(), user.getUserName(), obj.getString("loginCode"), ip, user.getIdUser()));
+					new AccountLogin(user.getUserName(), obj.getString("loginCode"), ip));
 			return obj;
 		}else{
 			obj.put("access", false);

@@ -1,34 +1,16 @@
 package VO;
 
 public class AccountLogin{
-	private String nameEmployee;
 	private String username;
 	private String loginCode;
-	private int rol;
 	private String ip;
 	
-	public AccountLogin(String nameEmployee, String username, String loginCode, String ip, int rol) {
-		this.nameEmployee = nameEmployee;
+	public AccountLogin(String username, String loginCode, String ip) {
 		this.username = username;
 		this.loginCode = loginCode;
-		this.rol = rol;
 		this.ip = ip;
 	}
 
-	public int getRol() {
-		return rol;
-	}
-
-	public void setRol(int rol) {
-		this.rol = rol;
-	}
-
-	public String getNameEmployee() {
-		return nameEmployee;
-	}
-	public void setNameEmployee(String nameEmployee) {
-		this.nameEmployee = nameEmployee;
-	}
 	public String getUsername() {
 		return username;
 	}
@@ -50,7 +32,7 @@ public class AccountLogin{
 
 	@Override
 	public String toString() {
-		return "AccountLogin [nameEmployee=" + nameEmployee + ", username=" + username + ", loginCode=" + loginCode
-				+ ", rol=" + rol + ", ip=" + ip + "]";
+		return "AccountLogin [username=" + username + ", loginCode=" + loginCode + ", ip=" + ip + "]";
 	}
+	
 }

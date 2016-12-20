@@ -19,7 +19,7 @@ import Logic.UsersLogic;
 @Path("/AppLoginAuthentication")
 public class LoginAuthen {
 	
-	private String[] urlAccess = {"http://localhost"};
+	private String[] urlAccess = {"http://localhost","null"};
 	
 	@GET
 	@Path("/login")
@@ -29,7 +29,6 @@ public class LoginAuthen {
 				@DefaultValue("null") @QueryParam("pass") String pass){
 						
 		System.out.println("\t"+new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
-		referer = "http://localhost";
 		System.out.print("\tAttempt to log in from : "+referer);
 		System.out.println("\nUser "+user+ " pass "+pass);
 		

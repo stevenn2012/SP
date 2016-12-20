@@ -1,9 +1,15 @@
 package VO;
 
-public class Rol {
+public class Roll {
 	private int idRol;
 	private String name;
 	private String description;
+	
+	public Roll(int idRol, String name, String description) {
+		this.idRol = idRol;
+		this.name = name;
+		this.description = description;
+	}
 	public int getIdRol() {
 		return idRol;
 	}
