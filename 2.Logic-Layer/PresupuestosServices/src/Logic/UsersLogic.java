@@ -3,8 +3,7 @@ package Logic;
 import java.math.BigInteger;
 import java.util.HashMap;
 import org.json.JSONObject;
-
-import DAO.DAOArea;
+import DAO.DAORoll;
 import DAO.DAOUser;
 import VO.AccountLogin;
 import VO.User;
@@ -25,10 +24,10 @@ public class UsersLogic {
 			obj.put("access", true);
 			obj.put("namel", user.getName());
 			obj.put("username", user.getUserName());
-			obj.put("loginCode", generateLoginCode(username, password));
-			obj.put("roll", );
+			obj.put("logincode", generateLoginCode(username, password));
+			obj.put("roll", DAORoll.getRoleByIdUser(user.getIdUser()).getName());
 			loginAccounts.put(user.getUserName().toLowerCase(), 
-					new AccountLogin(user.getUserName(), obj.getString("loginCode"), ip));
+					new AccountLogin(user.getUserName(), obj.getString("logincode"), ip));
 			return obj;
 		}else{
 			obj.put("access", false);
@@ -42,14 +41,14 @@ public class UsersLogic {
 	}
 	
 	public static JSONObject valLogin(String ip, JSONObject account){
-		String username = account.getString("user").toLowerCase();
-		String loginCode = account.getString("loginCode");
+		String username = account.getString("username").toLowerCase();
+		String logincode = account.getString("logincode");
 		System.out.print("\tReceived -> User: '"+username+"', loginCode: **** ");
 		AccountLogin acc= loginAccounts.get(username);
 		JSONObject obj = new JSONObject();
 		obj.put("validate", "false");
 		if(acc != null){
-			if(username.equals(acc.getUsername().toLowerCase()) && loginCode.equals(acc.getLoginCode()) && ip.equals(acc.getIp())){
+			if(username.equals(acc.getUsername().toLowerCase()) && logincode.equals(acc.getLoginCode()) && ip.equals(acc.getIp())){
 				obj.remove("validate");
 				obj.put("validate", "true");
 			}
@@ -57,7 +56,7 @@ public class UsersLogic {
 		System.out.println(" -> Validate Login: "+obj.getString("validate"));
 		return obj;
 	}
-
+	/*
 	public static JSONObject logOut(String ip, JSONObject account) {
 		String username = account.getString("user").toLowerCase();
 		String loginCode = account.getString("loginCode");
@@ -105,5 +104,5 @@ public class UsersLogic {
 			}
 		}
 		return obj;
-	}
+	}*/
 }

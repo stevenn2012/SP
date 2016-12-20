@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-
-import VO.Area;
 import VO.Roll;
+import VO.UserRoll;
 
 public class DAORoll {
 	
@@ -27,14 +26,26 @@ public class DAORoll {
 		}
 	}
 	
-	public static Roll getRoleByIdRole(int roleId) {
+	public static Roll getRoleByIdUser(int iduser) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).open()){
-			String query="select idRole from role where idRole = :idrole";
-			List<Area> area = connection.createQuery(query)
-					.addParameter("idrole", areaId)
-			        .executeAndFetch(Area.class);
-			return area.get(0);
+			int idrole=-1;
+			List<UserRoll> userroles = DAOUserRoll.getUserRoll();
+			for (int i = 0; i < userroles.size(); i++) {
+				if(iduser==userroles.get(i).getIdUser()){
+					idrole=userroles.get(i).getIdRole();
+					break;
+				}
+			}
+			if (idrole<1) {
+				throw new IllegalArgumentException("Roll Incorrecto");
+			}
+			
+			String query="select * from role where idRole = :idroll";
+			List<Roll> role = connection.createQuery(query)
+					.addParameter("idroll", idrole)
+			        .executeAndFetch(Roll.class);
+			return role.get(0);
 		} catch (Exception e) {
 			if((e+"").equalsIgnoreCase("java.lang.IndexOutOfBoundsException: Index: 0, Size: 0")){
 				System.out.println(" -> The area was not founds");
@@ -51,23 +62,6 @@ public class DAORoll {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			System.out.println(e);
-		}
-	}
-
-	public static boolean insertArea(String name) {
-		initDriver();
-		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
-			String query="insert into user(name) values(:name)";
-			connection.createQuery(query)
-					.addParameter("name", name)
-					.executeUpdate();
-			connection.commit();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println(" -> Error");
-			System.out.println(e);
-			return false;
 		}
 	}
 

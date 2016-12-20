@@ -36,7 +36,7 @@ public class DAOUser {
 			return users.get(0);
 		} catch (Exception e) {
 			if((e+"").equalsIgnoreCase("java.lang.IndexOutOfBoundsException: Index: 0, Size: 0")){
-				System.out.println(" -> The user was not founds");
+				System.out.println(" -> The user was not found");
 			}else{
 				System.out.println(" -> Error");
 				System.out.println(e);

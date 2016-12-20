@@ -101,7 +101,8 @@ public class LoginServices {
 			JSONObject account = new JSONObject();
 			account.put("user", user);
 			account.put("loginCode", loginCode);
-			return Response.ok(UsersLogic.logOut(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			//return Response.ok(UsersLogic.logOut(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			return null;
 		}else{
 			System.out.println(", Access denied\n");
 			return Response.ok().header("Access-Control-Allow-Origin", urlAccess[0]).build();
@@ -132,7 +133,8 @@ public class LoginServices {
 				account.put("user", user);
 				account.put("loginCode", loginCode);
 			
-			return Response.ok(UsersLogic.createUser(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			//return Response.ok(UsersLogic.createUser(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			return null;	
 		}else{
 			System.out.println(", Access denied\n");
 			return Response.ok().header("Access-Control-Allow-Origin", urlAccess[0]).build();

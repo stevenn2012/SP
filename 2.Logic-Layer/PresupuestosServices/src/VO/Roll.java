@@ -1,20 +1,20 @@
 package VO;
 
 public class Roll {
-	private int idRol;
+	private int idRole;
 	private String name;
 	private String description;
 	
 	public Roll(int idRol, String name, String description) {
-		this.idRol = idRol;
+		this.idRole = idRol;
 		this.name = name;
 		this.description = description;
 	}
 	public int getIdRol() {
-		return idRol;
+		return idRole;
 	}
 	public void setIdRol(int idRol) {
-		this.idRol = idRol;
+		this.idRole = idRol;
 	}
 	public String getName() {
 		return name;
@@ -30,6 +30,6 @@ public class Roll {
 	}
 	@Override
 	public String toString() {
-		return "Rol [idRol=" + idRol + ", name=" + name + ", description=" + description + "]";
+		return "Rol [idRol=" + idRole + ", name=" + name + ", description=" + description + "]";
 	}
 }

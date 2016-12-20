@@ -24,7 +24,7 @@ public class LoginAuthen {
 	@GET
 	@Path("/login")
 	@Produces("application/json")
-	public Response prueba(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	public Response loginApp(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 				@DefaultValue("null") @QueryParam("user") String user, 
 				@DefaultValue("null") @QueryParam("pass") String pass){
 						
@@ -33,7 +33,6 @@ public class LoginAuthen {
 		System.out.println("\nUser "+user+ " pass "+pass);
 		
 		int verifyAccess = verifyAccess(referer);
-		
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -46,6 +45,28 @@ public class LoginAuthen {
 		}	
 	}
 	
+	@GET
+	@Path("/validation")
+	@Produces("application/json")
+	public Response validatelogin(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	          @DefaultValue("null") @QueryParam("username") String username, 
+	          @DefaultValue("null") @QueryParam("logincode") String logincode
+	          ) {
+		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print("\tAttempt to validate log in from : "+referer);
+		int verifyAccess = verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.println(", Access granted");  
+			JSONObject account = new JSONObject();
+			account.put("username", username);
+			account.put("logincode", logincode);
+			return Response.ok(UsersLogic.valLogin(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+		}else{
+			System.out.println(", Access denied\n");
+			return Response.ok().header("Access-Control-Allow-Origin", urlAccess[0]).build();
+		}
+    }
+	
 	public int verifyAccess(String referer){
 		if(referer != null) {
 			for (int i = 0; i < this.urlAccess.length; i++) {
@@ -55,6 +76,4 @@ public class LoginAuthen {
 		}
 		return -1;
 	}
-	
-
 }
