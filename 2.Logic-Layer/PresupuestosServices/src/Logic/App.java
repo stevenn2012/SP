@@ -10,7 +10,7 @@ public class App {
 			account.put("user", "stevenn2012");
 			account.put("pass", "123456");
 			String ip = "127.0.0.1";
-		System.out.println(UsersLogic.login(ip, account));
+		System.out.println(LoginAuthentLogic.login(ip, account));
 		
 		System.out.println(MD5Encryption.getMD5("123456"));
 	}
