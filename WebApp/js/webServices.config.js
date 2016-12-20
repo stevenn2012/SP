@@ -5,3 +5,4 @@ var loginService = page+"/WebServicesPresupuestos/AppLoginAuthentication/login";
 var validateLogin = page+"/WebServicesPresupuestos/AppLoginAuthentication/validation";
 var logoutService = page+"/WebServicesPresupuestos/AppLoginAuthentication/logout";
 var createuserService = page+"/WebServicesPresupuestos/Users/createUser";
+var userList = page+"/WebServicesPresupuestos/AppUsersCRUD/listar";
