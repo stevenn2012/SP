@@ -47,6 +47,7 @@ public class DAOArea {
 	public static void initDriver(){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
+			System.out.println();
 		} catch (ClassNotFoundException e) {
 			System.out.println(e);
 		}
