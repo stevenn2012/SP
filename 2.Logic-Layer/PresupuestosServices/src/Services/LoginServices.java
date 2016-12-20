@@ -12,7 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import org.json.JSONObject;
-import Logic.UsersLogic;
+import Logic.LoginAuthentLogic;
 
 @Path("/Users")
 public class LoginServices {
@@ -49,7 +49,7 @@ public class LoginServices {
 			JSONObject account = new JSONObject();
 			account.put("user", user);
 			account.put("pass", pass);
-			return Response.ok(UsersLogic.login(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			return Response.ok(LoginAuthentLogic.login(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 		}else{
 			System.out.println(", Access denied\n");
 			return Response.ok().header("Access-Control-Allow-Origin", urlAccess[0]).build();
@@ -79,7 +79,7 @@ public class LoginServices {
 			JSONObject account = new JSONObject();
 			account.put("user", user);
 			account.put("loginCode", loginCode);
-			return Response.ok(UsersLogic.valLogin(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			return Response.ok(LoginAuthentLogic.valLogin(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 		}else{
 			System.out.println(", Access denied\n");
 			return Response.ok().header("Access-Control-Allow-Origin", urlAccess[0]).build();
@@ -101,7 +101,8 @@ public class LoginServices {
 			JSONObject account = new JSONObject();
 			account.put("user", user);
 			account.put("loginCode", loginCode);
-			return Response.ok(UsersLogic.logOut(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			//return Response.ok(UsersLogic.logOut(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			return null;
 		}else{
 			System.out.println(", Access denied\n");
 			return Response.ok().header("Access-Control-Allow-Origin", urlAccess[0]).build();
@@ -132,7 +133,8 @@ public class LoginServices {
 				account.put("user", user);
 				account.put("loginCode", loginCode);
 			
-			return Response.ok(UsersLogic.createUser(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			//return Response.ok(UsersLogic.createUser(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			return null;	
 		}else{
 			System.out.println(", Access denied\n");
 			return Response.ok().header("Access-Control-Allow-Origin", urlAccess[0]).build();
