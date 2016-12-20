@@ -23,7 +23,10 @@ public class LoginServices {
 	@Path("/prueba")
 	@Produces("application/json")
 	public Response prueba(@DefaultValue("null") @QueryParam("user") String user, 
-	          @DefaultValue("null") @QueryParam("pass") String pass){
+	          @DefaultValue("null") @QueryParam("pass") String pass,
+	          @Context HttpServletRequest request, 
+	          @HeaderParam("Referer") String referer){
+		System.out.println(referer);
 		JSONObject account = new JSONObject();
 		account.put("user", user);
 		account.put("pass", pass);

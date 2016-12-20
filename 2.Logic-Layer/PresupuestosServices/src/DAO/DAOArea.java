@@ -1,40 +1,41 @@
-package Data;
+package DAO;
 
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
-public class DAOUser {
+import VO.Area;
+
+public class DAOArea {
 	
-	private static String dataBase = "jdbc:mysql://localhost:3306/users";
+	private static String dataBase = "jdbc:mysql://localhost:3306/SPDB";
 	private static String dataBaseUser = "root";
 	private static String dataBasePass = "";
 	
-	public static List<User> getUsers(){
+	public static List<Area> getAreas(){
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).open()){
-			String query="select * from user";
-			List<User> users = connection.createQuery(query)
-			        		 .executeAndFetch(User.class);
-			return users;
+			String query="select * from area";
+			List<Area> areas = connection.createQuery(query)
+			        		 .executeAndFetch(Area.class);
+			return areas;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	public static User getUserByUsernameAndPassword(String username, String password) {
+	public static Area getAreaByIdArea(int areaId) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).open()){
-			String query="select * from user where username = :username and password = :password";
-			List<User> users = connection.createQuery(query)
-					.addParameter("username", username)
-					.addParameter("password", password)
-			        .executeAndFetch(User.class);
-			return users.get(0);
+			String query="select * from area where idArea = :idArea";
+			List<Area> area = connection.createQuery(query)
+					.addParameter("idArea", areaId)
+			        .executeAndFetch(Area.class);
+			return area.get(0);
 		} catch (Exception e) {
 			if((e+"").equalsIgnoreCase("java.lang.IndexOutOfBoundsException: Index: 0, Size: 0")){
-				System.out.println(" -> The user was not founds");
+				System.out.println(" -> The area was not founds");
 			}else{
 				System.out.println(" -> Error");
 				System.out.println(e);
@@ -51,15 +52,12 @@ public class DAOUser {
 		}
 	}
 
-	public static boolean insertUser(String name, String username, String password, int rolnumber) {
+	public static boolean insertArea(String name) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
-			String query="insert into user(username, password, name, Rol_idRol) values(:username, :password, :name, :rolnumber)";
+			String query="insert into user(name) values(:name)";
 			connection.createQuery(query)
-					.addParameter("username", username)
-					.addParameter("password", password)
 					.addParameter("name", name)
-					.addParameter("rolnumber", rolnumber)
 					.executeUpdate();
 			connection.commit();
 			return true;
