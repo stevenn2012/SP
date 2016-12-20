@@ -29,7 +29,7 @@ public class UsersLogic {
 			obj.put("area", DAOArea.getAreaByIdArea(user.getIdArea()));
 			obj.put("loginCode", generateLoginCode(username, password));
 			loginAccounts.put(user.getUserName().toLowerCase(), 
-					new AccountLogin(user.getName(), user.getUserName(), obj.getString("loginCode"), ip, obj.getInt("rol")));
+					new AccountLogin(user.getName(), user.getUserName(), obj.getString("loginCode"), ip, user.getIdUser()));
 			return obj;
 		}else{
 			obj.put("access", false);

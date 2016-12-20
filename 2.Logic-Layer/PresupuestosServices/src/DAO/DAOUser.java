@@ -30,7 +30,7 @@ public class DAOUser {
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).open()){
 			String query="select * from user where userName = :username and password = :password";
 			List<User> users = connection.createQuery(query)
-					.addParameter("userName", username)
+					.addParameter("username", username)
 					.addParameter("password", password)
 			        .executeAndFetch(User.class);
 			return users.get(0);

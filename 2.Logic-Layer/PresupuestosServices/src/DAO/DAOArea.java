@@ -5,7 +5,6 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import VO.Area;
-import VO.User;
 
 public class DAOArea {
 	

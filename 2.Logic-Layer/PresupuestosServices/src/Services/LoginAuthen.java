@@ -27,11 +27,14 @@ public class LoginAuthen {
 	public Response prueba(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 				@DefaultValue("null") @QueryParam("user") String user, 
 				@DefaultValue("null") @QueryParam("pass") String pass){
-		System.out.println(request.getLocalAddr()+" - "+request.getRemoteAddr()+"  - "+referer);
-				
-		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+						
+		System.out.println("\t"+new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		referer = "http://localhost";
 		System.out.print("\tAttempt to log in from : "+referer);
+		System.out.println("\nUser "+user+ " pass "+pass);
+		
 		int verifyAccess = verifyAccess(referer);
+		
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -46,8 +49,10 @@ public class LoginAuthen {
 	
 	public int verifyAccess(String referer){
 		if(referer != null) {
-			for (int i = 0; i < this.urlAccess.length; i++) 
+			for (int i = 0; i < this.urlAccess.length; i++) {
+				System.out.println(this.urlAccess[i]+" "+referer.indexOf(this.urlAccess[i]));
 				if(referer.indexOf(this.urlAccess[i])==0) return i;
+			}
 		}
 		return -1;
 	}
