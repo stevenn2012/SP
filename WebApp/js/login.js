@@ -25,7 +25,7 @@ function login () {
 					$('#pass').val("");
 				    sessionStorage.setItem("namel", data.namel);
 				    sessionStorage.setItem("username", data.username);
-				    sessionStorage.setItem("logincode", data.loginCode);
+				    sessionStorage.setItem("logincode", data.logincode);
 				    sessionStorage.setItem("roll", data.roll);
 				    window.location.assign('pages/');
 				} else {
