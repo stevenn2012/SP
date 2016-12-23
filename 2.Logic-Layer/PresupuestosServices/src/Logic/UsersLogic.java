@@ -1,5 +1,6 @@
 package Logic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -8,24 +9,29 @@ import DAO.DAOArea;
 import DAO.DAORoll;
 import DAO.DAOUser;
 import VO.User;
+import VO.UserListJSON;
 
 public class UsersLogic {
 
 	public static JSONObject getUsersJSON() {
 		List<User> usuarios = DAOUser.getUsers();
 		JSONObject obj = new JSONObject();
+		List<UserListJSON> listaUsuarios = new ArrayList<>();
+		UserListJSON usuario = new UserListJSON();
 		obj.put("validate", "true");
 		for (int i = 0; i < usuarios.size(); i++) {
-			obj.put("iduser"+i, usuarios.get(i).getIdUser());
-			obj.put("document"+i, usuarios.get(i).getDocument());
-			obj.put("name"+i, usuarios.get(i).getName());
-			obj.put("username"+i, usuarios.get(i).getUserName());
+			usuario = new UserListJSON();
+			usuario.setIduser(usuarios.get(i).getIdUser());
+			usuario.setDocument(usuarios.get(i).getDocument());
+			usuario.setName(usuarios.get(i).getName());
+			usuario.setUsername(usuarios.get(i).getUserName());
 			String roll1 = DAORoll.getRoleByIdUser(usuarios.get(i).getIdUser()).getName();
-			obj.put("roll"+i, roll1);
+			usuario.setRoll(roll1);
 			String area1 = DAOArea.getAreaByIdArea(usuarios.get(i).getIdArea()).getName();
-			obj.put("area"+i, area1);
+			usuario.setArea(area1);
+			listaUsuarios.add(usuario);
 		}
-		
+		obj.putOnce("users", listaUsuarios);
 		return obj;
 	}
 
