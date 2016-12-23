@@ -27,7 +27,7 @@ public class LoginAuthenWebService {
 	public Response loginApp(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 				@DefaultValue("null") @QueryParam("user") String user, 
 				@DefaultValue("null") @QueryParam("pass") String pass){
-						
+		System.out.println("\nLOGIN USUARIO");
 		System.out.println("\t"+new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to log in from : "+referer);
 		System.out.println("\nUser "+user+ " pass "+pass);
@@ -52,6 +52,7 @@ public class LoginAuthenWebService {
 	          @DefaultValue("null") @QueryParam("username") String username, 
 	          @DefaultValue("null") @QueryParam("logincode") String logincode
 	          ) {
+		System.out.println("\nVALIDACION USUARIO");
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		int verifyAccess = verifyAccess(referer);
@@ -79,6 +80,7 @@ public class LoginAuthenWebService {
 	          @DefaultValue("null") @QueryParam("username") String user, 
 	          @DefaultValue("null") @QueryParam("logincode") String loginCode
 	          ) {
+		System.out.println("\nLOG OUT USUARIO");
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to log out from : "+referer);
 		int verifyAccess = verifyAccess(referer);

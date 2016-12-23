@@ -32,6 +32,7 @@ private String[] urlAccess = {"http://localhost","null"};
 	          ) {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
+		System.out.print("\tEn listar usuarios\nEN LISTAR USUARIOS");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
@@ -41,7 +42,8 @@ private String[] urlAccess = {"http://localhost","null"};
 			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				account = UsersLogic.getUsersJSON();
-				return Response.ok(account).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando Usuarios\n");
 				return Response.ok().header("Access-Control-Allow-Origin", urlAccess[0]).build();
