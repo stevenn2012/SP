@@ -22,11 +22,11 @@ function listUsers() {
 					content+='<tr><th>id</th><th>Cedula</th><th>Nombre</th><th>Area</th><th>Nombre de usuario</th></tr>';
 					for (var i = 0; i < users.length; i++) {
 						content+='<tr>';
-					    content+='<td>'+users[i].idUser+'</td>';
+					    content+='<td>'+users[i].iduser+'</td>';
 					    content+='<td>'+users[i].document+'</td>';
 					    content+='<td>'+users[i].name+'</td>'; 
-					    content+='<td>'+users[i].idArea+'</td>';
-					    content+='<td>'+users[i].userName+'</td>';
+					    content+='<td>'+users[i].area+'</td>';
+					    content+='<td>'+users[i].username+'</td>';
   						content+='</tr>';
 					};
 					content += '</table>';
