@@ -19,15 +19,15 @@ function listUsers() {
 					var users = data.users;
 					//console.log("Users: "+JSON.stringify(users));
 					var content = '<table class="table table-bordered">';
-					content+='<tr><th>id</th><th>Cedula</th><th>Nombre</th><th>Area</th><th>Roll</th><th>Nombre de usuario</th></tr>';
+					content+='<tr><th>id</th><th>Cedula</th><th>Nombre</th><th>Nombre de usuario</th><th>Area</th><th>Roll</th></tr>';
 					for (var i = 0; i < users.length; i++) {
 						content+='<tr>';
 					    content+='<td>'+users[i].iduser+'</td>';
 					    content+='<td>'+users[i].document+'</td>';
-					    content+='<td>'+users[i].name+'</td>'; 
+					    content+='<td>'+users[i].name+'</td>';
+					    content+='<td>'+users[i].username+'</td>'; 
 					    content+='<td>'+users[i].area+'</td>';
 					    content+='<td>'+users[i].roll+'</td>';
-					    content+='<td>'+users[i].username+'</td>';
   						content+='</tr>';
 					};
 					content += '</table>';
