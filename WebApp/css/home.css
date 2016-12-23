@@ -60,7 +60,7 @@ div#createUserForm{
 }
 
 footer{
-	margin-top: 20%;
+	margin-top: 100px;
 }
 
 #aHomeLogo{
@@ -71,4 +71,10 @@ footer{
 
 #lista{
 	margin: 50px;
+}
+
+#form{
+	margin: auto;
+	margin-top: 50px;
+	width:500px; 
 }
