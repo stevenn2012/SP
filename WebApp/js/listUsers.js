@@ -8,7 +8,6 @@ function listUsers() {
 			"username":sessionStorage.username,
 			"logincode":sessionStorage.logincode
 		};
-		console.log(userList);
 		$.ajax({
 			url: userList,
 			type: 'GET',
@@ -17,9 +16,21 @@ function listUsers() {
 			dataTipe: 'JSON',
 			success: function (data) {
 				if(data.validate == "true"){
-					console.log("Entre");
-					console.log(data);
-					console.log("Output: "+JSON.stringify(data));
+					var users = data.users;
+					console.log("Users: "+JSON.stringify(users));
+					var content = '<table class="table table-bordered">';
+					content+='<tr><th>id</th><th>Cedula</th><th>Nombre</th><th>Area</th><th>Nombre de usuario</th></tr>';
+					for (var i = 0; i < users.length; i++) {
+						content+='<tr>';
+					    content+='<td>'+users[i].idUser+'</td>';
+					    content+='<td>'+users[i].document+'</td>';
+					    content+='<td>'+users[i].name+'</td>'; 
+					    content+='<td>'+users[i].idArea+'</td>';
+					    content+='<td>'+users[i].userName+'</td>';
+  						content+='</tr>';
+					};
+					content += '</table>';
+					$('#lista').html(content);
 				}else{
 					console.log("No tiene permisos para listar usuarios");
 				}
