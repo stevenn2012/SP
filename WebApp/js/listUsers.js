@@ -1,8 +1,11 @@
 $(document).ready(function(){
+	getUsers();
 	listUsers();
+	$(".filter").keyup(function(){listUsers()});
 });
 
-function listUsers() {
+var users = {};
+function getUsers() {
 	if(sessionStorage.username && sessionStorage.logincode){
 		var accountLogin = {
 			"username":sessionStorage.username,
@@ -16,22 +19,7 @@ function listUsers() {
 			dataTipe: 'JSON',
 			success: function (data) {
 				if(data.validate == "true"){
-					var users = data.users;
-					//console.log("Users: "+JSON.stringify(users));
-					var content = '<table class="table table-bordered">';
-					content+='<tr><th>id</th><th>Cedula</th><th>Nombre</th><th>Nombre de usuario</th><th>Area</th><th>Roll</th></tr>';
-					for (var i = 0; i < users.length; i++) {
-						content+='<tr>';
-					    content+='<td>'+users[i].iduser+'</td>';
-					    content+='<td>'+users[i].document+'</td>';
-					    content+='<td>'+users[i].name+'</td>';
-					    content+='<td>'+users[i].username+'</td>'; 
-					    content+='<td>'+users[i].area+'</td>';
-					    content+='<td>'+users[i].roll+'</td>';
-  						content+='</tr>';
-					};
-					content += '</table>';
-					$('#lista').html(content);
+					users = data.users;
 				}else{
 					console.log("No tiene permisos para listar usuarios");
 				}
@@ -44,5 +32,34 @@ function listUsers() {
 		if(indexPage != window.location && indexPage != window.location+"index.html"){
 			window.location.assign(indexPage);
 		}
-	}	
+	}
+}
+
+
+function listUsers() {
+	//console.log("Users: "+JSON.stringify(users));
+	var find = ($('.filter').val()).toUpperCase();
+	var content = '<table class="table table-bordered">';
+	content+='<tr><th>Cedula</th><th>Nombre</th><th>Nombre de usuario</th><th>Area</th><th>Roll</th></tr>';
+	var data = "";
+	for (var i = 0; i < users.length; i++) {
+		var user = (users[i].document+users[i].name+users[i].username+users[i].area+users[i].roll).toUpperCase();
+		if(find == "" || user.indexOf(find)!=-1){
+			data+='<tr>';
+			//content+='<td>'+users[i].iduser+'</td>';
+			data+='<td>'+users[i].document+'</td>';
+			data+='<td>'+users[i].name+'</td>';
+			data+='<td>'+users[i].username+'</td>'; 
+			data+='<td>'+users[i].area+'</td>';
+			data+='<td>'+users[i].roll+'</td>';
+		  	data+='</tr>';
+		}
+	};
+	if(data == ""){
+		$('#msfind').html("No se encontraron usuarios");
+	}else{
+		$('#msfind').html("");
+	}
+	content += data+'</table>';
+	$('#lista').html(content);
 }

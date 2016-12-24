@@ -28,7 +28,7 @@
 			<ul class="nav nav-tabs">
 			  	<li role="presentation" class="backli"><a type="button" class="btn btn-link" href="../../">volver</a></li>
 			  	<li role="presentation" class="titleMenu">Crear Usuario</li>
-			  	<li role="presentation" class="signoutli"><a type="button" class="signout btn btn-link">Sign out</a></li>
+			  	<li role="presentation" class="signoutli"><a type="button" class="signout btn btn-link">Salir</a></li>
 			</ul>	
 		</head>
 		<section>
@@ -40,27 +40,48 @@
 				<form>
 				  	<div class="form-group">
 				    	<label for="exampleInputEmail1">Cedula</label>
-				    	<input id="document" type="number" class="form-control" id="exampleInputEmail1" placeholder="Cedula">
+				    	<input id="document" type="number" class="form-control" placeholder="Cedula">
 				  	</div>
 				  	<div class="form-group">
 				    	<label for="exampleInputEmail1">Nombre</label>
-				    	<input id="name" type="text" class="form-control" id="exampleInputEmail1" placeholder="Nombre">
+				    	<input id="name" type="text" class="form-control" placeholder="Nombre">
 				  	</div>
 				  	<div class="form-group">
 				    	<label for="exampleInputEmail1">Nombre de usuario</label>
-				    	<input id="username" type="text" class="form-control" id="exampleInputEmail1" placeholder="Nombre de usuario">
+				    	<input id="username" type="text" class="form-control" placeholder="Nombre de usuario">
 				  	</div>
 				  	<div class="form-group">
 				    	<label for="exampleInputPassword1">Contraseña</label>
-				    	<input id="pass" type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+				    	<input id="pass" type="password" class="form-control" placeholder="Contraseña">
 				  	</div>
-				  	<div class="form-group">
+
+					<div class="form-group">
 				    	<label for="exampleInputPassword1">Area</label>
-				    	<input id="area" type="password" class="form-control" id="exampleInputPassword1" placeholder="Area">
+				    	<select id="areacb" class="form-control">
+				    		<option value="Area">-- Seleccione la Area --</option>
+							<option value="Gerencia">Gerencia</option>
+							<option value="Trade Marcketing">Trade Marketing</option>
+							<option value="Ingenieria">Ingenieria</option>
+							<option value="Ventas">Ventas</option>
+						</select>
 				  	</div>
+				  	<div class="checkbox">
+						<label>
+						    <input type="checkbox" value="">
+						    Crear una nueva area y asignar al nuevo usuario
+						</label>
+					</div>
+				  	<div class="form-group">
+				    	<input id="area" type="text" class="form-control" placeholder="Area">
+				  	</div>
+
 				  	<div class="form-group">
 				    	<label for="exampleInputPassword1">Roll</label>
-				    	<input id="roll" type="password" class="form-control" id="exampleInputPassword1" placeholder="Roll">
+				    	<select id="areacb" class="form-control">
+				    		<option value="Area">-- Seleccione el roll --</option>
+							<option value="Gerencia">Gerencia</option>
+							<option value="Trade Marcketing">Operario</option>
+						</select>
 				  	</div>
 				  	<div class="btn-group btn-group-justified" role="group" aria-label="...">
 					  	<div class="btn-group" role="group">
