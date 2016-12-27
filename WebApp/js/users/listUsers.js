@@ -7,18 +7,19 @@ $(document).ready(function(){
 var users = {};
 function getUsers() {
 	if(sessionStorage.username && sessionStorage.logincode){
-		var accountLogin = {
+		var accountLog = {
 			"username":sessionStorage.username,
 			"logincode":sessionStorage.logincode
 		};
 		$.ajax({
 			url: userList,
 			type: 'GET',
-			data: accountLogin,
+			data: accountLog,
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				if(data.validate == "true"){
+				console.log("Crear: "+JSON.stringify(data));
+				if(data.list == "true"){
 					users = data.users;
 				}else{
 					console.log("No tiene permisos para listar usuarios");

@@ -24,7 +24,7 @@ function getAreas() {
 			dataTipe: 'JSON',
 			success: function (data) {
 				console.log("Areas: "+JSON.stringify(data));
-				if(data.accionListar == "true"){
+				if(data.list == "true"){
 					areas = data.areas;
 				}else{
 					console.log("No tiene permisos para listar usuarios");
@@ -104,15 +104,15 @@ function areaButton() {
 function createUser() {
 	validateAccount();
 	var dataAndAccount = {
-		"document":$('#').val(),
-		"name":$('#').val(),
-		"usernameObj":$('#').val(),
+		"document":$('#document').val(),
+		"name":$('#name').val(),
+		"usernameObj":$('#username').val(),
 		"password":calcMD5($('#pass').val()),
 		"email":$('#email').val(),
-		"idArea":$( "#areaList option:selected" ).val(),
-		"idRoll":$( "#rollList option:selected" ).val(),
+		"idarea":$( "#areaList option:selected" ).val(),
+		"idRol":$( "#rollList option:selected" ).val(),
 		"username":sessionStorage.username,
-		"loginCode":sessionStorage.loginCode
+		"logincode":sessionStorage.logincode
 	};
 	var validation = true;
 	if(dataAndAccount.idArea == 0){
@@ -130,12 +130,13 @@ function createUser() {
 	console.log("Crear: "+JSON.stringify(dataAndAccount));
 	if(validation){
 		$.ajax({
-			url: createUser,
+			url: createUserService,
 			type: 'GET',
 			data: dataAndAccount,
 			async : true,
 			dataTipe: 'JSON',
 			success: function (data) {
+				console.log("WebService Crear: "+JSON.stringify(data));
 				if(data.create == true){
 					limpiarForm();
 					$('#msCreateUser').html('<div class="alert alert-success" role="alert">Se creo el usuario con exito</div>');	
@@ -153,6 +154,8 @@ function createUser() {
 	}
 	
 }
+
+//e10adc3949ba59abbe56e057f20f883e
 
 function limpiarForm() {
 	$('#document').val("");
