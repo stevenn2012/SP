@@ -15,9 +15,11 @@ public class RollLogic {
 		if (roles != null) {
 			obj.putOnce("roles", roles);
 			obj.put("accionListar", "true");
+			obj.put("validate", "true");
 			return obj;
 		}else{
 			obj.put("accionListar", "false");
+			obj.put("validate", "true");
 			return obj;
 		}
 	}

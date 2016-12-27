@@ -43,6 +43,7 @@ private String[] urlAccess = {"http://localhost","null"};
 			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				account = UsersLogic.getUsersJSON();
+				account.put("validate", "true");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando Usuarios\n");

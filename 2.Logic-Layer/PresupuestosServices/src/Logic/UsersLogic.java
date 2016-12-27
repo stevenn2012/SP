@@ -42,13 +42,16 @@ public class UsersLogic {
 		JSONObject obj = new JSONObject();
 		if (DAOUser.insertUser(usuario)) {
 			if (DAOUserRoll.insert(DAOUser.getUserByUsernameAndPassword(usuario.getUserName(), usuario.getPassword()).getIdUser(),rol)) {
+				obj.put("validate", "true");
 				obj.put("create", "true");
 				obj.put("status", "Usuario Insertado correctamente");
 			}else{
+				obj.put("validate", "true");
 				obj.put("create", "false");
 				obj.put("status", "Error en insertar el user_rol del usuario");
 			}
 		}else{
+			obj.put("validate", "true");
 			obj.put("create", "false");
 			obj.put("status", "Error en insertar los datos del usuario");
 		}
@@ -59,13 +62,16 @@ public class UsersLogic {
 		JSONObject obj = new JSONObject();
 		if (DAOUserRoll.deleteUserRoll(Integer.parseInt(idUser))) {
 			if (DAOUser.deleteUser(Integer.parseInt(idUser))) {
+				obj.put("validate", "true");
 				obj.put("delete", "true");
 				obj.put("status", "Usuario Borrado correctamente");
 			}else{
+				obj.put("validate", "true");
 				obj.put("delete", "false");
 				obj.put("status", "Error en el borrado del user_roll del usuario");
 			}
 		}else{
+			obj.put("validate", "true");
 			obj.put("delete", "false");
 			obj.put("status", "Error en el borrado del usuario");
 		}
@@ -76,13 +82,16 @@ public class UsersLogic {
 		JSONObject obj = new JSONObject();
 		if (DAOUserRoll.updateUserRoll(new UserRoll(0, usuario.getIdUser(), roll))) {
 			if (DAOUser.updateUser(usuario)) {
+				obj.put("validate", "true");
 				obj.put("update", "true");
 				obj.put("status", "Usuario Actualizado correctamente");
 			}else{
+				obj.put("validate", "true");
 				obj.put("update", "false");
 				obj.put("status", "Error en la actualizacion del user_roll del usuario");
 			}
 		}else{
+			obj.put("validate", "true");
 			obj.put("update", "false");
 			obj.put("status", "Error en la actualizacion del usuario");
 		}
