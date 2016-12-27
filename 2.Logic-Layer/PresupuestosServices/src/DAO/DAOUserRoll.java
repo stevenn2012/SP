@@ -26,8 +26,21 @@ public class DAOUserRoll {
 	}
 	
 	public static boolean insert(int idUser, int rol) {
-		
-		return false;
+		initDriver();
+		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
+			String query="insert into user_role(idUser, idRole) values(:idUser, :idRol)";
+			connection.createQuery(query)
+					.addParameter("idUser",idUser)
+					.addParameter("idRol", rol)
+					.executeUpdate();
+			connection.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" -> Error");
+			System.out.println(e);
+			return false;
+		}
 	}
 	
 	public static void initDriver(){

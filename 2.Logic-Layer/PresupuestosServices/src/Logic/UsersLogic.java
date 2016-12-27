@@ -41,12 +41,12 @@ public class UsersLogic {
 		JSONObject obj = new JSONObject();
 		if (DAOUser.insertUser(usuario)) {
 			if (DAOUserRoll.insert(DAOUser.getUserByUsernameAndPassword(usuario.getUserName(), usuario.getPassword()).getIdUser(),rol)) {
-				obj.put("create", "true");
+				obj.put("create", "true: Usuario Insertado correctamente");
 			}else{
-				obj.put("create", "false");
+				obj.put("create", "false: Error en insertar el rol del usuario");
 			}
 		}else{
-			obj.put("create", "false");
+			obj.put("create", "false: Error en insertar los datos del usuario");
 		}
 		return obj;
 	}
