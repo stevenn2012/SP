@@ -40,6 +40,15 @@ public class UsersLogic {
 
 	public static JSONObject insertUser(User usuario, int rol) {
 		JSONObject obj = new JSONObject();
+		List<User> usuarios = DAOUser.getUsers();
+		for (int i = 0; i < usuarios.size(); i++) {
+			if (usuario.getUserName().toLowerCase().equals(usuarios.get(i).getUserName().toLowerCase()) || usuario.getDocument()==usuarios.get(i).getDocument()) {
+				obj.put("validate", "true");
+				obj.put("create", "false");
+				obj.put("status", "invalid Document or Username");
+				return obj;
+			} 
+		}
 		if (DAOUser.insertUser(usuario)) {
 			if (DAOUserRoll.insert(DAOUser.getUserByUsernameAndPassword(usuario.getUserName(), usuario.getPassword()).getIdUser(),rol)) {
 				obj.put("validate", "true");
