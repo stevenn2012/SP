@@ -20,6 +20,7 @@ public class RollLogic {
 		}else{
 			obj.put("accionListar", "false");
 			obj.put("validate", "true");
+			obj.put("status", "Error al cargar los roles");
 			return obj;
 		}
 	}
