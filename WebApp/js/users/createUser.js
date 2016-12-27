@@ -135,6 +135,8 @@ function createUser() {
 					if(data.validate == "true"){
 						if(data.insert=="true"){
 							dataAndAccount.idarea = data.idArea;
+							getAreas();
+							showAreas();
 						}else{
 							$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear la Area</div>');		
 							ScreenUp();
@@ -197,7 +199,6 @@ function createUser() {
 		$('#msCreateUser').html('<div class="alert alert-warning" role="alert">Hace falta seleccionar el area o el roll</div>');
 		ScreenUp();
 	}
-	
 }
 
 function ScreenUp () {
@@ -206,7 +207,6 @@ function ScreenUp () {
 	}, 500);
 }
 
-//e10adc3949ba59abbe56e057f20f883e
 function cancel() {
 	limpiarForm();
 	window.location.assign('../../');
