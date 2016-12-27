@@ -6,6 +6,7 @@ public class Principal {
 		// TODO Auto-generated method stub
 		MD5Encryption c = new MD5Encryption();
 		System.out.println(c.getMD5("1234"));
+		System.out.println(c.getMD5("1235"));
 
 	}
 

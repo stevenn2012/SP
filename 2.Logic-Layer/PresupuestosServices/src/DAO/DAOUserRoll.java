@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-
-import VO.User;
 import VO.UserRoll;
 
 public class DAOUserRoll {
@@ -25,6 +23,11 @@ public class DAOUserRoll {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public static boolean insert(int idUser, int rol) {
+		
+		return false;
 	}
 	
 	public static void initDriver(){

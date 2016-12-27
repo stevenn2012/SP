@@ -3,7 +3,6 @@ package DAO;
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-
 import VO.User;
 
 public class DAOUser {
@@ -53,16 +52,17 @@ public class DAOUser {
 		}
 	}
 
-	public static boolean insertUser(String document, String name, String username, String password, int idArea) {
+	public static boolean insertUser(User usuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
-			String query="insert into user(document, name, userName, password, idArea) values(:document, :name, :username, :password, :idArea)";
+			String query="insert into user(document, name, userName, password, idArea, email) values(:document, :name, :username, :password, :idArea, :email)";
 			connection.createQuery(query)
-					.addParameter("document", document)
-					.addParameter("name", name)
-					.addParameter("username", username)
-					.addParameter("password", password)
-					.addParameter("idArea", idArea)
+					.addParameter("document",usuario.getDocument())
+					.addParameter("name", usuario.getName())
+					.addParameter("username", usuario.getUserName() )
+					.addParameter("password", usuario.getPassword())
+					.addParameter("idArea", usuario.getIdArea())
+					.addParameter("email",usuario.getEmail())
 					.executeUpdate();
 			connection.commit();
 			return true;

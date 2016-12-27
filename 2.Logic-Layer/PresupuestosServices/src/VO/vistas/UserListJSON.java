@@ -1,4 +1,4 @@
-package VO;
+package VO.vistas;
 
 public class UserListJSON {
 	private int iduser;
@@ -7,6 +7,14 @@ public class UserListJSON {
 	private String username;
 	private String roll;
 	private String area;
+	private String email;
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public int getIduser() {
 		return iduser;
 	}
@@ -43,20 +51,7 @@ public class UserListJSON {
 	public void setArea(String area) {
 		this.area = area;
 	}
-	@Override
-	public String toString() {
-		return "ListaUsuarios [iduser=" + iduser + ", document=" + document + ", name=" + name + ", username="
-				+ username + ", roll=" + roll + ", area=" + area + "]";
-	}
-	public UserListJSON(int iduser, int document, String name, String username, String roll, String area) {
-		super();
-		this.iduser = iduser;
-		this.document = document;
-		this.name = name;
-		this.username = username;
-		this.roll = roll;
-		this.area = area;
-	}
+	
 	public UserListJSON() {}
 	
 	

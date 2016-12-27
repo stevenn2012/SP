@@ -8,8 +8,9 @@ import org.json.JSONObject;
 import DAO.DAOArea;
 import DAO.DAORoll;
 import DAO.DAOUser;
+import DAO.DAOUserRoll;
 import VO.User;
-import VO.UserListJSON;
+import VO.vistas.UserListJSON;
 
 public class UsersLogic {
 
@@ -29,10 +30,24 @@ public class UsersLogic {
 			usuario.setRoll(roll1);
 			String area1 = DAOArea.getAreaByIdArea(usuarios.get(i).getIdArea()).getName();
 			usuario.setArea(area1);
+			usuario.setEmail(usuarios.get(i).getEmail());
 			listaUsuarios.add(usuario);
 		}
 		obj.putOnce("users", listaUsuarios);
 		return obj;
 	}
 
+	public static JSONObject insertUser(User usuario, int rol) {
+		JSONObject obj = new JSONObject();
+		if (DAOUser.insertUser(usuario)) {
+			if (DAOUserRoll.insert(DAOUser.getUserByUsernameAndPassword(usuario.getUserName(), usuario.getPassword()).getIdUser(),rol)) {
+				obj.put("create", "true");
+			}else{
+				obj.put("create", "false");
+			}
+		}else{
+			obj.put("create", "false");
+		}
+		return obj;
+	}
 }

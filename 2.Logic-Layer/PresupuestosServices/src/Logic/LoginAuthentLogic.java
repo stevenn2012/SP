@@ -34,12 +34,7 @@ public class LoginAuthentLogic {
 			return obj;
 		}
 	}
-	
-	private static String generateLoginCode(String user, String pass){
-		logAccounts=logAccounts.add(new BigInteger("1"));
-		return MD5Encryption.getMD5(MD5Encryption.getMD5(logAccounts+"")+MD5Encryption.getMD5(user)+MD5Encryption.getMD5(pass));
-	}
-	
+		
 	public static JSONObject valLogin(String ip, JSONObject account){
 		String username = account.getString("username").toLowerCase();
 		String logincode = account.getString("logincode");
@@ -78,35 +73,10 @@ public class LoginAuthentLogic {
 		System.out.println(" -> Log out: "+obj.getString("logout"));
 		return obj;
 	}
-	/*
-	public static JSONObject createUser(String ip, JSONObject account) {
-		String name = account.getString("name");
-		String username = account.getString("username");
-		String password = account.getString("password");
-		String rol = account.getString("rol");
-		String user = account.getString("user");
-		JSONObject obj = new JSONObject();
-		obj.put("permit", "false");
-		obj.put("create", "false");
-		if(valLogin(ip, account).getString("validate").equalsIgnoreCase("true")){
-			if(loginAccounts.get(user.toLowerCase()).getRol() == 1){
-				obj.remove("permit");
-				obj.put("permit", "true");
-				int rolnumber = 0;
-				if(rol.equalsIgnoreCase("admin")){
-					rolnumber = 1;
-				}else if(rol.equalsIgnoreCase("empleado")){
-					rolnumber = 2;
-				}
-				obj.remove("create");
-				//obj.put("create", DAOUser.insertUser(document, name, username, password, idArea));
-			}else{
-				obj.remove("permit");
-				obj.remove("create");
-				obj.put("permit", "false");
-				obj.put("create", "false");
-			}
-		}
-		return obj;
-	}*/
+	
+	private static String generateLoginCode(String user, String pass){
+		logAccounts=logAccounts.add(new BigInteger("1"));
+		return MD5Encryption.getMD5(MD5Encryption.getMD5(logAccounts+"")+MD5Encryption.getMD5(user)+MD5Encryption.getMD5(pass));
+	}
+	
 }
