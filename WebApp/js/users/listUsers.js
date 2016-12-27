@@ -41,16 +41,17 @@ function listUsers() {
 	//console.log("Users: "+JSON.stringify(users));
 	var find = ($('.filter').val()).toUpperCase();
 	var content = '<table class="table table-bordered">';
-	content+='<tr><th>Cedula</th><th>Nombre</th><th>Nombre de usuario</th><th>Area</th><th>Roll</th></tr>';
+	content+='<tr><th>Cedula</th><th>Nombre</th><th>Nombre de usuario</th><th>Correo electronico</th><th>Area</th><th>Roll</th></tr>';
 	var data = "";
 	for (var i = 0; i < users.length; i++) {
-		var user = (users[i].document+users[i].name+users[i].username+users[i].area+users[i].roll).toUpperCase();
+		var user = (users[i].document+users[i].name+users[i].username+users[i].email+users[i].area+users[i].roll).toUpperCase();
 		if(find == "" || user.indexOf(find)!=-1){
 			data+='<tr>';
 			//content+='<td>'+users[i].iduser+'</td>';
 			data+='<td>'+users[i].document+'</td>';
 			data+='<td>'+users[i].name+'</td>';
-			data+='<td>'+users[i].username+'</td>'; 
+			data+='<td>'+users[i].username+'</td>';
+			data+='<td>'+users[i].email+'</td>'; 
 			data+='<td>'+users[i].area+'</td>';
 			data+='<td>'+users[i].roll+'</td>';
 		  	data+='</tr>';
