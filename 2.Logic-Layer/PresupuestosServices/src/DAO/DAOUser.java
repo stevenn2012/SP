@@ -54,6 +54,7 @@ public class DAOUser {
 
 	public static boolean insertUser(User usuario) {
 		initDriver();
+		
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
 			String query="insert into user(document, name, userName, password, idArea, email) values(:document, :name, :username, :password, :idArea, :email)";
 			connection.createQuery(query)
@@ -80,6 +81,29 @@ public class DAOUser {
 			String query="delete from user where user.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idUser", idUsuario)
+					.executeUpdate();
+			connection.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" -> Error");
+			System.out.println(e);
+			return false;
+		}
+	}
+
+	public static boolean updateUser(User usuario) {
+		initDriver();
+		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
+			String query="update user set document = :document, name = :name, userName = :username, password = :password, idArea = :idArea, email = :email where user.idUser = :idUser";
+			connection.createQuery(query)
+					.addParameter("document",usuario.getDocument())
+					.addParameter("name", usuario.getName())
+					.addParameter("username", usuario.getUserName() )
+					.addParameter("password", usuario.getPassword())
+					.addParameter("idArea", usuario.getIdArea())
+					.addParameter("email",usuario.getEmail())
+					.addParameter("idUser",usuario.getIdUser())
 					.executeUpdate();
 			connection.commit();
 			return true;

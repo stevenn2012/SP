@@ -27,6 +27,7 @@ public class DAOUserRoll {
 	
 	public static boolean insert(int idUser, int rol) {
 		initDriver();
+		
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
 			String query="insert into user_role(idUser, idRole) values(:idUser, :idRol)";
 			connection.createQuery(query)
@@ -63,9 +64,10 @@ public class DAOUserRoll {
 	public static boolean updateUserRoll(UserRoll userrol) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
-			String query="delete from user_role where user_role.idUser = :idUser";
+			String query="update user_role set idRole = :idRol where user_role.idUser = :idUser";
 			connection.createQuery(query)
-					.addParameter("idUser", userrol)
+					.addParameter("idRol", userrol.getIdRole())
+					.addParameter("idUser", userrol.getIdUser())
 					.executeUpdate();
 			connection.commit();
 			return true;
