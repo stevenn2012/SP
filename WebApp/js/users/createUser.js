@@ -118,43 +118,7 @@ function createUser() {
 	var validation = true;
 	if(dataAndAccount.idarea == "0"){
 		if($('#area').val() != ""){
-			var dataAndAccountArea = {
-				"username":sessionStorage.username,
-				"logincode":sessionStorage.logincode,
-				"nombreArea":$( "#area").val()
-			};
-			console.log("Crear Area: "+JSON.stringify(dataAndAccountArea));
-			$.ajax({
-				url: createAreaService,
-				type: 'GET',
-				data: dataAndAccountArea,
-				async : false,
-				dataTipe: 'JSON',
-				success: function (data) {
-					console.log("WebService Crear Area: "+JSON.stringify(data));
-					if(data.validate == "true"){
-						if(data.insert=="true"){
-							dataAndAccount.idarea = data.idArea;
-							getAreas();
-							showAreas();
-						}else{
-							$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear la Area</div>');		
-							ScreenUp();
-							validation = false;
-						}
-					}else{
-						$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear areas</div>');
-						ScreenUp();
-						validation = false;
-					}
-		        },
-		        error: function(objXMLHttpRequest) {
-		        	$('#msCreateUser').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
-		        	ScreenUp();
-		        	validation = false;
-		        	console.log("error",objXMLHttpRequest);
-				}
-			});
+			createArea();
 		}else{
 			validation = false;
 		}
@@ -199,6 +163,46 @@ function createUser() {
 		$('#msCreateUser').html('<div class="alert alert-warning" role="alert">Hace falta seleccionar el area o el roll</div>');
 		ScreenUp();
 	}
+}
+
+function createArea() {
+	var dataAndAccountArea = {
+		"username":sessionStorage.username,
+		"logincode":sessionStorage.logincode,
+		"nombreArea":$( "#area").val()
+	};
+	console.log("Crear Area: "+JSON.stringify(dataAndAccountArea));
+	$.ajax({
+		url: createAreaService,
+		type: 'GET',
+		data: dataAndAccountArea,
+		async : false,
+		dataTipe: 'JSON',
+		success: function (data) {
+			console.log("WebService Crear Area: "+JSON.stringify(data));
+			if(data.validate == "true"){
+				if(data.insert=="true"){
+					dataAndAccount.idarea = data.idArea;
+					getAreas();
+					showAreas();
+				}else{
+					$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear la Area</div>');		
+					ScreenUp();
+					validation = false;
+				}
+			}else{
+				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear areas</div>');
+				ScreenUp();
+				validation = false;
+			}
+	    },
+	    error: function(objXMLHttpRequest) {
+	       	$('#msCreateUser').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
+	       	ScreenUp();
+	       	validation = false;
+	       	console.log("error",objXMLHttpRequest);
+		}
+	});
 }
 
 function ScreenUp () {
