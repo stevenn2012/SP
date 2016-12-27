@@ -1,10 +1,7 @@
 package Logic;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONObject;
-
 import DAO.DAOArea;
 import VO.Area;
 
@@ -29,7 +26,7 @@ public class AreaLogic {
 	public static JSONObject createArea(Area area) {
 		JSONObject obj = new JSONObject();
 		if (DAOArea.insertArea(area.getName())) {
-			List<Area> areas = new ArrayList<Area>();
+			List<Area> areas = DAOArea.getAreas();
 			obj.put("validate", "true");
 			obj.put("insert", "true");
 			for (int i = 0; i < areas.size(); i++) {

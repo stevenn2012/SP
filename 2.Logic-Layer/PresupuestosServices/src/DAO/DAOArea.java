@@ -56,7 +56,7 @@ public class DAOArea {
 	public static boolean insertArea(String name) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
-			String query="insert into user(name) values(:name)";
+			String query="insert into Area(name) values(:name)";
 			connection.createQuery(query)
 					.addParameter("name", name)
 					.executeUpdate();

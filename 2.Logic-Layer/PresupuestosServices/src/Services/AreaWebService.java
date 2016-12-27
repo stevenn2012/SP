@@ -45,7 +45,7 @@ private String[] urlAccess = {"http://localhost","null"};
 			areas = LoginAuthentLogic.valLogin(request.getRemoteAddr(), areas);
 			if (areas.getString("validate").equals("true")) {
 				Area area = new Area(0, nombreArea);
-				return Response.ok(AreaLogic.createArea(area)).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(AreaLogic.createArea(area).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando areas\n");
 				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
