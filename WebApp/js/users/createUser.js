@@ -137,7 +137,8 @@ function createUser() {
 			dataTipe: 'JSON',
 			success: function (data) {
 				console.log("WebService Crear: "+JSON.stringify(data));
-				if(data.create == true){
+				if(data.create == "true"){
+					console.log("bien");
 					limpiarForm();
 					$('#msCreateUser').html('<div class="alert alert-success" role="alert">Se creo el usuario con exito</div>');	
 				}else{

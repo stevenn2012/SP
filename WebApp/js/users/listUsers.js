@@ -19,7 +19,7 @@ function getUsers() {
 			dataTipe: 'JSON',
 			success: function (data) {
 				console.log("Crear: "+JSON.stringify(data));
-				if(data.list == "true"){
+				if(data.validate == "true"){
 					users = data.users;
 				}else{
 					console.log("No tiene permisos para listar usuarios");
