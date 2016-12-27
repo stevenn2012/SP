@@ -10,6 +10,7 @@ import DAO.DAORoll;
 import DAO.DAOUser;
 import DAO.DAOUserRoll;
 import VO.User;
+import VO.UserRoll;
 import VO.vistas.UserListJSON;
 
 public class UsersLogic {
@@ -41,12 +42,15 @@ public class UsersLogic {
 		JSONObject obj = new JSONObject();
 		if (DAOUser.insertUser(usuario)) {
 			if (DAOUserRoll.insert(DAOUser.getUserByUsernameAndPassword(usuario.getUserName(), usuario.getPassword()).getIdUser(),rol)) {
-				obj.put("create", "true: Usuario Insertado correctamente");
+				obj.put("create", "true");
+				obj.put("status", "Usuario Insertado correctamente");
 			}else{
-				obj.put("create", "false: Error en insertar el user_rol del usuario");
+				obj.put("create", "false");
+				obj.put("status", "Error en insertar el user_rol del usuario");
 			}
 		}else{
-			obj.put("create", "false: Error en insertar los datos del usuario");
+			obj.put("create", "false");
+			obj.put("status", "Error en insertar los datos del usuario");
 		}
 		return obj;
 	}
@@ -55,28 +59,34 @@ public class UsersLogic {
 		JSONObject obj = new JSONObject();
 		if (DAOUserRoll.deleteUserRoll(Integer.parseInt(idUser))) {
 			if (DAOUser.deleteUser(Integer.parseInt(idUser))) {
-				obj.put("delete", "true: Usuario Borrado correctamente");
+				obj.put("delete", "true");
+				obj.put("status", "Usuario Borrado correctamente");
 			}else{
-				obj.put("delete", "false: Error en el borrado del user_roll del usuario");
+				obj.put("delete", "false");
+				obj.put("status", "Error en el borrado del user_roll del usuario");
 			}
 		}else{
-			obj.put("delete", "false: Error en el borrado de los datos del usuario");
+			obj.put("delete", "false");
+			obj.put("status", "Error en el borrado del usuario");
 		}
 		return obj;
 	}
 
-	public static Object updateUser(User usuario, int parseInt) {
+	public static Object updateUser(User usuario, int roll) {
 		JSONObject obj = new JSONObject();
-		/*if () {
-			if () {
-				obj.put("update", "true: Usuario Actualizado correctamente");
+		if (DAOUserRoll.updateUserRoll(new UserRoll(0, usuario.getIdUser(), roll))) {
+			if (DAOUser.updateUser(usuario)) {
+				obj.put("update", "true");
+				obj.put("status", "Usuario Actualizado correctamente");
 			}else{
-				obj.put("update", "false: Error en la actualizacion del user_roll del usuario");
+				obj.put("update", "false");
+				obj.put("status", "Error en la actualizacion del user_roll del usuario");
 			}
 		}else{
-			obj.put("update", "false: Error en la actualizacion del usuario");
+			obj.put("update", "false");
+			obj.put("status", "Error en la actualizacion del usuario");
 		}
-		return obj;*/
-		return null;
+		return obj;
+		
 	}
 }
