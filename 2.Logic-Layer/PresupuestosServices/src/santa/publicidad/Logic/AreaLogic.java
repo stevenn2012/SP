@@ -1,12 +1,12 @@
-package Logic;
+package santa.publicidad.Logic;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
 
-import DAO.DAOArea;
-import VO.Area;
+import santa.publicidad.DAO.DAOArea;
+import santa.publicidad.VO.Area;
 
 public class AreaLogic {
 

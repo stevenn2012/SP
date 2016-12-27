@@ -1,4 +1,4 @@
-package Services;
+package santa.publicidad.Services;
 
 import java.util.Date;
 
@@ -14,46 +14,47 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
-import Logic.LoginAuthentLogic;
-import Logic.RollLogic;
+import santa.publicidad.Logic.LoginAuthentLogic;
+import santa.publicidad.Logic.ProviderLogic;
+import santa.publicidad.Logic.UsersLogic;
 
+@Path("/AppProviderCRUD")
 
-@Path("/AppRollCRUD")
-
-public class RollWebService {
+public class ProviderWebService {
 
 private String[] urlAccess = {"http://localhost","null"};
 	
 	@GET
 	@Path("/list")
 	@Produces("application/json")
-	public Response listUsersWS(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	public Response listProviderWS(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 	          @DefaultValue("null") @QueryParam("username") String username, 
 	          @DefaultValue("null") @QueryParam("logincode") String logincode
 	          ) {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
-		System.out.print("\nLISTAR ROLES");
+		System.out.print("\nEN LISTAR PROVEEDORES");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
-			JSONObject roles = new JSONObject();
-			roles.put("username", username);
-			roles.put("logincode", logincode);	
-			roles = LoginAuthentLogic.valLogin(request.getRemoteAddr(), roles);
-			if (roles.getString("validate").equals("true")) {
-				roles = RollLogic.getRolesJSON();
-				return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			JSONObject account = new JSONObject();
+			account.put("username", username);
+			account.put("logincode", logincode);	
+			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
+			if (account.getString("validate").equals("true")) {
+				account = ProviderLogic.getProvidersJSON();
+				account.put("validate", "true");
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
-				System.out.println(", Error cargando Roles\n");
-				return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				System.out.println(", Error cargando Usuarios\n");
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 			}
 			
 		}else{
-			JSONObject roles = new JSONObject();
-			roles.put("validate", "false");
+			JSONObject account = new JSONObject();
+			account.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 		}
     }
 	
@@ -66,4 +67,5 @@ private String[] urlAccess = {"http://localhost","null"};
 		}
 		return -1;
 	}
+	
 }

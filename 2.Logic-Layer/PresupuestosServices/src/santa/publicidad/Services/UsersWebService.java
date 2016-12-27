@@ -1,4 +1,4 @@
-package Services;
+package santa.publicidad.Services;
 
 import java.util.Date;
 
@@ -14,9 +14,9 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
-import Logic.LoginAuthentLogic;
-import Logic.UsersLogic;
-import VO.User;
+import santa.publicidad.Logic.LoginAuthentLogic;
+import santa.publicidad.Logic.UsersLogic;
+import santa.publicidad.VO.User;
 
 @Path("/AppUsersCRUD")
 

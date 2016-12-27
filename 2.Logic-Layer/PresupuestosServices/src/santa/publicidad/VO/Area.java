@@ -1,4 +1,4 @@
-package VO;
+package santa.publicidad.VO;
 
 public class Area {
 	

@@ -1,12 +1,13 @@
-package Logic;
+package santa.publicidad.Logic;
 
 import java.math.BigInteger;
 import java.util.HashMap;
 import org.json.JSONObject;
-import DAO.DAORoll;
-import DAO.DAOUser;
-import VO.AccountLogin;
-import VO.User;
+
+import santa.publicidad.DAO.DAORoll;
+import santa.publicidad.DAO.DAOUser;
+import santa.publicidad.VO.AccountLogin;
+import santa.publicidad.VO.User;
 
 public class LoginAuthentLogic {
 

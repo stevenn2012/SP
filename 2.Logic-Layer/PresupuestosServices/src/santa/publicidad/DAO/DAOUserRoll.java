@@ -1,10 +1,11 @@
-package DAO;
+package santa.publicidad.DAO;
 
 import java.util.List;
 
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-import VO.UserRoll;
+
+import santa.publicidad.VO.UserRoll;
 
 public class DAOUserRoll {
 	

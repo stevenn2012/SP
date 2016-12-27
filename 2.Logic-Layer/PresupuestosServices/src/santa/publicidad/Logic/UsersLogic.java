@@ -1,17 +1,17 @@
-package Logic;
+package santa.publicidad.Logic;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
 
-import DAO.DAOArea;
-import DAO.DAORoll;
-import DAO.DAOUser;
-import DAO.DAOUserRoll;
-import VO.User;
-import VO.UserRoll;
-import VO.vistas.UserListJSON;
+import santa.publicidad.DAO.DAOArea;
+import santa.publicidad.DAO.DAORoll;
+import santa.publicidad.DAO.DAOUser;
+import santa.publicidad.DAO.DAOUserRoll;
+import santa.publicidad.VO.User;
+import santa.publicidad.VO.UserRoll;
+import santa.publicidad.VO.vistas.UserListJSON;
 
 public class UsersLogic {
 

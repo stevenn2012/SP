@@ -1,4 +1,4 @@
-package Logic;
+package santa.publicidad.Logic;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

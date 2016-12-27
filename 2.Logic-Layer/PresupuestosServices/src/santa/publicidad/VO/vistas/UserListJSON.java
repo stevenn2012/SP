@@ -1,4 +1,4 @@
-package VO.vistas;
+package santa.publicidad.VO.vistas;
 
 public class UserListJSON {
 	private int iduser;

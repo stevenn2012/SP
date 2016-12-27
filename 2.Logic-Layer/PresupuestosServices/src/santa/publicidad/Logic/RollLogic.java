@@ -1,11 +1,11 @@
-package Logic;
+package santa.publicidad.Logic;
 
 import java.util.List;
 
 import org.json.JSONObject;
 
-import DAO.DAORoll;
-import VO.Roll;
+import santa.publicidad.DAO.DAORoll;
+import santa.publicidad.VO.Roll;
 
 public class RollLogic {
 

@@ -1,4 +1,4 @@
-package Services;
+package santa.publicidad.Services;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
-import Logic.LoginAuthentLogic;
+import santa.publicidad.Logic.LoginAuthentLogic;
 
 @Path("/AppLoginAuthentication")
 public class LoginAuthenWebService {

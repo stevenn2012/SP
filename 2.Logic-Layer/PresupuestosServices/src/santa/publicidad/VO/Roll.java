@@ -1,4 +1,4 @@
-package VO;
+package santa.publicidad.VO;
 
 public class Roll {
 	private int idRole;

@@ -1,4 +1,4 @@
-package Services;
+package santa.publicidad.Services;
 
 import java.util.Date;
 
@@ -14,9 +14,9 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
-import Logic.AreaLogic;
-import Logic.LoginAuthentLogic;
-import VO.Area;
+import santa.publicidad.Logic.AreaLogic;
+import santa.publicidad.Logic.LoginAuthentLogic;
+import santa.publicidad.VO.Area;
 
 
 @Path("/AppAreaCRUD")

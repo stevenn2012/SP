@@ -1,4 +1,4 @@
-package Logic;
+package santa.publicidad.Logic;
 
 public class Principal {
 
