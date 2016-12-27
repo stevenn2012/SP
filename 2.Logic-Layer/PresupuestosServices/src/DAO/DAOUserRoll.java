@@ -43,6 +43,40 @@ public class DAOUserRoll {
 		}
 	}
 	
+	public static boolean deleteUserRoll(int idUsuario) {
+		initDriver();
+		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
+			String query="delete from user_role where user_role.idUser = :idUser";
+			connection.createQuery(query)
+					.addParameter("idUser", idUsuario)
+					.executeUpdate();
+			connection.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" -> Error");
+			System.out.println(e);
+			return false;
+		}
+	}
+	
+	public static boolean updateUserRoll(UserRoll userrol) {
+		initDriver();
+		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
+			String query="delete from user_role where user_role.idUser = :idUser";
+			connection.createQuery(query)
+					.addParameter("idUser", userrol)
+					.executeUpdate();
+			connection.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" -> Error");
+			System.out.println(e);
+			return false;
+		}
+	}
+	
 	public static void initDriver(){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");

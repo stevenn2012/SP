@@ -64,12 +64,13 @@ private String[] urlAccess = {"http://localhost","null"};
 	public Response createUser(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 			  @DefaultValue("null") @QueryParam("document") String document, 
 			  @DefaultValue("null") @QueryParam("name") String name,
-			  @DefaultValue("null") @QueryParam("username") String username,
+			  @DefaultValue("null") @QueryParam("usernameObj") String usernameObj,
 			  @DefaultValue("null") @QueryParam("password") String password, 
 	          @DefaultValue("null") @QueryParam("idarea") String idarea,
 	          @DefaultValue("null") @QueryParam("email") String email,
 	          @DefaultValue("null") @QueryParam("idRol") String idRol,
-	          @DefaultValue("null") @QueryParam("logincode") String logincode
+	          @DefaultValue("null") @QueryParam("logincode") String logincode,
+	          @DefaultValue("null") @QueryParam("username") String username
 	          ) {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
@@ -82,7 +83,7 @@ private String[] urlAccess = {"http://localhost","null"};
 			account.put("logincode", logincode);	
 			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				User usuario = new User(0, Integer.parseInt(document), name, username, password, Integer.parseInt(idarea), email);
+				User usuario = new User(0, Integer.parseInt(document), name, usernameObj, password, Integer.parseInt(idarea), email);
 				return Response.ok(UsersLogic.insertUser(usuario,Integer.parseInt(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando Usuarios\n");
@@ -97,6 +98,79 @@ private String[] urlAccess = {"http://localhost","null"};
 		}
     }
 	
+	@GET
+	@Path("/delete")
+	@Produces("application/json")
+	public Response deleteUser(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+			  @DefaultValue("null") @QueryParam("idUser") String idUser, 
+			  @DefaultValue("null") @QueryParam("username") String username,
+	          @DefaultValue("null") @QueryParam("logincode") String logincode
+	          ) {
+		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print("\tAttempt to validate log in from : "+referer);
+		System.out.print("\tBORRAR USUARIO");
+		int verifyAccess = verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.println(", Access granted");  
+			JSONObject account = new JSONObject();
+			account.put("username", username);
+			account.put("logincode", logincode);	
+			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
+			if (account.getString("validate").equals("true")) {
+				return Response.ok(UsersLogic.deleteUser(idUser).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			}else{
+				System.out.println(", Error cargando Usuarios\n");
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			}
+			
+		}else{
+			JSONObject account = new JSONObject();
+			account.put("access", "false");
+			System.out.println(", Access denied\n");
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+		}
+    }
+	
+	@GET
+	@Path("/update")
+	@Produces("application/json")
+	public Response updateUser(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+			  @DefaultValue("null") @QueryParam("idUser") String idUser,
+			  @DefaultValue("null") @QueryParam("document") String document, 
+			  @DefaultValue("null") @QueryParam("name") String name,
+			  @DefaultValue("null") @QueryParam("usernameObj") String usernameObj,
+			  @DefaultValue("null") @QueryParam("password") String password, 
+	          @DefaultValue("null") @QueryParam("idarea") String idarea,
+	          @DefaultValue("null") @QueryParam("email") String email,
+	          @DefaultValue("null") @QueryParam("idRol") String idRol,
+	          @DefaultValue("null") @QueryParam("logincode") String logincode,
+	          @DefaultValue("null") @QueryParam("username") String username
+	          ) {
+		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print("\tAttempt to validate log in from : "+referer);
+		System.out.print("\tEn INSERTAR USUARIO");
+		int verifyAccess = verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.println(", Access granted");  
+			JSONObject account = new JSONObject();
+			account.put("username", username);
+			account.put("logincode", logincode);	
+			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
+			if (account.getString("validate").equals("true")) {
+				User usuario = new User(Integer.parseInt(idUser), Integer.parseInt(document), name, usernameObj, password, Integer.parseInt(idarea), email);
+				return Response.ok(UsersLogic.updateUser(usuario,Integer.parseInt(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			}else{
+				System.out.println(", Error cargando Usuarios\n");
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			}
+			
+		}else{
+			JSONObject account = new JSONObject();
+			account.put("access", "false");
+			System.out.println(", Access denied\n");
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+		}
+    }	
 	
 	public int verifyAccess(String referer){
 		if(referer != null) {

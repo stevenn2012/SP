@@ -19,7 +19,7 @@ public class UsersLogic {
 		JSONObject obj = new JSONObject();
 		List<UserListJSON> listaUsuarios = new ArrayList<>();
 		UserListJSON usuario = new UserListJSON();
-		obj.put("validate", "true");
+		obj.put("list", "true");
 		for (int i = 0; i < usuarios.size(); i++) {
 			usuario = new UserListJSON();
 			usuario.setIduser(usuarios.get(i).getIdUser());
@@ -43,11 +43,40 @@ public class UsersLogic {
 			if (DAOUserRoll.insert(DAOUser.getUserByUsernameAndPassword(usuario.getUserName(), usuario.getPassword()).getIdUser(),rol)) {
 				obj.put("create", "true: Usuario Insertado correctamente");
 			}else{
-				obj.put("create", "false: Error en insertar el rol del usuario");
+				obj.put("create", "false: Error en insertar el user_rol del usuario");
 			}
 		}else{
 			obj.put("create", "false: Error en insertar los datos del usuario");
 		}
 		return obj;
+	}
+
+	public static Object deleteUser(String idUser) {
+		JSONObject obj = new JSONObject();
+		if (DAOUserRoll.deleteUserRoll(Integer.parseInt(idUser))) {
+			if (DAOUser.deleteUser(Integer.parseInt(idUser))) {
+				obj.put("delete", "true: Usuario Borrado correctamente");
+			}else{
+				obj.put("delete", "false: Error en el borrado del user_roll del usuario");
+			}
+		}else{
+			obj.put("delete", "false: Error en el borrado de los datos del usuario");
+		}
+		return obj;
+	}
+
+	public static Object updateUser(User usuario, int parseInt) {
+		JSONObject obj = new JSONObject();
+		/*if () {
+			if () {
+				obj.put("update", "true: Usuario Actualizado correctamente");
+			}else{
+				obj.put("update", "false: Error en la actualizacion del user_roll del usuario");
+			}
+		}else{
+			obj.put("update", "false: Error en la actualizacion del usuario");
+		}
+		return obj;*/
+		return null;
 	}
 }
