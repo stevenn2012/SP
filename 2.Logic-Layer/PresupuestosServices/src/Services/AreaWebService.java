@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import Logic.AreaLogic;
 import Logic.LoginAuthentLogic;
+import VO.Area;
 
 
 @Path("/AppAreaCRUD")
@@ -25,9 +26,43 @@ public class AreaWebService {
 private String[] urlAccess = {"http://localhost","null"};
 	
 	@GET
+	@Path("/create")
+	@Produces("application/json")
+	public Response createArea(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	          @DefaultValue("null") @QueryParam("username") String username, 
+	          @DefaultValue("null") @QueryParam("logincode") String logincode,
+	          @DefaultValue("null") @QueryParam("nombreArea") String nombreArea
+	          ) {
+		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print("\tAttempt to validate log in from : "+referer);
+		System.out.print("\nCREAR AREA");
+		int verifyAccess = verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.println(", Access granted");  
+			JSONObject areas = new JSONObject();
+			areas.put("username", username);
+			areas.put("logincode", logincode);	
+			areas = LoginAuthentLogic.valLogin(request.getRemoteAddr(), areas);
+			if (areas.getString("validate").equals("true")) {
+				Area area = new Area(0, nombreArea);
+				return Response.ok(AreaLogic.createArea(area)).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			}else{
+				System.out.println(", Error cargando areas\n");
+				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			}
+			
+		}else{
+			JSONObject areas = new JSONObject();
+			areas.put("validate", "false");
+			System.out.println(", Access denied\n");
+			return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+		}
+    }
+	
+	@GET
 	@Path("/list")
 	@Produces("application/json")
-	public Response listUsersWS(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	public Response listArea(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 	          @DefaultValue("null") @QueryParam("username") String username, 
 	          @DefaultValue("null") @QueryParam("logincode") String logincode
 	          ) {
