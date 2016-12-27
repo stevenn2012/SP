@@ -7,18 +7,17 @@ $(document).ready(function(){
 var users = {};
 function getUsers() {
 	if(sessionStorage.username && sessionStorage.logincode){
-		var accountLog = {
+		var accountLogin = {
 			"username":sessionStorage.username,
 			"logincode":sessionStorage.logincode
 		};
 		$.ajax({
 			url: userList,
 			type: 'GET',
-			data: accountLog,
+			data: accountLogin,
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("Crear: "+JSON.stringify(data));
 				if(data.validate == "true"){
 					users = data.users;
 				}else{
