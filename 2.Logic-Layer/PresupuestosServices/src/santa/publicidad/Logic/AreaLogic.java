@@ -1,12 +1,15 @@
 package santa.publicidad.Logic;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONObject;
+<<<<<<< HEAD:2.Logic-Layer/PresupuestosServices/src/santa/publicidad/Logic/AreaLogic.java
 
 import santa.publicidad.DAO.DAOArea;
 import santa.publicidad.VO.Area;
+=======
+import DAO.DAOArea;
+import VO.Area;
+>>>>>>> origin/master:2.Logic-Layer/PresupuestosServices/src/Logic/AreaLogic.java
 
 public class AreaLogic {
 
@@ -29,7 +32,7 @@ public class AreaLogic {
 	public static JSONObject createArea(Area area) {
 		JSONObject obj = new JSONObject();
 		if (DAOArea.insertArea(area.getName())) {
-			List<Area> areas = new ArrayList<Area>();
+			List<Area> areas = DAOArea.getAreas();
 			obj.put("validate", "true");
 			obj.put("insert", "true");
 			for (int i = 0; i < areas.size(); i++) {

@@ -8,6 +8,7 @@ $(document).ready(function(){
 	showRolls();
 	areaButton();
 	$('#areaButton').click(function(){areaButton()});
+	$('#cancel').click(function(){cancel()});
 });
 
 function getAreas() {
@@ -115,20 +116,21 @@ function createUser() {
 		"logincode":sessionStorage.logincode
 	};
 	var validation = true;
-	if(dataAndAccount.idArea == 0){
-		if($('#area').val()!=""){
-			dataAndAccount.idArea = 1;
+	if(dataAndAccount.idarea == "0"){
+		if($('#area').val() != ""){
+			createArea();
 		}else{
 			validation = false;
 		}
 	}
 
-	if(dataAndAccount.idRoll == 0){
+	if(dataAndAccount.idRol == "0"){
 		validation = false;
 	}
 
 	console.log("Crear: "+JSON.stringify(dataAndAccount));
-	if(validation){
+	console.log("Validation: "+validation);
+	if(validation == true){
 		$.ajax({
 			url: createUserService,
 			type: 'GET',
@@ -137,26 +139,82 @@ function createUser() {
 			dataTipe: 'JSON',
 			success: function (data) {
 				console.log("WebService Crear: "+JSON.stringify(data));
-				if(data.create == "true"){
-					console.log("bien");
-					limpiarForm();
-					$('#msCreateUser').html('<div class="alert alert-success" role="alert">Se creo el usuario con exito</div>');	
+				if(data.validate == "true"){
+					if(data.create == "true"){
+						limpiarForm();
+						$('#msCreateUser').html('<div class="alert alert-success" role="alert">Se creo el usuario con exito</div>');	
+						ScreenUp();
+					}else{
+						$('#msCreateUser').html('<div class="alert alert-warning" role="alert">No se pudo crear el usuario: '+data.status+'</div>');
+						ScreenUp();
+					}
 				}else{
-					$('#msCreateUser').html('<div class="alert alert-warning" role="alert">No se pudo crear el usuario</div>');
+					$('#msCreateUser').html('<div class="alert alert-warning" role="alert">No tiene permisos para crear usuarios</div>');
+					ScreenUp();
 				}
 	        },
 	        error: function(objXMLHttpRequest) {
 	        	$('#msCreateUser').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
+	        	ScreenUp();
 	        	console.log("error",objXMLHttpRequest);
 			}
 		});
 	}else{
-		$('#msCreateUser').html('<div class="alert alert-warning" role="alert">Faltan campos por llenar</div>');
+		$('#msCreateUser').html('<div class="alert alert-warning" role="alert">Hace falta seleccionar el area o el roll</div>');
+		ScreenUp();
 	}
-	
 }
 
-//e10adc3949ba59abbe56e057f20f883e
+function createArea() {
+	var dataAndAccountArea = {
+		"username":sessionStorage.username,
+		"logincode":sessionStorage.logincode,
+		"nombreArea":$( "#area").val()
+	};
+	console.log("Crear Area: "+JSON.stringify(dataAndAccountArea));
+	$.ajax({
+		url: createAreaService,
+		type: 'GET',
+		data: dataAndAccountArea,
+		async : false,
+		dataTipe: 'JSON',
+		success: function (data) {
+			console.log("WebService Crear Area: "+JSON.stringify(data));
+			if(data.validate == "true"){
+				if(data.insert=="true"){
+					dataAndAccount.idarea = data.idArea;
+					getAreas();
+					showAreas();
+				}else{
+					$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear la Area</div>');		
+					ScreenUp();
+					validation = false;
+				}
+			}else{
+				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear areas</div>');
+				ScreenUp();
+				validation = false;
+			}
+	    },
+	    error: function(objXMLHttpRequest) {
+	       	$('#msCreateUser').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
+	       	ScreenUp();
+	       	validation = false;
+	       	console.log("error",objXMLHttpRequest);
+		}
+	});
+}
+
+function ScreenUp () {
+	$('html,body').animate({
+	    scrollTop: $("#nameEmployed").offset().top
+	}, 500);
+}
+
+function cancel() {
+	limpiarForm();
+	window.location.assign('../../');
+}
 
 function limpiarForm() {
 	$('#document').val("");
