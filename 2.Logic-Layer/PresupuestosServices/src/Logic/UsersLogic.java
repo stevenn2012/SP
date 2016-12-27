@@ -45,7 +45,7 @@ public class UsersLogic {
 			if (usuario.getUserName().toLowerCase().equals(usuarios.get(i).getUserName().toLowerCase()) || usuario.getDocument()==usuarios.get(i).getDocument()) {
 				obj.put("validate", "true");
 				obj.put("create", "false");
-				obj.put("status", "invalid Document or Username");
+				obj.put("status", "Nombre de Usuario o documento Invalido");
 				return obj;
 			} 
 		}
@@ -77,7 +77,7 @@ public class UsersLogic {
 			}else{
 				obj.put("validate", "true");
 				obj.put("delete", "false");
-				obj.put("status", "Error en el borrado del user_roll del usuario");
+				obj.put("status", "Error en el borrado del roll del usuario");
 			}
 		}else{
 			obj.put("validate", "true");
@@ -97,7 +97,7 @@ public class UsersLogic {
 			}else{
 				obj.put("validate", "true");
 				obj.put("update", "false");
-				obj.put("status", "Error en la actualizacion del user_roll del usuario");
+				obj.put("status", "Error en la actualizacion del roll del usuario");
 			}
 		}else{
 			obj.put("validate", "true");
