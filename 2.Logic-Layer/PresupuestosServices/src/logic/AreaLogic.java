@@ -27,8 +27,18 @@ public class AreaLogic {
 
 	public static JSONObject createArea(Area area) {
 		JSONObject obj = new JSONObject();
+		List<Area> areas = DAOArea.getAreas();
+		for (int i = 0; i < areas.size(); i++) {
+			if(areas.get(i).getName().toLowerCase().equals(area.getName().toLowerCase())){
+				obj.put("validate", "true");
+				obj.put("insert", "true");
+				obj.put("status", "El área se encontraba previamente en la base de datos.");
+				obj.put("idArea", areas.get(i).getIdArea());
+				obj.put("Nombre", areas.get(i).getName());
+				return obj;
+			}
+		}
 		if (DAOArea.insertArea(area.getName())) {
-			List<Area> areas = DAOArea.getAreas();
 			obj.put("validate", "true");
 			obj.put("insert", "true");
 			for (int i = 0; i < areas.size(); i++) {
