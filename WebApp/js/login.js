@@ -1,4 +1,3 @@
-//http://www.danstools.com/javascript-obfuscate/index.php
 $(document).ready(function(){
  	$(".clsInfo").change(function(){ cleanInfo("loginValidation")});
 });

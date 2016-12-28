@@ -1,11 +1,11 @@
 $(document).ready(function(){
-	getUsers();
-	listUsers();
-	$(".filter").keyup(function(){listUsers()});
+	getProviders();
+	listProviders();
+	$(".filter").keyup(function(){listProviders()});
 });
 
-var users = {};
-function getUsers() {
+var providers = {};
+function getProviders() {
 	if(sessionStorage.username && sessionStorage.logincode){
 		var accountLog = {
 			"username":sessionStorage.username,
@@ -18,11 +18,11 @@ function getUsers() {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("GET USERS: "+JSON.stringify(data));
+				console.log("GET PROVIDERS: "+JSON.stringify(data));
 				if(data.validate == "true"){
-					users = data.users;
+					providers = data.users;
 				}else{
-					console.log("No tiene permisos para listar usuarios");
+					console.log("No tiene permisos para listar proveedores");
 				}
 	        },
 	        error: function(objXMLHttpRequest) {
@@ -36,24 +36,22 @@ function getUsers() {
 	}
 }
 
-
-function listUsers() {
-	//console.log("Users: "+JSON.stringify(users));
+function listProviders() {
 	var find = ($('.filter').val()).toUpperCase();
 	var content = '<table class="table table-bordered">';
 	content+='<tr><th>Cedula</th><th>Nombre</th><th>Nombre de usuario</th><th>Correo electronico</th><th>Area</th><th>Roll</th></tr>';
 	var data = "";
-	for (var i = 0; i < users.length; i++) {
-		var user = (users[i].document+users[i].name+users[i].username+users[i].email+users[i].area+users[i].roll).toUpperCase();
-		if(find == "" || user.indexOf(find)!=-1){
+	for (var i = 0; i < providers.length; i++) {
+		var provider = (providers[i].document+providers[i].name+providers[i].username+providers[i].email+providers[i].area+providers[i].roll).toUpperCase();
+		if(find == "" || provider.indexOf(find)!=-1){
 			data+='<tr>';
-			//content+='<td>'+users[i].iduser+'</td>';
-			data+='<td>'+users[i].document+'</td>';
-			data+='<td>'+users[i].name+'</td>';
-			data+='<td>'+users[i].username+'</td>';
-			data+='<td>'+users[i].email+'</td>'; 
-			data+='<td>'+users[i].area+'</td>';
-			data+='<td>'+users[i].roll+'</td>';
+			//content+='<td>'+providers[i].iduser+'</td>';
+			data+='<td>'+providers[i].document+'</td>';
+			data+='<td>'+providers[i].name+'</td>';
+			data+='<td>'+providers[i].username+'</td>';
+			data+='<td>'+providers[i].email+'</td>'; 
+			data+='<td>'+providers[i].area+'</td>';
+			data+='<td>'+providers[i].roll+'</td>';
 		  	data+='</tr>';
 		}
 	};

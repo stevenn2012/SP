@@ -1,27 +1,28 @@
 $(document).ready(function(){
-	getUsers();
-	listUsers();
-	$(".filter").keyup(function(){listUsers()});
+	getClients();
+	listClients();
+	$(".filter").keyup(function(){listClients()});
 });
 
-var users = {};
-function getUsers() {
+var clients = {};
+function getClients() {
 	if(sessionStorage.username && sessionStorage.logincode){
-		var accountLogin = {
+		var accountLog = {
 			"username":sessionStorage.username,
 			"logincode":sessionStorage.logincode
 		};
 		$.ajax({
 			url: userList,
 			type: 'GET',
-			data: accountLogin,
+			data: accountLog,
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
+				console.log("GET CLIENTS: "+JSON.stringify(data));
 				if(data.validate == "true"){
-					users = data.users;
+					clients = data.users;
 				}else{
-					console.log("No tiene permisos para listar usuarios");
+					console.log("No tiene permisos para listar clientes");
 				}
 	        },
 	        error: function(objXMLHttpRequest) {
@@ -36,22 +37,22 @@ function getUsers() {
 }
 
 
-function listUsers() {
-	//console.log("Users: "+JSON.stringify(users));
+function listClients() {
 	var find = ($('.filter').val()).toUpperCase();
 	var content = '<table class="table table-bordered">';
-	content+='<tr><th>Cedula</th><th>Nombre</th><th>Nombre de usuario</th><th>Area</th><th>Roll</th></tr>';
+	content+='<tr><th>Cedula</th><th>Nombre</th><th>Nombre de usuario</th><th>Correo electronico</th><th>Area</th><th>Roll</th></tr>';
 	var data = "";
-	for (var i = 0; i < users.length; i++) {
-		var user = (users[i].document+users[i].name+users[i].username+users[i].area+users[i].roll).toUpperCase();
-		if(find == "" || user.indexOf(find)!=-1){
+	for (var i = 0; i < clients.length; i++) {
+		var client = (clients[i].document+clients[i].name+clients[i].username+clients[i].email+clients[i].area+clients[i].roll).toUpperCase();
+		if(find == "" || client.indexOf(find)!=-1){
 			data+='<tr>';
-			//content+='<td>'+users[i].iduser+'</td>';
-			data+='<td>'+users[i].document+'</td>';
-			data+='<td>'+users[i].name+'</td>';
-			data+='<td>'+users[i].username+'</td>'; 
-			data+='<td>'+users[i].area+'</td>';
-			data+='<td>'+users[i].roll+'</td>';
+			//content+='<td>'+clients[i].iduser+'</td>';
+			data+='<td>'+clients[i].document+'</td>';
+			data+='<td>'+clients[i].name+'</td>';
+			data+='<td>'+clients[i].username+'</td>';
+			data+='<td>'+clients[i].email+'</td>'; 
+			data+='<td>'+clients[i].area+'</td>';
+			data+='<td>'+clients[i].roll+'</td>';
 		  	data+='</tr>';
 		}
 	};

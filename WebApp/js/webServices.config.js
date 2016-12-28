@@ -11,3 +11,5 @@ var userList = page+"/WebServicesPresupuestos/AppUsersCRUD/list";
 var areaList = page+"/WebServicesPresupuestos/AppAreaCRUD/list";
 var rollList = page+"/WebServicesPresupuestos/AppRollCRUD/list";
 var createAreaService = page+"/WebServicesPresupuestos/AppAreaCRUD/create";
+var providersList = page+"/WebServicesPresupuestos/AppProviderCRUD/list";
+var clientList = page+"/WebServicesPresupuestos/";
