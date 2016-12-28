@@ -1,5 +1,6 @@
 package services;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +45,7 @@ private String[] urlAccess = {"http://localhost","null"};
 			areas.put("logincode", logincode);	
 			areas = LoginAuthentLogic.valLogin(request.getRemoteAddr(), areas);
 			if (areas.getString("validate").equals("true")) {
-				Area area = new Area(0, nombreArea);
+				Area area = new Area(new BigInteger("0"), nombreArea);
 				return Response.ok(AreaLogic.createArea(area).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando areas\n");
