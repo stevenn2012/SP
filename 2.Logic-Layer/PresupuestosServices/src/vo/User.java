@@ -2,15 +2,15 @@ package vo;
 
 public class User {
 
-	private int idUser;
+	private long idUser;
 	private long document;
 	private String name;
 	private String userName;
 	private String password;
-	private int idArea;
+	private long idArea;
 	private String email;
 	
-	public User(int idUser, long document, String name, String userName, String password, int idArea , String email) {
+	public User(long idUser, long document, String name, String userName, String password, long idArea , String email) {
 		super();
 		this.idUser = idUser;
 		this.document = document;
@@ -29,11 +29,11 @@ public class User {
 		this.email = email;
 	}
 
-	public int getIdUser() {
+	public long getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(int idUser) {
+	public void setIdUser(long idUser) {
 		this.idUser = idUser;
 	}
 
@@ -69,11 +69,11 @@ public class User {
 		this.password = password;
 	}
 
-	public int getIdArea() {
+	public long getIdArea() {
 		return idArea;
 	}
 
-	public void setIdArea(int idArea) {
+	public void setIdArea(long idArea) {
 		this.idArea = idArea;
 	}
 

@@ -2,38 +2,38 @@ package vo;
 
 public class UserRoll {
 	
-	int idUser_Role;
-	int idUser;
-	int idRole;
+	long idUser_Role;
+	long idUser;
+	long idRole;
 	
-	public UserRoll(int id, int idUser, int idRole) {
+	public UserRoll(long id, long idUser, long idRole) {
 		super();
 		this.idUser_Role = id;
 		this.idUser = idUser;
 		this.idRole = idRole;
 	}
 	
-	public int getId() {
+	public long getId() {
 		return idUser_Role;
 	}
 	
-	public void setId(int id) {
+	public void setId(long id) {
 		this.idUser_Role = id;
 	}
 	
-	public int getIdUser() {
+	public long getIdUser() {
 		return idUser;
 	}
 	
-	public void setIdUser(int idUser) {
+	public void setIdUser(long idUser) {
 		this.idUser = idUser;
 	}
 	
-	public int getIdRole() {
+	public long getIdRole() {
 		return idRole;
 	}
 	
-	public void setIdRole(int idRole) {
+	public void setIdRole(long idRole) {
 		this.idRole = idRole;
 	}
 	

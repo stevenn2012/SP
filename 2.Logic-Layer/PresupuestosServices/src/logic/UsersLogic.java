@@ -38,7 +38,7 @@ public class UsersLogic {
 		return obj;
 	}
 
-	public static JSONObject insertUser(User usuario, int rol) {
+	public static JSONObject insertUser(User usuario, long rol) {
 		JSONObject obj = new JSONObject();
 		List<User> usuarios = DAOUser.getUsers();
 		for (int i = 0; i < usuarios.size(); i++) {
@@ -67,10 +67,10 @@ public class UsersLogic {
 		return obj;
 	}
 
-	public static Object deleteUser(String idUser) {
+	public static JSONObject deleteUser(String idUser) {
 		JSONObject obj = new JSONObject();
-		if (DAOUserRoll.deleteUserRoll(Integer.parseInt(idUser))) {
-			if (DAOUser.deleteUser(Integer.parseInt(idUser))) {
+		if (DAOUserRoll.deleteUserRoll(Long.parseLong(idUser))) {
+			if (DAOUser.deleteUser(Long.parseLong(idUser))) {
 				obj.put("validate", "true");
 				obj.put("delete", "true");
 				obj.put("status", "Usuario Borrado correctamente");
@@ -87,9 +87,9 @@ public class UsersLogic {
 		return obj;
 	}
 
-	public static Object updateUser(User usuario, int roll) {
+	public static Object updateUser(User usuario, long roll) {
 		JSONObject obj = new JSONObject();
-		if (DAOUserRoll.updateUserRoll(new UserRoll(0, usuario.getIdUser(), roll))) {
+		if (DAOUserRoll.updateUserRoll(new UserRoll(Long.parseLong("0"), usuario.getIdUser(), roll))) {
 			if (DAOUser.updateUser(usuario)) {
 				obj.put("validate", "true");
 				obj.put("update", "true");

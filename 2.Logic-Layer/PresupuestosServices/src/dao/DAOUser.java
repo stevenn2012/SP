@@ -76,7 +76,7 @@ public class DAOUser {
 		}
 	}
 	
-	public static boolean deleteUser(int idUsuario) {
+	public static boolean deleteUser(long idUsuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
 			String query="delete from user where user.idUser = :idUser";

@@ -27,10 +27,10 @@ public class DAORoll {
 		}
 	}
 	
-	public static Roll getRoleByIdUser(int iduser) {
+	public static Roll getRoleByIdUser(long iduser) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).open()){
-			int idrole=-1;
+			long idrole=-1;
 			List<UserRoll> userroles = DAOUserRoll.getUserRoll();
 			for (int i = 0; i < userroles.size(); i++) {
 				if(iduser==userroles.get(i).getIdUser()){

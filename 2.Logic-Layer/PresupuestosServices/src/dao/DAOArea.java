@@ -25,7 +25,7 @@ public class DAOArea {
 		}
 	}
 	
-	public static Area getAreaByIdArea(int areaId) {
+	public static Area getAreaByIdArea(long areaId) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).open()){
 			String query="select * from area where idArea = :idArea";
