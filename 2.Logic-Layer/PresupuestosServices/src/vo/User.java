@@ -1,16 +1,18 @@
 package vo;
 
+import java.math.BigInteger;
+
 public class User {
 
-	private long idUser;
-	private long document;
+	private BigInteger idUser;
+	private BigInteger document;
 	private String name;
 	private String userName;
 	private String password;
-	private long idArea;
+	private BigInteger idArea;
 	private String email;
 	
-	public User(long idUser, long document, String name, String userName, String password, long idArea , String email) {
+	public User(BigInteger idUser, BigInteger document, String name, String userName, String password, BigInteger idArea , String email) {
 		super();
 		this.idUser = idUser;
 		this.document = document;
@@ -29,19 +31,19 @@ public class User {
 		this.email = email;
 	}
 
-	public long getIdUser() {
+	public BigInteger getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(long idUser) {
+	public void setIdUser(BigInteger idUser) {
 		this.idUser = idUser;
 	}
 
-	public long getDocument() {
+	public BigInteger getDocument() {
 		return document;
 	}
 
-	public void setDocument(long document) {
+	public void setDocument(BigInteger document) {
 		this.document = document;
 	}
 
@@ -69,11 +71,11 @@ public class User {
 		this.password = password;
 	}
 
-	public long getIdArea() {
+	public BigInteger getIdArea() {
 		return idArea;
 	}
 
-	public void setIdArea(long idArea) {
+	public void setIdArea(BigInteger idArea) {
 		this.idArea = idArea;
 	}
 

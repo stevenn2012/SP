@@ -8,7 +8,7 @@ public class App {
 	public static void main(String[] args) {
 		
 		BigInteger a = new BigInteger("100000010101019879879801001");
-		BigDecimal e = new BigDecimal(12231231231231231123123.3231231123121235);
+		BigDecimal e = new BigDecimal(a);
 								 
 		int  c = 1000000000;
 		long b = 1000000000;

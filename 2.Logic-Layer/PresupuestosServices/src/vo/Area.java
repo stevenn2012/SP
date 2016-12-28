@@ -1,20 +1,22 @@
 package vo;
 
+import java.math.BigInteger;
+
 public class Area {
 	
-	private int idArea;
+	private BigInteger idArea;
 	private String name;
 	
-	public Area(int idArea, String name) {
+	public Area(BigInteger idArea, String name) {
 		this.idArea = idArea;
 		this.name = name;
 	}
 	
-	public int getIdArea() {
+	public BigInteger getIdArea() {
 		return idArea;
 	}
 	
-	public void setIdArea(int idArea) {
+	public void setIdArea(BigInteger idArea) {
 		this.idArea = idArea;
 	}
 	

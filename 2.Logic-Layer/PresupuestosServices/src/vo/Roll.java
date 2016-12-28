@@ -1,21 +1,23 @@
 package vo;
 
+import java.math.BigInteger;
+
 public class Roll {
-	private long idRole;
+	private BigInteger idRole;
 	private String name;
 	private String description;
 	
-	public Roll(long idRol, String name, String description) {
+	public Roll(BigInteger idRol, String name, String description) {
 		this.idRole = idRol;
 		this.name = name;
 		this.description = description;
 	}
 	
-	public long getIdRol() {
+	public BigInteger getIdRol() {
 		return idRole;
 	}
 	
-	public void setIdRol(long idRol) {
+	public void setIdRol(BigInteger idRol) {
 		this.idRole = idRol;
 	}
 	
