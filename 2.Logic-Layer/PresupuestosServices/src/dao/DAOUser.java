@@ -1,5 +1,6 @@
 package dao;
 
+import java.math.BigInteger;
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -45,14 +46,6 @@ public class DAOUser {
 		}
 	}
 	
-	public static void initDriver(){
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-		}
-	}
-
 	public static boolean insertUser(User usuario) {
 		initDriver();
 		
@@ -76,7 +69,7 @@ public class DAOUser {
 		}
 	}
 	
-	public static boolean deleteUser(long idUsuario) {
+	public static boolean deleteUser(BigInteger idUsuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
 			String query="delete from user where user.idUser = :idUser";
@@ -113,6 +106,14 @@ public class DAOUser {
 			System.out.println(" -> Error");
 			System.out.println(e);
 			return false;
+		}
+	}
+	
+	public static void initDriver(){
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println(e);
 		}
 	}
 }

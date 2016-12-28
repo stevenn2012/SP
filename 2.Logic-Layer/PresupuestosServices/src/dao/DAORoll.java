@@ -1,5 +1,6 @@
 package dao;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.sql2o.Connection;
@@ -27,7 +28,7 @@ public class DAORoll {
 		}
 	}
 	
-	public static Roll getRoleByIdUser(long iduser) {
+	public static Roll getRoleByIdUser(BigInteger iduser) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).open()){
 			long idrole=-1;

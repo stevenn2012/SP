@@ -1,5 +1,6 @@
 package dao;
 
+import java.math.BigInteger;
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -25,7 +26,7 @@ public class DAOArea {
 		}
 	}
 	
-	public static Area getAreaByIdArea(long areaId) {
+	public static Area getAreaByIdArea(BigInteger areaId) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).open()){
 			String query="select * from area where idArea = :idArea";
