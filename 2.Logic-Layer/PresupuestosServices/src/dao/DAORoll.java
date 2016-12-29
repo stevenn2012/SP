@@ -1,6 +1,5 @@
 package dao;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import org.sql2o.Connection;
@@ -28,10 +27,10 @@ public class DAORoll {
 		}
 	}
 	
-	public static Roll getRoleByIdUser(BigInteger iduser) {
+	public static Roll getRoleByIdUser(long iduser) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).open()){
-			BigInteger idrole=new BigInteger("-1");
+			long idrole=-1;
 			List<UserRoll> userroles = DAOUserRoll.getUserRoll();
 			for (int i = 0; i < userroles.size(); i++) {
 				if(iduser==userroles.get(i).getIdUser()){
@@ -39,7 +38,7 @@ public class DAORoll {
 					break;
 				}
 			}
-			if (idrole.intValue()<1) {
+			if (idrole<1) {
 				throw new IllegalArgumentException("Roll Incorrecto");
 			}
 			

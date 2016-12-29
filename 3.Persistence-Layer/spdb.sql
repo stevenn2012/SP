@@ -28,12 +28,12 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`User`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`User` (
-  `idUser` BIGINT(64) NOT NULL AUTO_INCREMENT,
-  `document` BIGINT(64) NOT NULL,
+  `idUser` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `document` BIGINT(255) NOT NULL,
   `name` VARCHAR(100) NOT NULL,
   `userName` VARCHAR(100) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
-  `idArea` BIGINT(64) NOT NULL,
+  `idArea` BIGINT(255) NOT NULL,
   `email` VARCHAR(100) NULL,
   PRIMARY KEY (`idUser`),
   INDEX `fk_User_Area_idx` (`idArea` ASC),

@@ -1,6 +1,5 @@
 package services;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,8 +84,8 @@ private String[] urlAccess = {"http://localhost","null"};
 			account.put("logincode", logincode);	
 			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				User usuario = new User(new BigInteger("0"), new BigInteger(document), name, usernameObj, password, new BigInteger(idarea), email);
-				return Response.ok(UsersLogic.insertUser(usuario,new BigInteger(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				User usuario = new User(Long.parseLong("0"), Long.parseLong(document), name, usernameObj, password, Long.parseLong(idarea), email);
+				return Response.ok(UsersLogic.insertUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
@@ -160,8 +159,8 @@ private String[] urlAccess = {"http://localhost","null"};
 			account.put("logincode", logincode);	
 			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				User usuario = new User(new BigInteger(idUser), new BigInteger(document), name, usernameObj, password, new BigInteger(idarea), email);
-				return Response.ok(UsersLogic.updateUser(usuario,new BigInteger(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				User usuario = new User(Long.parseLong(idUser), Long.parseLong(document), name, usernameObj, password, Long.parseLong(idarea), email);
+				return Response.ok(UsersLogic.updateUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();

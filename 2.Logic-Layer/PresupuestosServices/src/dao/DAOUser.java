@@ -1,6 +1,5 @@
 package dao;
 
-import java.math.BigInteger;
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -69,7 +68,7 @@ public class DAOUser {
 		}
 	}
 	
-	public static boolean deleteUser(BigInteger idUsuario) {
+	public static boolean deleteUser(long idUsuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
 			String query="delete from user where user.idUser = :idUser";

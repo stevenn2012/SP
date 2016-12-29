@@ -1,41 +1,39 @@
 package vo;
 
-import java.math.BigInteger;
-
 public class UserRoll {
 	
-	BigInteger idUser_Role;
-	BigInteger idUser;
-	BigInteger idRole;
+	long idUser_Role;
+	long idUser;
+	long idRole;
 	
-	public UserRoll(BigInteger id, BigInteger idUser, BigInteger idRole) {
+	public UserRoll(long id, long idUser, long idRole) {
 		super();
 		this.idUser_Role = id;
 		this.idUser = idUser;
 		this.idRole = idRole;
 	}
 	
-	public BigInteger getId() {
+	public long getId() {
 		return idUser_Role;
 	}
 	
-	public void setId(BigInteger id) {
+	public void setId(long id) {
 		this.idUser_Role = id;
 	}
 	
-	public BigInteger getIdUser() {
+	public long getIdUser() {
 		return idUser;
 	}
 	
-	public void setIdUser(BigInteger idUser) {
+	public void setIdUser(long idUser) {
 		this.idUser = idUser;
 	}
 	
-	public BigInteger getIdRole() {
+	public long getIdRole() {
 		return idRole;
 	}
 	
-	public void setIdRole(BigInteger idRole) {
+	public void setIdRole(long idRole) {
 		this.idRole = idRole;
 	}
 	

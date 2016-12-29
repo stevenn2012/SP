@@ -1,6 +1,5 @@
 package dao;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import org.sql2o.Connection;
@@ -27,7 +26,7 @@ public class DAOUserRoll {
 		}
 	}
 	
-	public static boolean insert(BigInteger idUser, BigInteger rol) {
+	public static boolean insert(long idUser, long rol) {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
@@ -46,7 +45,7 @@ public class DAOUserRoll {
 		}
 	}
 	
-	public static boolean deleteUserRoll(BigInteger idUsuario) {
+	public static boolean deleteUserRoll(long idUsuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
 			String query="delete from user_role where user_role.idUser = :idUser";

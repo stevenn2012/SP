@@ -1,10 +1,9 @@
 package vo.vista;
 
-import java.math.BigInteger;
 
 public class UserListJSON {
-	private BigInteger iduser;
-	private BigInteger document;
+	private long iduser;
+	private long document;
 	private String name;
 	private String username;
 	private String roll;
@@ -17,16 +16,16 @@ public class UserListJSON {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public BigInteger getIduser() {
+	public long getIduser() {
 		return iduser;
 	}
-	public void setIduser(BigInteger iduser) {
+	public void setIduser(long iduser) {
 		this.iduser = iduser;
 	}
-	public BigInteger getDocument() {
+	public long getDocument() {
 		return document;
 	}
-	public void setDocument(BigInteger document) {
+	public void setDocument(long document) {
 		this.document = document;
 	}
 	public String getName() {
