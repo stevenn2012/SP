@@ -386,6 +386,7 @@ function editUserAjax() {
 						listUsers();
 						$('#msModifyDelete').html('<div class="alert alert-success" role="alert">Se Modifico el usuario con exito</div>');
 						$('#cancel').click();
+						$('#msCreateUser').html("");
 						setTimeout(function() {
 							$('#msModifyDelete').html("");
 						},10000);
