@@ -71,7 +71,7 @@ public class DAOCity {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(" -> Error delete country");
+			System.out.println(" -> Error delete city");
 			System.out.println(e.getMessage());
 			return false;
 		}
@@ -90,7 +90,7 @@ public class DAOCity {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(" -> Error");
+			System.out.println(" -> Error city updatedao");
 			System.out.println(e);
 			return false;
 		}

@@ -9,7 +9,7 @@ import vo.Address;
 
 public class DAOAddress {
 
-	public static List<Address> getProvider(){
+	public static List<Address> getAddress(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
 			String query="select * from address";
@@ -73,7 +73,7 @@ public class DAOAddress {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(" -> Error delete country");
+			System.out.println(" -> Error delete address");
 			System.out.println(e.getMessage());
 			return false;
 		}
@@ -94,7 +94,7 @@ public class DAOAddress {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(" -> Error");
+			System.out.println(" -> Error update address dao");
 			System.out.println(e);
 			return false;
 		}
