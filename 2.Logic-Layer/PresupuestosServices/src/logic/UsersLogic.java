@@ -110,7 +110,7 @@ public class UsersLogic {
 			}
 		}
 		
-		if (usuario.getPassword()==null || usuario.getPassword().isEmpty()) {
+		if (usuario.getPassword()==null || usuario.getPassword().equals("d41d8cd98f00b204e9800998ecf8427e")) {
 			for (int i = 0; i < usuarios.size(); i++) {
 				if (usuarios.get(i).getIdUser()==usuario.getIdUser()) {
 					usuario.setPassword(usuarios.get(i).getPassword());
