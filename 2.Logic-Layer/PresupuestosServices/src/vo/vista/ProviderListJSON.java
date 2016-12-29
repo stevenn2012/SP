@@ -15,7 +15,8 @@ public class ProviderListJSON {
 	private String description;
 	private List<ProductService> productServices;
 	private List<Contact> contacts;
-	private List<Address> address;
+	private List<AddressListJSON> address;
+		
 	public ProviderListJSON(long idProvider, String nIT, String name, String description) {
 		this.idProvider  = idProvider;
 		NIT			     = nIT;
@@ -26,7 +27,7 @@ public class ProviderListJSON {
 		address			 = new ArrayList<>();
 	}
 	public long getIdProvider() {
-		return idProvider;
+		return this.idProvider;
 	}
 	public void setIdProvider(long idProvider) {
 		this.idProvider = idProvider;
@@ -61,10 +62,10 @@ public class ProviderListJSON {
 	public void addContact(Contact contacts) {
 		this.contacts.add(contacts);
 	}
-	public List<Address> getAddress() {
+	public List<AddressListJSON> getAddress() {
 		return address;
 	}
-	public void addAddress(Address address) {
+	public void addAddress(AddressListJSON address) {
 		this.address.add(address);
 	}
 	@Override
@@ -73,5 +74,6 @@ public class ProviderListJSON {
 				+ description + ", productServices=" + productServices + ", contacts=" + contacts + ", address="
 				+ address + "]";
 	}
+	
 		
 }

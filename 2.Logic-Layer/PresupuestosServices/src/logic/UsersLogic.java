@@ -20,22 +20,30 @@ public class UsersLogic {
 		JSONObject obj = new JSONObject();
 		List<UserListJSON> listaUsuarios = new ArrayList<>();
 		UserListJSON usuario = new UserListJSON();
-		obj.put("list", "true");
-		for (int i = 0; i < usuarios.size(); i++) {
-			usuario = new UserListJSON();
-			usuario.setIduser(usuarios.get(i).getIdUser());
-			usuario.setDocument(usuarios.get(i).getDocument());
-			usuario.setName(usuarios.get(i).getName());
-			usuario.setUsername(usuarios.get(i).getUserName());
-			String roll1 = DAORoll.getRoleByIdUser(usuarios.get(i).getIdUser()).getName();
-			usuario.setRoll(roll1);
-			String area1 = DAOArea.getAreaByIdArea(usuarios.get(i).getIdArea()).getName();
-			usuario.setArea(area1);
-			usuario.setEmail(usuarios.get(i).getEmail());
-			listaUsuarios.add(usuario);
+		
+		if (usuarios == null) {
+			obj.put("list", "false");
+			obj.put("validate", "true");
+			return obj;
+		}else{
+			obj.put("list", "true");
+			obj.put("validate", "true");
+			for (int i = 0; i < usuarios.size(); i++) {
+				usuario = new UserListJSON();
+				usuario.setIduser(usuarios.get(i).getIdUser());
+				usuario.setDocument(usuarios.get(i).getDocument());
+				usuario.setName(usuarios.get(i).getName());
+				usuario.setUsername(usuarios.get(i).getUserName());
+				String roll1 = DAORoll.getRoleByIdUser(usuarios.get(i).getIdUser()).getName();
+				usuario.setRoll(roll1);
+				String area1 = DAOArea.getAreaByIdArea(usuarios.get(i).getIdArea()).getName();
+				usuario.setArea(area1);
+				usuario.setEmail(usuarios.get(i).getEmail());
+				listaUsuarios.add(usuario);
+			}
+			obj.putOnce("users", listaUsuarios);
+			return obj;
 		}
-		obj.putOnce("users", listaUsuarios);
-		return obj;
 	}
 
 	public static JSONObject insertUser(User usuario, long rol) {
