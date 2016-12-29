@@ -66,7 +66,7 @@ public class DAOUser {
 	
 	public static boolean deleteUser(long idUsuario) {
 		initDriver();
-		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
 			String query="delete from user where user.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idUser", idUsuario)

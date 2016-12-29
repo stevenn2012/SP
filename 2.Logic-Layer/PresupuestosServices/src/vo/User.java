@@ -5,14 +5,14 @@ package vo;
 public class User {
 
 	private long idUser;
-	private long document;
+	private String document;
 	private String name;
 	private String userName;
 	private String password;
 	private long idArea;
 	private String email;
 	
-	public User(long idUser, long document, String name, String userName, String password, long idArea , String email) {
+	public User(long idUser, String document, String name, String userName, String password, long idArea , String email) {
 		super();
 		this.idUser = idUser;
 		this.document = document;
@@ -39,11 +39,11 @@ public class User {
 		this.idUser = idUser;
 	}
 
-	public long getDocument() {
+	public String getDocument() {
 		return document;
 	}
 
-	public void setDocument(long document) {
+	public void setDocument(String document) {
 		this.document = document;
 	}
 

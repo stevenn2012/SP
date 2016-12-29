@@ -84,7 +84,7 @@ private String[] urlAccess = {"http://localhost","null"};
 			account.put("logincode", logincode);	
 			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				User usuario = new User(Long.parseLong("0"), Long.parseLong(document), name, usernameObj, password, Long.parseLong(idarea), email);
+				User usuario = new User(Long.parseLong("0"), document, name, usernameObj, password, Long.parseLong(idarea), email);
 				return Response.ok(UsersLogic.insertUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
@@ -159,7 +159,7 @@ private String[] urlAccess = {"http://localhost","null"};
 			account.put("logincode", logincode);	
 			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				User usuario = new User(Long.parseLong(idUser), Long.parseLong(document), name, usernameObj, password, Long.parseLong(idarea), email);
+				User usuario = new User(Long.parseLong(idUser), document, name, usernameObj, password, Long.parseLong(idarea), email);
 				return Response.ok(UsersLogic.updateUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");

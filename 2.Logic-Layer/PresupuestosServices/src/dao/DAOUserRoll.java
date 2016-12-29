@@ -60,7 +60,7 @@ public class DAOUserRoll {
 	
 	public static boolean updateUserRoll(UserRoll userrol) {
 		initDriver();
-		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
 			String query="update user_role set idRole = :idRol where user_role.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idRol", userrol.getIdRole())
