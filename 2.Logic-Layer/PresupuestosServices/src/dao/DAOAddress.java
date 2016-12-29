@@ -4,68 +4,70 @@ import java.util.List;
 
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-import vo.Country;
 
+import vo.Address;
 
-public class DAOCountry {
+public class DAOAddress {
 
-	public static List<Country> getCountry(){
+	public static List<Address> getProvider(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
-			String query="select * from country";
-			List<Country> paises = connection.createQuery(query)
-			        		 .executeAndFetch(Country.class);
-			return paises;
+			String query="select * from address";
+			List<Address> address = connection.createQuery(query)
+			        		 .executeAndFetch(Address.class);
+			return address;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	public static Country getCountryByName(String cname) {
+	public static Address getAddressById(long idAddress) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
-			String query="select * from country where name = :cname";
-			List<Country> country = connection.createQuery(query)
-					.addParameter("cname", cname)
-			        .executeAndFetch(Country.class);
-			return country.get(0);
+			String query="select * from address where idAddress = :id";
+			List<Address> address = connection.createQuery(query)
+					.addParameter("id", idAddress)
+			        .executeAndFetch(Address.class);
+			return address.get(0);
 		} catch (Exception e) {
 			if((e+"").equalsIgnoreCase("java.lang.IndexOutOfBoundsException: Index: 0, Size: 0")){
-				System.out.println(" -> The user was not found");
+				System.out.println(" -> The address was not found");
 			}else{
-				System.out.println(" -> Error DAOCountry getCountryByname");
+				System.out.println(" -> Error DAOAddress getAddressById");
 				System.out.println(e);
 			}
 			return null;
 		}
 	}
 	
-	public static boolean insertCountry(Country country) {
+	public static boolean insertAddress(Address address) {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
-			String query="insert into country(countryCode, name) values(:cc, :name)";
+			String query="insert into address(address, idProvider, idCity, idClient) values(:address, :idP, :idcy, :idct)";
 			connection.createQuery(query)
-					.addParameter("cc",country.getCountryCode())
-					.addParameter("name", country.getName())
+					.addParameter("address",address.getAddress())
+					.addParameter("idP", address.getIdProvider())
+					.addParameter("idcy", address.getIdCity())
+					.addParameter("idct", address.getIdClient())
 					.executeUpdate();
 			connection.commit();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(" -> Error insertar Country");
+			System.out.println(" -> Error insertar Address");
 			System.out.println(e);
 			return false;
 		}
 	}
 	
-	public static boolean deleteCountry(long country) {
+	public static boolean deleteAddress(long idAddress) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
-			String query="delete from country where country.idCountry = :id";
+			String query="delete from address where address.idAddress = :id";
 			connection.createQuery(query)
-					.addParameter("id", country)
+					.addParameter("id", idAddress)
 					.executeUpdate();
 			connection.commit();
 			return true;
@@ -77,14 +79,16 @@ public class DAOCountry {
 		}
 	}
 
-	public static boolean updateCountry(Country country) {
+	public static boolean updateAddress(Address address) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
-			String query="update country set countryCode = :cc, name = :name where country.idCountry = :id";
+			String query="update address set address = :address, idProvider = :idp, idCity = :idcy, idClient = :idc where address.idAddress = :id";
 			connection.createQuery(query)
-					.addParameter("cc",country.getCountryCode())
-					.addParameter("name", country.getName())
-					.addParameter("id", country.getIdCountry())
+					.addParameter("id",  address.getIdAddress())
+					.addParameter("address",address.getAddress())
+					.addParameter("idP", address.getIdProvider())
+					.addParameter("idcy", address.getIdCity())
+					.addParameter("idct", address.getIdClient())
 					.executeUpdate();
 			connection.commit();
 			return true;
