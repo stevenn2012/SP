@@ -4,93 +4,93 @@ import java.util.List;
 
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-import vo.Country;
 
+import vo.City;
 
-public class DAOCountry {
-
-	public static List<Country> getCountry(){
+public class DAOCity {
+	
+	public static List<City> getCities(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
-			String query="select * from country";
-			List<Country> paises = connection.createQuery(query)
-			        		 .executeAndFetch(Country.class);
-			return paises;
+			String query="select * from city";
+			List<City> ciudades = connection.createQuery(query)
+			        		 .executeAndFetch(City.class);
+			return ciudades;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	public static Country getCountryByName(String cname) {
+	public static City getCityByName(String cname) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
-			String query="select * from country where name = :cname";
-			List<Country> country = connection.createQuery(query)
+			String query="select * from city where name = :cname";
+			List<City> city = connection.createQuery(query)
 					.addParameter("cname", cname)
-			        .executeAndFetch(Country.class);
-			return country.get(0);
+			        .executeAndFetch(City.class);
+			return city.get(0);
 		} catch (Exception e) {
 			if((e+"").equalsIgnoreCase("java.lang.IndexOutOfBoundsException: Index: 0, Size: 0")){
-				System.out.println(" -> The user was not found");
+				System.out.println(" -> The city was not found");
 			}else{
-				System.out.println(" -> Error DAOCountry getCountryByname");
+				System.out.println(" -> Error DAOCity getCityByname");
 				System.out.println(e);
 			}
 			return null;
 		}
 	}
 	
-	public static boolean insertCountry(Country country) {
+	public static boolean insertCity(City city) {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
-			String query="insert into country(countryCode, name) values(:cc, :name)";
+			String query="insert into city(name, idCountry) values(:name, :idc)";
 			connection.createQuery(query)
-					.addParameter("cc",country.getCountryCode())
-					.addParameter("name", country.getName())
+					.addParameter("name",city.getName())
+					.addParameter("idc", city.getIdCountry())
 					.executeUpdate();
 			connection.commit();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(" -> Error insertar Country");
+			System.out.println(" -> Error insertar City");
 			System.out.println(e);
 			return false;
 		}
 	}
 	
-	public static boolean deleteCountry(long country) {
+	public static boolean deleteCity(long idCity) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
-			String query="delete from country where country.idCountry = :id";
+			String query="delete from city where city.idCity = :id";
 			connection.createQuery(query)
-					.addParameter("id", country)
+					.addParameter("id", idCity)
 					.executeUpdate();
 			connection.commit();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(" -> Error delete country");
+			System.out.println(" -> Error delete city");
 			System.out.println(e.getMessage());
 			return false;
 		}
 	}
 
-	public static boolean updateCountry(Country country) {
+	public static boolean updateCity(City city) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
-			String query="update country set countryCode = :cc, name = :name where country.idCountry = :id";
+			String query="update city set name = :name, idCountry = :idc where city.idCity = :id";
 			connection.createQuery(query)
-					.addParameter("cc",country.getCountryCode())
-					.addParameter("name", country.getName())
-					.addParameter("id", country.getIdCountry())
+					.addParameter("name",city.getName())
+					.addParameter("idc", city.getIdCountry())
+					.addParameter("id",  city.getIdCity())
 					.executeUpdate();
 			connection.commit();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(" -> Error");
+			System.out.println(" -> Error city updatedao");
 			System.out.println(e);
 			return false;
 		}
@@ -103,4 +103,5 @@ public class DAOCountry {
 			System.out.println(e);
 		}
 	}
+
 }
