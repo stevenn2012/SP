@@ -287,6 +287,7 @@ function limpiarForm() {
 	$('#areaList').val(0);
 	$('#area').val("");
 	$('#rollList').val(0);
+	$('#msCreateUser').html("");
 }
 
 function ScreenUp () {
