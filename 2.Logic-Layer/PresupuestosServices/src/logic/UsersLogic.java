@@ -108,7 +108,7 @@ public class UsersLogic {
 		for (int i = 0; i < usuarios.size(); i++) {
 			if (usuario.getUserName().toLowerCase().equals(usuarios.get(i).getUserName().toLowerCase()) || usuario.getDocument()==usuarios.get(i).getDocument()) {
 				obj.put("validate", "true");
-				obj.put("create", "false");
+				obj.put("update", "false");
 				obj.put("status", "Nombre de Usuario o documento Invalido");
 				return obj;
 			} 
