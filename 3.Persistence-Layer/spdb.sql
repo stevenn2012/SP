@@ -18,8 +18,8 @@ USE `SPDB` ;
 -- Table `SPDB`.`Area`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Area` (
-  `idArea` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
+  `idArea` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`idArea`))
 ENGINE = InnoDB;
 
@@ -28,12 +28,12 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`User`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`User` (
-  `idUser` INT NOT NULL AUTO_INCREMENT,
-  `document` INT NOT NULL,
+  `idUser` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `document` BIGINT(255) NOT NULL,
   `name` VARCHAR(100) NOT NULL,
   `userName` VARCHAR(100) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
-  `idArea` INT NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
+  `idArea` BIGINT(255) NOT NULL,
   `email` VARCHAR(100) NULL,
   PRIMARY KEY (`idUser`),
   INDEX `fk_User_Area_idx` (`idArea` ASC),
@@ -49,8 +49,8 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`Role`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Role` (
-  `idRole` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
+  `idRole` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
   `description` TEXT NULL,
   PRIMARY KEY (`idRole`))
 ENGINE = InnoDB;
@@ -60,9 +60,9 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`User_Role`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`User_Role` (
-  `idUser_Role` INT NOT NULL AUTO_INCREMENT,
-  `idUser` INT NOT NULL,
-  `idRole` INT NOT NULL,
+  `idUser_Role` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `idUser` BIGINT(255) NOT NULL,
+  `idRole` BIGINT(255) NOT NULL,
   PRIMARY KEY (`idUser_Role`),
   INDEX `fk_User_Role_User1_idx` (`idUser` ASC),
   INDEX `fk_User_Role_Role1_idx` (`idRole` ASC),
@@ -83,9 +83,9 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`Provider`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Provider` (
-  `idProvider` INT NOT NULL AUTO_INCREMENT,
-  `NIT` VARCHAR(45) NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
+  `idProvider` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `NIT` VARCHAR(100) NOT NULL,
+  `name` VARCHAR(100) NOT NULL,
   `description` TEXT NULL,
   PRIMARY KEY (`idProvider`))
 ENGINE = InnoDB;
@@ -95,9 +95,9 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`Country`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Country` (
-  `idCountry` INT NOT NULL AUTO_INCREMENT,
-  `countryCode` VARCHAR(5) NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
+  `idCountry` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `countryCode` VARCHAR(100) NOT NULL,
+  `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`idCountry`))
 ENGINE = InnoDB;
 
@@ -106,9 +106,9 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`City`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`City` (
-  `idCity` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `idCountry` INT NOT NULL,
+  `idCity` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `idCountry` BIGINT(255) NOT NULL,
   PRIMARY KEY (`idCity`),
   INDEX `fk_City_Country1_idx` (`idCountry` ASC),
   CONSTRAINT `fk_City_Country1`
@@ -123,9 +123,9 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`Client`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Client` (
-  `idClient` INT NOT NULL AUTO_INCREMENT,
-  `NIT` VARCHAR(45) NULL,
-  `name` VARCHAR(45) NOT NULL,
+  `idClient` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `NIT` VARCHAR(100) NULL,
+  `name` VARCHAR(100) NOT NULL,
   `description` TEXT NULL,
   PRIMARY KEY (`idClient`))
 ENGINE = InnoDB;
@@ -135,11 +135,11 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`Address`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Address` (
-  `idAddress` INT NOT NULL AUTO_INCREMENT,
-  `address` VARCHAR(45) NOT NULL,
-  `idProvider` INT NULL,
-  `idCity` INT NOT NULL,
-  `idClient` INT NULL,
+  `idAddress` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `address` VARCHAR(100) NOT NULL,
+  `idProvider` BIGINT(255) NULL,
+  `idCity` BIGINT(255) NOT NULL,
+  `idClient` BIGINT(255) NULL,
   PRIMARY KEY (`idAddress`),
   INDEX `fk_Address_Provider1_idx` (`idProvider` ASC),
   INDEX `fk_Address_City1_idx` (`idCity` ASC),
@@ -166,12 +166,12 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`Contact`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Contact` (
-  `idContact` INT NOT NULL AUTO_INCREMENT,
+  `idContact` BIGINT(255) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `phoneNumber` VARCHAR(100) NOT NULL,
-  `idProvider` INT NULL,
-  `idClient` INT NULL,
+  `idProvider` BIGINT(255) NULL,
+  `idClient` BIGINT(255) NULL,
   PRIMARY KEY (`idContact`),
   INDEX `fk_Contact_Provider1_idx` (`idProvider` ASC),
   INDEX `fk_Contact_Client1_idx` (`idClient` ASC),
@@ -192,11 +192,11 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`ProductService`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`ProductService` (
-  `idProductService` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
+  `idProductService` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
   `description` TEXT NULL,
-  `price` DOUBLE NOT NULL,
-  `idProvider` INT NOT NULL,
+  `price` DECIMAL NOT NULL,
+  `idProvider` BIGINT(255) NOT NULL,
   PRIMARY KEY (`idProductService`),
   INDEX `fk_ProductService_Provider1_idx` (`idProvider` ASC),
   CONSTRAINT `fk_ProductService_Provider1`
@@ -211,10 +211,10 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`Project`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Project` (
-  `idProject` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `idClient` INT NOT NULL,
-  `User_idUser` INT NOT NULL,
+  `idProject` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `idClient` BIGINT(255) NOT NULL,
+  `User_idUser` BIGINT(255) NOT NULL,
   PRIMARY KEY (`idProject`),
   INDEX `fk_Project_Client1_idx` (`idClient` ASC),
   INDEX `fk_Project_User1_idx` (`User_idUser` ASC),
@@ -235,15 +235,15 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`Budget`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Budget` (
-  `idBudget` INT NOT NULL AUTO_INCREMENT,
+  `idBudget` BIGINT(255) NOT NULL AUTO_INCREMENT,
   `observations` TEXT NULL,
   `date` DATE NOT NULL,
   `commercialConditions` TEXT NULL,
-  `bruteTotal` DOUBLE NOT NULL,
-  `IVA` DOUBLE NOT NULL,
+  `bruteTotal` DECIMAL NOT NULL,
+  `IVA` DECIMAL NOT NULL,
   `months` INT NOT NULL,
-  `activityTotal` DOUBLE NOT NULL,
-  `idProject` INT NOT NULL,
+  `activityTotal` DECIMAL NOT NULL,
+  `idProject` BIGINT(255) NOT NULL,
   PRIMARY KEY (`idBudget`),
   INDEX `fk_Budget_Project1_idx` (`idProject` ASC),
   CONSTRAINT `fk_Budget_Project1`
@@ -258,13 +258,13 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`BudgetPS`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`BudgetPS` (
-  `idBudgetPS` INT NOT NULL AUTO_INCREMENT,
-  `margin` DOUBLE NOT NULL,
-  `amount` INT NOT NULL,
+  `idBudgetPS` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `margin` DECIMAL NOT NULL,
+  `amount` BIGINT(255) NOT NULL,
   `days` INT NOT NULL,
-  `unitValue` DOUBLE NOT NULL,
-  `idProductService` INT NOT NULL,
-  `idBudget` INT NOT NULL,
+  `unitValue` DECIMAL NOT NULL,
+  `idProductService` BIGINT(255) NOT NULL,
+  `idBudget` BIGINT(255) NOT NULL,
   PRIMARY KEY (`idBudgetPS`),
   INDEX `fk_BudgetPS_ProductService1_idx` (`idProductService` ASC),
   INDEX `fk_BudgetPS_Budget1_idx` (`idBudget` ASC),
@@ -285,11 +285,11 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`Expenses`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Expenses` (
-  `idExpenses` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
+  `idExpenses` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
   `description` TEXT NULL,
-  `value` DOUBLE NOT NULL,
-  `idBudgetPS` INT NOT NULL,
+  `value` DECIMAL NOT NULL,
+  `idBudgetPS` BIGINT(255) NOT NULL,
   PRIMARY KEY (`idExpenses`),
   INDEX `fk_Expenses_BudgetPS1_idx` (`idBudgetPS` ASC),
   CONSTRAINT `fk_Expenses_BudgetPS1`
@@ -304,9 +304,9 @@ ENGINE = InnoDB;
 -- Table `SPDB`.`Value`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Value` (
-  `idValue` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `value` INT NOT NULL,
+  `idValue` BIGINT(255) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `value` DECIMAL NOT NULL,
   PRIMARY KEY (`idValue`))
 ENGINE = InnoDB;
 

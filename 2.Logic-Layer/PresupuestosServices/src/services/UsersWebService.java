@@ -32,11 +32,11 @@ private String[] urlAccess = {"http://localhost","null"};
 	          @DefaultValue("null") @QueryParam("logincode") String logincode
 	          ) {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
-		System.out.print("\tAttempt to validate log in from : "+referer);
-		System.out.print("\tEn listar usuarios\nEN LISTAR USUARIOS");
+		System.out.println("\tAttempt to validate log in from : "+referer);
+		System.out.println("\tEn listar usuarios\nEN LISTAR USUARIOS");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
-			System.out.println(", Access granted");  
+			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
 			account.put("username", username);
 			account.put("logincode", logincode);	
@@ -46,14 +46,14 @@ private String[] urlAccess = {"http://localhost","null"};
 				account.put("validate", "true");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
-				System.out.println(", Error cargando Usuarios\n");
+				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("validate", "false");
-			System.out.println(", Access denied\n");
+			System.out.print(", Access denied\n");
 			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 		}
     }
@@ -73,28 +73,28 @@ private String[] urlAccess = {"http://localhost","null"};
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
 	          @DefaultValue("null") @QueryParam("username") String username
 	          ) {
-		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\tEn INSERTAR USUARIO");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
-			System.out.println(", Access granted");  
+			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
 			account.put("username", username);
 			account.put("logincode", logincode);	
 			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				User usuario = new User(0, Integer.parseInt(document), name, usernameObj, password, Integer.parseInt(idarea), email);
-				return Response.ok(UsersLogic.insertUser(usuario,Integer.parseInt(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				User usuario = new User(Long.parseLong("0"), Long.parseLong(document), name, usernameObj, password, Long.parseLong(idarea), email);
+				return Response.ok(UsersLogic.insertUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
-				System.out.println(", Error cargando Usuarios\n");
+				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("access", "false");
-			System.out.println(", Access denied\n");
+			System.out.print(", Access denied\n");
 			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 		}
     }
@@ -107,27 +107,28 @@ private String[] urlAccess = {"http://localhost","null"};
 			  @DefaultValue("null") @QueryParam("username") String username,
 	          @DefaultValue("null") @QueryParam("logincode") String logincode
 	          ) {
-		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\tBORRAR USUARIO");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
-			System.out.println(", Access granted");  
+			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
 			account.put("username", username);
 			account.put("logincode", logincode);	
 			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
+				//
 				return Response.ok(UsersLogic.deleteUser(idUser).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
-				System.out.println(", Error cargando Usuarios\n");
+				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("access", "false");
-			System.out.println(", Access denied\n");
+			System.out.print(", Access denied\n");
 			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 		}
     }
@@ -147,28 +148,28 @@ private String[] urlAccess = {"http://localhost","null"};
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
 	          @DefaultValue("null") @QueryParam("username") String username
 	          ) {
-		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\tEn INSERTAR USUARIO");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
-			System.out.println(", Access granted");  
+			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
 			account.put("username", username);
 			account.put("logincode", logincode);	
 			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				User usuario = new User(Integer.parseInt(idUser), Integer.parseInt(document), name, usernameObj, password, Integer.parseInt(idarea), email);
-				return Response.ok(UsersLogic.updateUser(usuario,Integer.parseInt(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				User usuario = new User(Long.parseLong(idUser), Long.parseLong(document), name, usernameObj, password, Long.parseLong(idarea), email);
+				return Response.ok(UsersLogic.updateUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
-				System.out.println(", Error cargando Usuarios\n");
+				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("access", "false");
-			System.out.println(", Access denied\n");
+			System.out.print(", Access denied\n");
 			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 		}
     }	

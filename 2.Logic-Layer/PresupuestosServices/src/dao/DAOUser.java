@@ -38,21 +38,13 @@ public class DAOUser {
 			if((e+"").equalsIgnoreCase("java.lang.IndexOutOfBoundsException: Index: 0, Size: 0")){
 				System.out.println(" -> The user was not found");
 			}else{
-				System.out.println(" -> Error");
+				System.out.println(" -> Error DAOUser getuserbynameandpass");
 				System.out.println(e);
 			}
 			return null;
 		}
 	}
 	
-	public static void initDriver(){
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			System.out.println(e);
-		}
-	}
-
 	public static boolean insertUser(User usuario) {
 		initDriver();
 		
@@ -76,7 +68,7 @@ public class DAOUser {
 		}
 	}
 	
-	public static boolean deleteUser(int idUsuario) {
+	public static boolean deleteUser(long idUsuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
 			String query="delete from user where user.idUser = :idUser";
@@ -88,7 +80,7 @@ public class DAOUser {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" -> Error");
-			System.out.println(e);
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
@@ -113,6 +105,14 @@ public class DAOUser {
 			System.out.println(" -> Error");
 			System.out.println(e);
 			return false;
+		}
+	}
+	
+	public static void initDriver(){
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println(e);
 		}
 	}
 }

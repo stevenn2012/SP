@@ -1,8 +1,9 @@
 package vo.vista;
 
+
 public class UserListJSON {
-	private int iduser;
-	private int document;
+	private long iduser;
+	private long document;
 	private String name;
 	private String username;
 	private String roll;
@@ -15,16 +16,16 @@ public class UserListJSON {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getIduser() {
+	public long getIduser() {
 		return iduser;
 	}
-	public void setIduser(int iduser) {
+	public void setIduser(long iduser) {
 		this.iduser = iduser;
 	}
-	public int getDocument() {
+	public long getDocument() {
 		return document;
 	}
-	public void setDocument(int document) {
+	public void setDocument(long document) {
 		this.document = document;
 	}
 	public String getName() {

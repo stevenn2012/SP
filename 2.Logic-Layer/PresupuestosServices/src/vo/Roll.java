@@ -1,21 +1,21 @@
 package vo;
 
 public class Roll {
-	private int idRole;
+	private long idRole;
 	private String name;
 	private String description;
 	
-	public Roll(int idRol, String name, String description) {
+	public Roll(long idRol, String name, String description) {
 		this.idRole = idRol;
 		this.name = name;
 		this.description = description;
 	}
 	
-	public int getIdRol() {
+	public long getIdRol() {
 		return idRole;
 	}
 	
-	public void setIdRol(int idRol) {
+	public void setIdRol(long idRol) {
 		this.idRole = idRol;
 	}
 	
