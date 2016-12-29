@@ -115,6 +115,7 @@ function createUser() {
 		"username":sessionStorage.username,
 		"logincode":sessionStorage.logincode
 	};
+
 	var validation = true;
 	if(dataAndAccount.idarea == "0"){
 		if($('#area').val() != ""){
@@ -219,6 +220,9 @@ function limpiarForm() {
 	$('#pass').val("");
 	$('#email').val("");
 	$('#areaList').val(0);
+	if($("#areaButton").prop("checked")){
+		$("#areaButton").click();	
+	}
 	$('#area').val("");
 	$('#rollList').val(0);
 }
