@@ -126,19 +126,36 @@ function deleteUserAjax(iduser) {
 						getUsers();
 						listUsers();
 						$('#msModifyDelete').html('<div class="alert alert-success" role="alert">Se elimino el usuario con exito</div>');
+						ScreenUp("nameEmployed");
 						$('#cancelDelete').click();
 						setTimeout(function() {
 							$('#msModifyDelete').html("");
 						},10000);
 					}else{
 						$('#msModifyDelete').html('<div class="alert alert-warning" role="alert">No se pudo eliminar el usuario: '+data.status+'</div>');
+						ScreenUp("nameEmployed");
+						$('#cancelDelete').click();
+						setTimeout(function() {
+							$('#msModifyDelete').html("");
+						},10000);
 					}
 				}else{
 					$('#msModifyDelete').html('<div class="alert alert-danger" role="alert">No tiene permisos de eliminar usuarios</div>');
+					ScreenUp("nameEmployed");
+					$('#cancelDelete').click();
+					setTimeout(function() {
+						$('#msModifyDelete').html("");
+					},10000);
 				}
 	        },
 	        error: function(objXMLHttpRequest) {
 	        	console.log("error",objXMLHttpRequest);
+	        	$('#msModifyDelete').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
+				ScreenUp("nameEmployed");
+				$('#cancelDelete').click();
+				setTimeout(function() {
+					$('#msModifyDelete').html("");
+				},10000);
 			}
 		});
 	}else{
@@ -285,15 +302,24 @@ function limpiarForm() {
 	$('#pass').val("");
 	$('#email').val("");
 	$('#areaList').val(0);
+	console.log("Button: "+$("#areaButton").prop("checked"));
+	if($("#areaButton").prop("checked")){
+		$("#areaButton").click();	
+	}
 	$('#area').val("");
 	$('#rollList').val(0);
+	$('#msCreateUser').html("");
 }
 
-function ScreenUp () {
+function ScreenUp (id) {
 	console.log("SCREEN UP");
-	$('html,body').animate({
-	    scrollTop: $("#myModalLabel").offset().top
-	}, 500);
+	if(id == "msCreateUser"){
+		$('#modalEdit').scrollTop(0);
+	}else{
+		$('html,body').animate({
+		    scrollTop: $("#"+id).offset().top
+		}, 500);
+	}
 }
 
 function cancel(){
@@ -343,18 +369,18 @@ function editUserAjax() {
 							showAreas();
 						}else{
 							$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear la Area</div>');		
-							ScreenUp();
+							ScreenUp("msCreateUser");
 							validation = false;
 						}
 					}else{
 						$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear areas</div>');
-						ScreenUp();
+						ScreenUp("msCreateUser");
 						validation = false;
 					}
 			    },
 			    error: function(objXMLHttpRequest) {
 			       	$('#msCreateUser').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
-			       	ScreenUp();
+			       	ScreenUp("msCreateUser");
 			       	validation = false;
 			       	console.log("error",objXMLHttpRequest);
 				}
@@ -385,28 +411,28 @@ function editUserAjax() {
 						getUsers();
 						listUsers();
 						$('#msModifyDelete').html('<div class="alert alert-success" role="alert">Se Modifico el usuario con exito</div>');
+						ScreenUp("nameEmployed");
 						$('#cancel').click();
-						$('#msCreateUser').html("");
 						setTimeout(function() {
 							$('#msModifyDelete').html("");
 						},10000);
 					}else{
 						$('#msCreateUser').html('<div class="alert alert-warning" role="alert">No se pudo crear el usuario: '+data.status+'</div>');
-						ScreenUp();
+						ScreenUp("msCreateUser");
 					}
 				}else{
 					$('#msCreateUser').html('<div class="alert alert-warning" role="alert">No tiene permisos para crear usuarios</div>');
-					ScreenUp();
+					ScreenUp("msCreateUser");
 				}
 	        },
 	        error: function(objXMLHttpRequest) {
 	        	$('#msCreateUser').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
-	        	ScreenUp();
+	        	ScreenUp("msCreateUser");
 	        	console.log("error",objXMLHttpRequest);
 			}
 		});
 	}else{
 		$('#msCreateUser').html('<div class="alert alert-warning" role="alert">Hace falta seleccionar el area o el roll</div>');
-		ScreenUp();
+		ScreenUp("msCreateUser");
 	}
 }
