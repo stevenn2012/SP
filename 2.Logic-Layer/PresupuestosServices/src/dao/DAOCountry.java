@@ -14,47 +14,42 @@ public class DAOCountry {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
 			String query="select * from country";
-			List<Country> users = connection.createQuery(query)
+			List<Country> paises = connection.createQuery(query)
 			        		 .executeAndFetch(Country.class);
-			return users;
+			return paises;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	public static User getUserByUsernameAndPassword(String username, String password) {
+	public static Country getCountryByName(String cname) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
-			String query="select * from user where userName = :username and password = :password";
-			List<User> users = connection.createQuery(query)
-					.addParameter("username", username)
-					.addParameter("password", password)
-			        .executeAndFetch(User.class);
-			return users.get(0);
+			String query="select * from country where name = :cname";
+			List<Country> country = connection.createQuery(query)
+					.addParameter("username", cname)
+			        .executeAndFetch(Country.class);
+			return country.get(0);
 		} catch (Exception e) {
 			if((e+"").equalsIgnoreCase("java.lang.IndexOutOfBoundsException: Index: 0, Size: 0")){
 				System.out.println(" -> The user was not found");
 			}else{
-				System.out.println(" -> Error DAOUser getuserbynameandpass");
+				System.out.println(" -> Error DAOCountry getCountryByname");
 				System.out.println(e);
 			}
 			return null;
 		}
 	}
 	
-	public static boolean insertUser(User usuario) {
+	public static boolean insertCountry(Country country) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
-			String query="insert into user(document, name, userName, password, idArea, email) values(:document, :name, :username, :password, :idArea, :email)";
+		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+			String query="insert into country(countryCode, name) values(:cc, :name)";
 			connection.createQuery(query)
-					.addParameter("document",usuario.getDocument())
-					.addParameter("name", usuario.getName())
-					.addParameter("username", usuario.getUserName() )
-					.addParameter("password", usuario.getPassword())
-					.addParameter("idArea", usuario.getIdArea())
-					.addParameter("email",usuario.getEmail())
+					.addParameter("cc",country.getCountryCode())
+					.addParameter("name", country.getName())
 					.executeUpdate();
 			connection.commit();
 			return true;
@@ -68,7 +63,7 @@ public class DAOCountry {
 	
 	public static boolean deleteUser(long idUsuario) {
 		initDriver();
-		try (Connection connection = new Sql2o(dataBase,dataBaseUser,dataBasePass).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
 			String query="delete from user where user.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idUser", idUsuario)

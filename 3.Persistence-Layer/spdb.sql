@@ -29,7 +29,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`User` (
   `idUser` BIGINT(255) NOT NULL AUTO_INCREMENT,
-  `document` BIGINT(255) NOT NULL,
+  `document` VARCHAR(100) NOT NULL,
   `name` VARCHAR(100) NOT NULL,
   `userName` VARCHAR(100) NOT NULL,
   `password` VARCHAR(100) NOT NULL,
