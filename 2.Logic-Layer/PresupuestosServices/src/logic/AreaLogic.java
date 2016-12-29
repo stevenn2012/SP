@@ -41,6 +41,7 @@ public class AreaLogic {
 		if (DAOArea.insertArea(area.getName())) {
 			obj.put("validate", "true");
 			obj.put("insert", "true");
+			areas = DAOArea.getAreas();
 			for (int i = 0; i < areas.size(); i++) {
 				if (areas.get(i).getName().equals(area.getName())) {
 					obj.put("status", "Se ha insertado correctamente el area.");
