@@ -10,6 +10,9 @@ $(document).ready(function(){
 	$('#cancel').click(function(){cancel()});
 	$(".filter").keyup(function(){listUsers()});
 	$('#continueDelete').click(function(){deleteUserAjax(idUserDelete)});
+	$('#infoPassword').css("display","none");
+	$('#pass').focus(function(){hiddeInfoPassword()});
+	$('#pass').blur(function(){hiddeInfoPassword()});
 });
 
 var areas = {};
@@ -31,7 +34,7 @@ function getUsers() {
 			success: function (data) {
 				console.log("Crear: "+JSON.stringify(data));
 				if(data.validate == "true"){
-					users = data.users;
+					users = sortByKey(data.users, 'name');
 				}else{
 					console.log("No tiene permisos para listar usuarios");
 				}
@@ -45,6 +48,13 @@ function getUsers() {
 			window.location.assign(indexPage);
 		}
 	}
+}
+
+function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key].toUpperCase(); var y = b[key].toUpperCase();
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
 }
 
 function listUsers() {
@@ -327,6 +337,72 @@ function cancel(){
 	limpiarForm();
 }
 
+function validations() {
+	console.log("VALIDATIONS");
+	if($('#document').val().indexOf("e")!=-1){
+    	$('#msCreateUser').html('<div class="alert alert-warning" role="alert">La cedula introducida es incorrecta</div>');
+		ScreenUp("msCreateUser");
+        return false;
+    }
+    var valEmail = true;
+	if($('#email').val().indexOf('@', 0) == -1) {
+		valEmail = false;
+    }else {
+    	if($('#email').val().substring($('#email').val().indexOf('@', 0)).indexOf('.', 0) == -1){
+    		valEmail = false;
+    	}
+    }
+    if(valEmail == false){
+    	$('#msCreateUser').html('<div class="alert alert-warning" role="alert">El correo electrónico introducido no es correcto.</div>');
+		ScreenUp("msCreateUser");
+        return false;
+    }
+    if($('#pass').val().length<8 || $('#pass').val().length>20 || validatePassword() == false){
+    	if($('#pass').val().length != 0){
+	    	console.log("Pasword-> min 8: "+($('#pass').val().length>=8)+", Max 20: "+($('#pass').val().length<=20)+", validate password: "+validatePassword());
+	    	$('#msCreateUser').html('<div class="alert alert-warning" role="alert">La contraseña no cumple con los requisitos</div>');
+			ScreenUp("msCreateUser");
+	    	return false;
+    	}
+    }
+    return true;
+}
+
+function validatePassword() {
+	var password = $('#pass').val();
+	var upperCase = false;
+	var lowerCase = false;
+	var charespecial = false;
+	var number = false;
+
+	for (var i = 0; i < password.length; i++) {
+		var character = password.charCodeAt(i);
+		if(character<= 57 && character >= 48){
+			number = true;
+		}else if(character<= 90 && character >= 65){
+			upperCase = true;
+		}else if(character<= 122 && character >= 97){
+			lowerCase = true;
+		}else{
+			charespecial = true;
+		}
+		if(upperCase && lowerCase && charespecial && number){
+			return true;
+		}
+	}
+	console.log("upperCase: "+upperCase+", lowerCase: "+lowerCase+", charespecial: "+charespecial+", number: "+number);
+	return false;
+}
+
+function hiddeInfoPassword() {
+	console.log("HIDDEN PASSWORD INFO: "+$('#infoPassword').css("display"));
+	if($('#infoPassword').css("display") == "none"){
+		$('#infoPassword').css("display","block");
+	}else{
+		$('#infoPassword').css("display","none");
+	}
+}
+
 function editUserAjax() {
 	console.log("EDIT USER AJAX:");
 	validateAccount();
@@ -343,20 +419,11 @@ function editUserAjax() {
 		"logincode":sessionStorage.logincode
 	};
 
-	var valEmail = true;
-	if(dataAndAccount.email.indexOf('@', 0) == -1) {
-		valEmail = false;
-    }else {
-    	if(dataAndAccount.email.substring(dataAndAccount.email.indexOf('@', 0)).indexOf('.', 0) == -1){
-    		valEmail = false;
-    	}
-    }
-
-    if(valEmail == false){
-    	$('#msCreateUser').html('<div class="alert alert-warning" role="alert">El correo electrónico introducido no es correcto.</div>');
-		ScreenUp("msCreateUser");
-        return false;
-    }
+	var validationFields = validations();
+	console.log("Validation Fields: "+validationFields);
+	if(validationFields == false){
+		return false;
+	}
     
 	var validation = true;
 	if(dataAndAccount.idarea == "0"){
