@@ -342,8 +342,22 @@ function editUserAjax() {
 		"username":sessionStorage.username,
 		"logincode":sessionStorage.logincode
 	};
-	console.log("PASSSWORD: "+dataAndAccount.password+" - "+$('#pass').val());
-	
+
+	var valEmail = true;
+	if(dataAndAccount.email.indexOf('@', 0) == -1) {
+		valEmail = false;
+    }else {
+    	if(dataAndAccount.email.substring(dataAndAccount.email.indexOf('@', 0)).indexOf('.', 0) == -1){
+    		valEmail = false;
+    	}
+    }
+
+    if(valEmail == false){
+    	$('#msCreateUser').html('<div class="alert alert-warning" role="alert">El correo electrónico introducido no es correcto.</div>');
+		ScreenUp("msCreateUser");
+        return false;
+    }
+    
 	var validation = true;
 	if(dataAndAccount.idarea == "0"){
 		if($('#area').val() != ""){

@@ -116,6 +116,21 @@ function createUser() {
 		"logincode":sessionStorage.logincode
 	};
 
+	var valEmail = true;
+	if(dataAndAccount.email.indexOf('@', 0) == -1) {
+		valEmail = false;
+    }else {
+    	if(dataAndAccount.email.substring(dataAndAccount.email.indexOf('@', 0)).indexOf('.', 0) == -1){
+    		valEmail = false;
+    	}
+    }
+
+    if(valEmail == false){
+    	$('#msCreateUser').html('<div class="alert alert-warning" role="alert">El correo electrónico introducido no es correcto.</div>');
+		ScreenUp("msCreateUser");
+        return false;
+    }
+
 	var validation = true;
 	if(dataAndAccount.idarea == "0"){
 		if($('#area').val() != ""){
@@ -138,6 +153,7 @@ function createUser() {
 							dataAndAccount.idarea = data.idArea;
 							getAreas();
 							showAreas();
+							$('#msModifyDelete').html("");
 						}else{
 							$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear la Area</div>');		
 							ScreenUp();
@@ -181,6 +197,9 @@ function createUser() {
 						limpiarForm();
 						$('#msCreateUser').html('<div class="alert alert-success" role="alert">Se creo el usuario con exito</div>');	
 						ScreenUp();
+						setTimeout(function() {
+							$('#msCreateUser').html("");
+						},10000);
 					}else{
 						$('#msCreateUser').html('<div class="alert alert-warning" role="alert">No se pudo crear el usuario: '+data.status+'</div>');
 						ScreenUp();
