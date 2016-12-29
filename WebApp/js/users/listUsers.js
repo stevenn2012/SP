@@ -20,7 +20,7 @@ function getUsers() {
 			success: function (data) {
 				console.log("GET USERS: "+JSON.stringify(data));
 				if(data.validate == "true"){
-					users = data.users;
+					users = sortByKey(data.users, 'name');
 				}else{
 					console.log("No tiene permisos para listar usuarios");
 				}
@@ -36,6 +36,12 @@ function getUsers() {
 	}
 }
 
+function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key].toUpperCase(); var y = b[key].toUpperCase();
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
 
 function listUsers() {
 	//console.log("Users: "+JSON.stringify(users));
