@@ -98,20 +98,24 @@ public class UsersLogic {
 	public static Object updateUser(User usuario, long roll) {
 		JSONObject obj = new JSONObject();
 		List<User> usuarios = DAOUser.getUsers();
-		if (usuario.getPassword()==null || usuario.getPassword().isEmpty()) {
-			obj.put("validate", "true");
-			obj.put("update", "false");
-			obj.put("status", "Password Invalido");
-			return obj;
+				
+		for (int i = 0; i < usuarios.size(); i++) {
+			if (usuarios.get(i).getIdUser()!=usuario.getIdUser()) {
+				if (usuario.getUserName().toLowerCase().equals(usuarios.get(i).getUserName().toLowerCase()) || usuario.getDocument()==usuarios.get(i).getDocument()) {
+					obj.put("validate", "true");
+					obj.put("update", "false");
+					obj.put("status", "Nombre de Usuario o documento Invalido");
+					return obj;
+				}
+			}
 		}
 		
-		for (int i = 0; i < usuarios.size(); i++) {
-			if (usuario.getUserName().toLowerCase().equals(usuarios.get(i).getUserName().toLowerCase()) || usuario.getDocument()==usuarios.get(i).getDocument()) {
-				obj.put("validate", "true");
-				obj.put("update", "false");
-				obj.put("status", "Nombre de Usuario o documento Invalido");
-				return obj;
-			} 
+		if (usuario.getPassword()==null || usuario.getPassword().isEmpty()) {
+			for (int i = 0; i < usuarios.size(); i++) {
+				if (usuarios.get(i).getIdUser()==usuario.getIdUser()) {
+					usuario.setPassword(usuarios.get(i).getPassword());
+				}
+			}
 		}
 		
 		if (DAOUserRoll.updateUserRoll(new UserRoll(0, usuario.getIdUser(), roll))) {
