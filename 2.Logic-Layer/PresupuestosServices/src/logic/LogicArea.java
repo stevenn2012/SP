@@ -7,7 +7,7 @@ import dao.DAOArea;
 import vo.Area;
 
 
-public class AreaLogic {
+public class LogicArea {
 
 	public static JSONObject getAreasJSON() {
 		List<Area> areas = DAOArea.getAreas();

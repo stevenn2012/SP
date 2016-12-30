@@ -15,13 +15,13 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 import dao.ConectionData;
-import logic.AreaLogic;
-import logic.LoginAuthentLogic;
+import logic.LogicArea;
+import logic.LogicLoginAuthent;
 import vo.Area;
 
 @Path("/AppCountryCRUD")
 
-public class CountryWebService {
+public class WebServiceCountry {
 
 	private String[] urlAccess = ConectionData.getUrlAccess();
 	
@@ -35,27 +35,27 @@ public class CountryWebService {
 	          ) {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
-		System.out.print("\nCREAR AREA");
+		System.out.print("\nCREAR COUNTRY");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
-			JSONObject areas = new JSONObject();
-			areas.put("username", username);
-			areas.put("logincode", logincode);	
-			areas = LoginAuthentLogic.valLogin(request.getRemoteAddr(), areas);
-			if (areas.getString("validate").equals("true")) {
+			JSONObject countries = new JSONObject();
+			countries.put("username", username);
+			countries.put("logincode", logincode);	
+			countries = LogicLoginAuthent.valLogin(request.getRemoteAddr(), countries);
+			if (countries.getString("validate").equals("true")) {
 				Area area = new Area(0, nombreArea);
-				return Response.ok(AreaLogic.createArea(area).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicArea.createArea(area).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
-				System.out.println(", Error cargando areas\n");
-				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				System.out.println(", Error cargando countries\n");
+				return Response.ok(countries.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 			}
 			
 		}else{
-			JSONObject areas = new JSONObject();
-			areas.put("validate", "false");
+			JSONObject countries = new JSONObject();
+			countries.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(countries.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 		}
     }
 	

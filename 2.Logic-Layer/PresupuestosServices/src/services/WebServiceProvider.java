@@ -15,13 +15,13 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 import dao.ConectionData;
-import logic.LoginAuthentLogic;
-import logic.ProviderLogic;
+import logic.LogicLoginAuthent;
+import logic.LogicProvider;
 
 
 @Path("/AppProviderCRUD")
 
-public class ProviderWebService {
+public class WebServiceProvider {
 
 	private String[] urlAccess = ConectionData.getUrlAccess();
 	
@@ -41,9 +41,9 @@ public class ProviderWebService {
 			JSONObject account = new JSONObject();
 			account.put("username", username);
 			account.put("logincode", logincode);	
-			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
+			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				account = ProviderLogic.getProvidersJSON();
+				account = LogicProvider.getProvidersJSON();
 				account.put("validate", "true");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{

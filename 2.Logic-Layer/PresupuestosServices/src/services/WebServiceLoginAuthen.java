@@ -14,10 +14,10 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 import dao.ConectionData;
-import logic.LoginAuthentLogic;
+import logic.LogicLoginAuthent;
 
 @Path("/AppLoginAuthentication")
-public class LoginAuthenWebService {
+public class WebServiceLoginAuthen {
 	
 	private String[] urlAccess = ConectionData.getUrlAccess();
 	
@@ -38,7 +38,7 @@ public class LoginAuthenWebService {
 			JSONObject account = new JSONObject();
 			account.put("user", user);
 			account.put("pass", pass);
-			return Response.ok(LoginAuthentLogic.login(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			return Response.ok(LogicLoginAuthent.login(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 		}else{
 			System.out.println(", Access denied\n");
 			return Response.ok().header("Access-Control-Allow-Origin", urlAccess[0]).build();
@@ -66,7 +66,7 @@ public class LoginAuthenWebService {
 			System.out.println(logincode);
 			System.out.println(username);
 			
-			return Response.ok(LoginAuthentLogic.valLogin(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			return Response.ok(LogicLoginAuthent.valLogin(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 		}else{
 			System.out.println(", Access denied\n");
 			return Response.ok().header("Access-Control-Allow-Origin", urlAccess[0]).build();
@@ -89,7 +89,7 @@ public class LoginAuthenWebService {
 			JSONObject account = new JSONObject();
 			account.put("username", user);
 			account.put("logincode", loginCode);
-			return Response.ok(LoginAuthentLogic.logOut(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			return Response.ok(LogicLoginAuthent.logOut(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 		}else{
 			System.out.println(", Access denied\n");
 			return Response.ok().header("Access-Control-Allow-Origin", urlAccess[0]).build();

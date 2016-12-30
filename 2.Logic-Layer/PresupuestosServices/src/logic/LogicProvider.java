@@ -20,7 +20,7 @@ import vo.Provider;
 import vo.vista.AddressListJSON;
 import vo.vista.ProviderListJSON;
 
-public class ProviderLogic {
+public class LogicProvider {
 
 	public static JSONObject getProvidersJSON() {
 		JSONObject obj = new JSONObject();

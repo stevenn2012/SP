@@ -10,7 +10,7 @@ import vo.AccountLogin;
 import vo.User;
 
 
-public class LoginAuthentLogic {
+public class LogicLoginAuthent {
 
 	private static HashMap<String, AccountLogin> loginAccounts = new HashMap<String, AccountLogin>();
 	private static BigInteger logAccounts = new BigInteger("0");

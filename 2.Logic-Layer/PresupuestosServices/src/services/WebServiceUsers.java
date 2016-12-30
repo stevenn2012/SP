@@ -15,13 +15,13 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 import dao.ConectionData;
-import logic.LoginAuthentLogic;
-import logic.UsersLogic;
+import logic.LogicLoginAuthent;
+import logic.LogicUsers;
 import vo.User;
 
 @Path("/AppUsersCRUD")
 
-public class UsersWebService {
+public class WebServiceUsers {
 
 	private String[] urlAccess = ConectionData.getUrlAccess();
 	
@@ -41,9 +41,9 @@ public class UsersWebService {
 			JSONObject account = new JSONObject();
 			account.put("username", username);
 			account.put("logincode", logincode);	
-			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
+			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				account = UsersLogic.getUsersJSON();
+				account = LogicUsers.getUsersJSON();
 				account.put("validate", "true");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
@@ -83,10 +83,10 @@ public class UsersWebService {
 			JSONObject account = new JSONObject();
 			account.put("username", username);
 			account.put("logincode", logincode);	
-			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
+			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				User usuario = new User(Long.parseLong("0"), document, name, usernameObj, password, Long.parseLong(idarea), email);
-				return Response.ok(UsersLogic.insertUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicUsers.insertUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
@@ -117,10 +117,10 @@ public class UsersWebService {
 			JSONObject account = new JSONObject();
 			account.put("username", username);
 			account.put("logincode", logincode);	
-			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
+			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				//
-				return Response.ok(UsersLogic.deleteUser(idUser).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicUsers.deleteUser(idUser).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
@@ -158,10 +158,10 @@ public class UsersWebService {
 			JSONObject account = new JSONObject();
 			account.put("username", username);
 			account.put("logincode", logincode);	
-			account = LoginAuthentLogic.valLogin(request.getRemoteAddr(), account);
+			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				User usuario = new User(Long.parseLong(idUser), document, name, usernameObj, password, Long.parseLong(idarea), email);
-				return Response.ok(UsersLogic.updateUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicUsers.updateUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();

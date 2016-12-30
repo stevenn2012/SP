@@ -15,13 +15,13 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 import dao.ConectionData;
-import logic.LoginAuthentLogic;
-import logic.RollLogic;
+import logic.LogicLoginAuthent;
+import logic.LogicRoll;
 
 
 @Path("/AppRollCRUD")
 
-public class RollWebService {
+public class WebServiceRoll {
 
 	private String[] urlAccess = ConectionData.getUrlAccess();
 	
@@ -41,9 +41,9 @@ public class RollWebService {
 			JSONObject roles = new JSONObject();
 			roles.put("username", username);
 			roles.put("logincode", logincode);	
-			roles = LoginAuthentLogic.valLogin(request.getRemoteAddr(), roles);
+			roles = LogicLoginAuthent.valLogin(request.getRemoteAddr(), roles);
 			if (roles.getString("validate").equals("true")) {
-				roles = RollLogic.getRolesJSON();
+				roles = LogicRoll.getRolesJSON();
 				return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando Roles\n");

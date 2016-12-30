@@ -14,14 +14,14 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 import dao.ConectionData;
-import logic.AreaLogic;
-import logic.LoginAuthentLogic;
+import logic.LogicArea;
+import logic.LogicLoginAuthent;
 import vo.Area;
 
 
 @Path("/AppAreaCRUD")
 
-public class AreaWebService {
+public class WebServiceArea {
 	
 	private String[] urlAccess = ConectionData.getUrlAccess();
 	
@@ -42,10 +42,10 @@ public class AreaWebService {
 			JSONObject areas = new JSONObject();
 			areas.put("username", username);
 			areas.put("logincode", logincode);	
-			areas = LoginAuthentLogic.valLogin(request.getRemoteAddr(), areas);
+			areas = LogicLoginAuthent.valLogin(request.getRemoteAddr(), areas);
 			if (areas.getString("validate").equals("true")) {
 				Area area = new Area(0, nombreArea);
-				return Response.ok(AreaLogic.createArea(area).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicArea.createArea(area).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando areas\n");
 				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
@@ -75,9 +75,9 @@ public class AreaWebService {
 			JSONObject areas = new JSONObject();
 			areas.put("username", username);
 			areas.put("logincode", logincode);	
-			areas = LoginAuthentLogic.valLogin(request.getRemoteAddr(), areas);
+			areas = LogicLoginAuthent.valLogin(request.getRemoteAddr(), areas);
 			if (areas.getString("validate").equals("true")) {
-				areas = AreaLogic.getAreasJSON();
+				areas = LogicArea.getAreasJSON();
 				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando areas\n");

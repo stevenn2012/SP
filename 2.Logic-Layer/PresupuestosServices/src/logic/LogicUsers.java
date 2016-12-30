@@ -13,7 +13,7 @@ import vo.User;
 import vo.UserRoll;
 import vo.vista.UserListJSON;
 
-public class UsersLogic {
+public class LogicUsers {
 
 	public static JSONObject getUsersJSON() {
 		List<User> usuarios = DAOUser.getUsers();

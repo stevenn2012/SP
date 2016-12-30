@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import dao.DAORoll;
 import vo.Roll;
 
-public class RollLogic {
+public class LogicRoll {
 
 	public static JSONObject getRolesJSON() {
 		List<Roll> roles = DAORoll.getRoll();
