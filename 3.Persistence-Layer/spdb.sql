@@ -195,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `SPDB`.`ProductService` (
   `idProductService` BIGINT(255) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
   `description` TEXT NULL,
-  `price` DECIMAL NOT NULL,
+  `price` DECIMAL(40,4) NOT NULL,
   `idProvider` BIGINT(255) NOT NULL,
   PRIMARY KEY (`idProductService`),
   INDEX `fk_ProductService_Provider1_idx` (`idProvider` ASC),
@@ -239,10 +239,10 @@ CREATE TABLE IF NOT EXISTS `SPDB`.`Budget` (
   `observations` TEXT NULL,
   `date` DATE NOT NULL,
   `commercialConditions` TEXT NULL,
-  `bruteTotal` DECIMAL NOT NULL,
-  `IVA` DECIMAL NOT NULL,
+  `bruteTotal` DECIMAL(40,4) NOT NULL,
+  `IVA` DECIMAL(40,4) NOT NULL,
   `months` INT NOT NULL,
-  `activityTotal` DECIMAL NOT NULL,
+  `activityTotal` DECIMAL(40,4) NOT NULL,
   `idProject` BIGINT(255) NOT NULL,
   PRIMARY KEY (`idBudget`),
   INDEX `fk_Budget_Project1_idx` (`idProject` ASC),
@@ -259,10 +259,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`BudgetPS` (
   `idBudgetPS` BIGINT(255) NOT NULL AUTO_INCREMENT,
-  `margin` DECIMAL NOT NULL,
+  `margin` DECIMAL(40,4) NOT NULL,
   `amount` BIGINT(255) NOT NULL,
   `days` INT NOT NULL,
-  `unitValue` DECIMAL NOT NULL,
+  `unitValue` DECIMAL(40,4) NOT NULL,
   `idProductService` BIGINT(255) NOT NULL,
   `idBudget` BIGINT(255) NOT NULL,
   PRIMARY KEY (`idBudgetPS`),
@@ -288,7 +288,7 @@ CREATE TABLE IF NOT EXISTS `SPDB`.`Expenses` (
   `idExpenses` BIGINT(255) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
   `description` TEXT NULL,
-  `value` DECIMAL NOT NULL,
+  `value` DECIMAL(40,4) NOT NULL,
   `idBudgetPS` BIGINT(255) NOT NULL,
   PRIMARY KEY (`idExpenses`),
   INDEX `fk_Expenses_BudgetPS1_idx` (`idBudgetPS` ASC),
@@ -306,7 +306,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `SPDB`.`Value` (
   `idValue` BIGINT(255) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
-  `value` DECIMAL NOT NULL,
+  `value` DECIMAL(40,4) NOT NULL,
   PRIMARY KEY (`idValue`))
 ENGINE = InnoDB;
 
