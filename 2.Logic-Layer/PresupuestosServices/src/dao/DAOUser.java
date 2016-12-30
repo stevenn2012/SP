@@ -10,7 +10,7 @@ public class DAOUser {
 		
 	public static List<User> getUsers(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from user";
 			List<User> users = connection.createQuery(query)
 			        		 .executeAndFetch(User.class);
@@ -23,7 +23,7 @@ public class DAOUser {
 	
 	public static User getUserByUsernameAndPassword(String username, String password) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from user where userName = :username and password = :password";
 			List<User> users = connection.createQuery(query)
 					.addParameter("username", username)
@@ -44,7 +44,7 @@ public class DAOUser {
 	public static boolean insertUser(User usuario) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into user(document, name, userName, password, idArea, email) values(:document, :name, :username, :password, :idArea, :email)";
 			connection.createQuery(query)
 					.addParameter("document",usuario.getDocument())
@@ -66,7 +66,7 @@ public class DAOUser {
 	
 	public static boolean deleteUser(long idUsuario) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from user where user.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idUser", idUsuario)
@@ -83,7 +83,7 @@ public class DAOUser {
 
 	public static boolean updateUser(User usuario) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="update user set document = :document, name = :name, userName = :username, password = :password, idArea = :idArea, email = :email where user.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("document",usuario.getDocument())

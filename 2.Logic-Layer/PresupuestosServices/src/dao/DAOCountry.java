@@ -11,7 +11,7 @@ public class DAOCountry {
 
 	public static List<Country> getCountry(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from country";
 			List<Country> paises = connection.createQuery(query)
 			        		 .executeAndFetch(Country.class);
@@ -24,7 +24,7 @@ public class DAOCountry {
 	
 	public static Country getCountryById(long cname) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from country where idCountry = :cname";
 			List<Country> country = connection.createQuery(query)
 					.addParameter("cname", cname)
@@ -44,7 +44,7 @@ public class DAOCountry {
 	public static boolean insertCountry(Country country) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into country(countryCode, name) values(:cc, :name)";
 			connection.createQuery(query)
 					.addParameter("cc",country.getCountryCode())
@@ -62,7 +62,7 @@ public class DAOCountry {
 	
 	public static boolean deleteCountry(long country) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from country where country.idCountry = :id";
 			connection.createQuery(query)
 					.addParameter("id", country)
@@ -79,7 +79,7 @@ public class DAOCountry {
 
 	public static boolean updateCountry(Country country) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="update country set countryCode = :cc, name = :name where country.idCountry = :id";
 			connection.createQuery(query)
 					.addParameter("cc",country.getCountryCode())

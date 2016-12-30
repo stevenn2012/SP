@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
+import dao.ConectionData;
 import logic.AreaLogic;
 import logic.LoginAuthentLogic;
 import vo.Area;
@@ -22,7 +23,7 @@ import vo.Area;
 
 public class AreaWebService {
 	
-private String[] urlAccess = {"http://localhost","null"};
+	private String[] urlAccess = ConectionData.getUrlAccess();
 	
 	@GET
 	@Path("/create")
@@ -93,9 +94,9 @@ private String[] urlAccess = {"http://localhost","null"};
 	
 	public int verifyAccess(String referer){
 		if(referer != null) {
-			for (int i = 0; i < this.urlAccess.length; i++) {
-				System.out.println(this.urlAccess[i]+" "+referer.indexOf(this.urlAccess[i]));
-				if(referer.indexOf(this.urlAccess[i])==0) return i;
+			for (int i = 0; i < urlAccess.length; i++) {
+				System.out.println(urlAccess[i]+" "+referer.indexOf(urlAccess[i]));
+				if(referer.indexOf(urlAccess[i])==0) return i;
 			}
 		}
 		return -1;

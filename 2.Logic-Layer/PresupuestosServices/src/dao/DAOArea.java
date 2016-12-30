@@ -12,7 +12,7 @@ public class DAOArea {
 	
 	public static List<Area> getAreas(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from area";
 			List<Area> areas = connection.createQuery(query)
 			        		 .executeAndFetch(Area.class);
@@ -25,7 +25,7 @@ public class DAOArea {
 	
 	public static Area getAreaByIdArea(long areaId) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from area where idArea = :idArea";
 			List<Area> area = connection.createQuery(query)
 					.addParameter("idArea", areaId)
@@ -44,7 +44,7 @@ public class DAOArea {
 	
 	public static boolean insertArea(String name) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into Area(name) values(:name)";
 			connection.createQuery(query)
 					.addParameter("name", name)

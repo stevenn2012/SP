@@ -11,7 +11,7 @@ public class DAOProvider {
 
 	public static List<Provider> getProvider(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from provider";
 			List<Provider> provider = connection.createQuery(query)
 			        		 .executeAndFetch(Provider.class);
@@ -24,7 +24,7 @@ public class DAOProvider {
 	
 	public static Provider getProviderById(long idProvider) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from provider where idProvider = :id";
 			List<Provider> provider = connection.createQuery(query)
 					.addParameter("id", idProvider)
@@ -44,7 +44,7 @@ public class DAOProvider {
 	public static boolean insertProvider(Provider provider) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into provider(NIT, name, description) values(:nit, :name, :desc)";
 			connection.createQuery(query)
 					.addParameter("nit",provider.getNIT())
@@ -63,7 +63,7 @@ public class DAOProvider {
 	
 	public static boolean deleteProvider(long idProvider) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from provider where provider.idProvider = :id";
 			connection.createQuery(query)
 					.addParameter("id", idProvider)
@@ -80,7 +80,7 @@ public class DAOProvider {
 
 	public static boolean updateProvider(Provider provider) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="update provider set NIT = :nit, name = :name, description = :desc where provider.idProvider = :id";
 			connection.createQuery(query)
 					.addParameter("id",  provider.getIdProvider())

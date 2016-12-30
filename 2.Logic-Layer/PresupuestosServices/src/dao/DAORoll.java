@@ -12,7 +12,7 @@ public class DAORoll {
 		
 	public static List<Roll> getRoll(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from role";
 			List<Roll> role = connection.createQuery(query)
 			        		 .executeAndFetch(Roll.class);
@@ -25,7 +25,7 @@ public class DAORoll {
 	
 	public static Roll getRoleByIdUser(long iduser) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			long idrole=-1;
 			List<UserRoll> userroles = DAOUserRoll.getUserRoll();
 			for (int i = 0; i < userroles.size(); i++) {

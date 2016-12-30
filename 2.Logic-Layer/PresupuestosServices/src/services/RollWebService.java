@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
+import dao.ConectionData;
 import logic.LoginAuthentLogic;
 import logic.RollLogic;
 
@@ -22,12 +23,12 @@ import logic.RollLogic;
 
 public class RollWebService {
 
-private String[] urlAccess = {"http://localhost","null"};
+	private String[] urlAccess = ConectionData.getUrlAccess();
 	
 	@GET
 	@Path("/list")
 	@Produces("application/json")
-	public Response listUsersWS(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	public Response listRoll(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 	          @DefaultValue("null") @QueryParam("username") String username, 
 	          @DefaultValue("null") @QueryParam("logincode") String logincode
 	          ) {
@@ -59,9 +60,9 @@ private String[] urlAccess = {"http://localhost","null"};
 	
 	public int verifyAccess(String referer){
 		if(referer != null) {
-			for (int i = 0; i < this.urlAccess.length; i++) {
-				System.out.println(this.urlAccess[i]+" "+referer.indexOf(this.urlAccess[i]));
-				if(referer.indexOf(this.urlAccess[i])==0) return i;
+			for (int i = 0; i < urlAccess.length; i++) {
+				System.out.println(urlAccess[i]+" "+referer.indexOf(urlAccess[i]));
+				if(referer.indexOf(urlAccess[i])==0) return i;
 			}
 		}
 		return -1;

@@ -13,12 +13,13 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
+import dao.ConectionData;
 import logic.LoginAuthentLogic;
 
 @Path("/AppLoginAuthentication")
 public class LoginAuthenWebService {
 	
-	private String[] urlAccess = {"http://localhost","null"};
+	private String[] urlAccess = ConectionData.getUrlAccess();
 	
 	@GET
 	@Path("/login")
@@ -97,9 +98,9 @@ public class LoginAuthenWebService {
 	
 	public int verifyAccess(String referer){
 		if(referer != null) {
-			for (int i = 0; i < this.urlAccess.length; i++) {
-				System.out.println(this.urlAccess[i]+" "+referer.indexOf(this.urlAccess[i]));
-				if(referer.indexOf(this.urlAccess[i])==0) return i;
+			for (int i = 0; i < urlAccess.length; i++) {
+				System.out.println(urlAccess[i]+" "+referer.indexOf(urlAccess[i]));
+				if(referer.indexOf(urlAccess[i])==0) return i;
 			}
 		}
 		return -1;

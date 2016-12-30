@@ -11,7 +11,7 @@ public class DAOUserRoll {
 	
 	public static List<UserRoll> getUserRoll(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from user_role";
 			List<UserRoll> usersrolls = connection.createQuery(query)
 			        		 .executeAndFetch(UserRoll.class);
@@ -25,7 +25,7 @@ public class DAOUserRoll {
 	public static boolean insert(long idUser, long rol) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into user_role(idUser, idRole) values(:idUser, :idRol)";
 			connection.createQuery(query)
 					.addParameter("idUser",idUser)
@@ -43,7 +43,7 @@ public class DAOUserRoll {
 	
 	public static boolean deleteUserRoll(long idUsuario) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from user_role where user_role.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idUser", idUsuario)
@@ -60,7 +60,7 @@ public class DAOUserRoll {
 	
 	public static boolean updateUserRoll(UserRoll userrol) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="update user_role set idRole = :idRol where user_role.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idRol", userrol.getIdRole())

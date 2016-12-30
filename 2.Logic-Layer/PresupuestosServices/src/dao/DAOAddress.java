@@ -11,7 +11,7 @@ public class DAOAddress {
 
 	public static List<Address> getAddress(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from address";
 			List<Address> address = connection.createQuery(query)
 			        		 .executeAndFetch(Address.class);
@@ -24,7 +24,7 @@ public class DAOAddress {
 	
 	public static Address getAddressById(long idAddress) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
 			String query="select * from address where idAddress = :id";
 			List<Address> address = connection.createQuery(query)
 					.addParameter("id", idAddress)
@@ -44,7 +44,7 @@ public class DAOAddress {
 	public static boolean insertAddress(Address address) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into address(address, idProvider, idCity, idClient) values(:address, :idP, :idcy, :idct)";
 			connection.createQuery(query)
 					.addParameter("address",address.getAddress())
@@ -64,7 +64,7 @@ public class DAOAddress {
 	
 	public static boolean deleteAddress(long idAddress) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from address where address.idAddress = :id";
 			connection.createQuery(query)
 					.addParameter("id", idAddress)
@@ -81,7 +81,7 @@ public class DAOAddress {
 
 	public static boolean updateAddress(Address address) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			String query="update address set address = :address, idProvider = :idp, idCity = :idcy, idClient = :idc where address.idAddress = :id";
 			connection.createQuery(query)
 					.addParameter("id",  address.getIdAddress())
