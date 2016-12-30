@@ -22,10 +22,10 @@ public class DAOCountry {
 		}
 	}
 	
-	public static Country getCountryByName(String cname) {
+	public static Country getCountryById(long cname) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
-			String query="select * from country where name = :cname";
+			String query="select * from country where idCountry = :cname";
 			List<Country> country = connection.createQuery(query)
 					.addParameter("cname", cname)
 			        .executeAndFetch(Country.class);

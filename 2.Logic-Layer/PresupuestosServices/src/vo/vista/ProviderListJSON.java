@@ -2,8 +2,6 @@ package vo.vista;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import vo.Address;
 import vo.Contact;
 import vo.ProductService;
 

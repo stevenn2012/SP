@@ -22,10 +22,10 @@ public class DAOCity {
 		}
 	}
 	
-	public static City getCityByName(String cname) {
+	public static City getCityById(long cname) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionMysql.getDataBase(),ConectionMysql.getDataBaseUser(),ConectionMysql.getDataBasePass()).open()){
-			String query="select * from city where name = :cname";
+			String query="select * from city where idCity = :cname";
 			List<City> city = connection.createQuery(query)
 					.addParameter("cname", cname)
 			        .executeAndFetch(City.class);
