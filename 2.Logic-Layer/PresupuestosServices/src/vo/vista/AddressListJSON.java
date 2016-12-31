@@ -1,15 +1,23 @@
 package vo.vista;
 
 public class AddressListJSON {
-
+	private long   idAddress;	
 	private String direccion;
 	private String ciudad;
 	private String pais;
-	public AddressListJSON(String direccion, String ciudad, String pais) {
+	
+	public AddressListJSON(long idAddress, String direccion, String ciudad, String pais) {
 		super();
+		this.idAddress = idAddress;
 		this.direccion = direccion;
 		this.ciudad = ciudad;
 		this.pais = pais;
+	}
+	public long getIdAddress() {
+		return idAddress;
+	}
+	public void setIdAddress(long idAddress) {
+		this.idAddress = idAddress;
 	}
 	public String getDireccion() {
 		return direccion;

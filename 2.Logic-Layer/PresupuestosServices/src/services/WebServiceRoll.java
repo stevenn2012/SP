@@ -58,6 +58,8 @@ public class WebServiceRoll {
 		}
     }
 	
+	
+	
 	public int verifyAccess(String referer){
 		if(referer != null) {
 			for (int i = 0; i < urlAccess.length; i++) {
