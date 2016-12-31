@@ -16,6 +16,7 @@
 	
 	<!---->	
 	<link rel="stylesheet" type="text/css" href="../../../css/home.css">
+	<script type="text/javascript" src="../../../js/providers/createProvider.js"></script>
 	<script type="text/javascript" src="../../../js/home.js"></script>
 </head>
 <body>
@@ -33,43 +34,60 @@
 		</head>
 		<section>
 			<div id="form">
-				<div id="msCreateUser">
-					<div class="alert alert-success" role="alert"> <strong>Well done!</strong> You successfully read this important alert message.</div>
-					<div class="alert alert-danger" role="alert"> <strong>Oh snap!</strong> Change a few things up and try submitting again. </div>
-				</div>
-				<form>
+				<div id="msCreateProvider"></div>
+				<form action="javascript:createProvider()">
 				  	<div class="form-group">
-				    	<label for="exampleInputEmail1">Cedula</label>
-				    	<input id="document" type="number" class="form-control" id="exampleInputEmail1" placeholder="Cedula">
+				    	<label for="exampleInputEmail1">NIT</label>
+				    	<input id="NIT" type="text" class="form-control" placeholder="NIT" required>
 				  	</div>
 				  	<div class="form-group">
 				    	<label for="exampleInputEmail1">Nombre</label>
-				    	<input id="name" type="text" class="form-control" id="exampleInputEmail1" placeholder="Nombre">
+				    	<input id="name" type="text" class="form-control" placeholder="Nombre" required>
 				  	</div>
 				  	<div class="form-group">
-				    	<label for="exampleInputEmail1">Nombre de usuario</label>
-				    	<input id="username" type="text" class="form-control" id="exampleInputEmail1" placeholder="Nombre de usuario">
+				    	<label for="exampleInputEmail1">Descripcion</label>
+				    	<textarea id="description" type="textarea" name="comment" class="form-control" form="form" placeholder="Descripcion" style="max-width:100%;"; required></textarea>
 				  	</div>
+
 				  	<div class="form-group">
-				    	<label for="exampleInputPassword1">Contraseña</label>
-				    	<input id="pass" type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+				    	<div class="panel panel-info">
+				    		<div class="panel-heading">Direcciones</div>
+							<div class="panel-body">
+							    <div id="addressTable" class="scroll"></div>
+						    	<center><button type="button" class="btn btn-default">Aregar direccion <span class="glyphicon glyphicon-road" aria-hidden="true"></button></center>
+							</div>
+				    	</div>
 				  	</div>
+
 				  	<div class="form-group">
-				    	<label for="exampleInputPassword1">Area</label>
-				    	<input id="area" type="password" class="form-control" id="exampleInputPassword1" placeholder="Area">
+				    	<div class="panel panel-info">
+				    		<div class="panel-heading">Contactos</div>
+							<div class="panel-body">
+								<div id="contactsTable" class="scroll"></div>
+						    	<center><button type="button" class="btn btn-default">Aregar contacto <span class="glyphicon glyphicon-user" aria-hidden="true"></button></center>
+							</div>
+				    	</div>
+				    	
 				  	</div>
+
 				  	<div class="form-group">
-				    	<label for="exampleInputPassword1">Roll</label>
-				    	<input id="roll" type="password" class="form-control" id="exampleInputPassword1" placeholder="Roll">
+				    	<div class="panel panel-info">
+				    		<div class="panel-heading">Productos y/o servicios</div>
+							<div class="panel-body">
+								<div id="productsServicesTable" class="scroll"></div>		
+						    	<center><button type="button" class="btn btn-default">Aregar direccion <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></button></center>
+							</div>
+				    	</div>
 				  	</div>
+
 				  	<div class="btn-group btn-group-justified" role="group" aria-label="...">
 					  	<div class="btn-group" role="group">
 					    	<button type="submit" class="btn btn-primary">Crear</button>
 					  	</div>
 					  	<div class="btn-group" role="group">
-					    	<button type="button" class="btn btn-danger">Cancelar</button>
+					    	<button id="cancel" type="button" class="btn btn-danger">Cancelar</button>
 					  	</div>
-					</div>	
+					</div>
 				</form>
 			</div>
 		</section>
