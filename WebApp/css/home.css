@@ -94,3 +94,8 @@ footer{
 .alert{
 	text-align: center;
 }
+
+.scroll {
+    height: 300px;
+    overflow: auto;
+}
