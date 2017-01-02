@@ -114,7 +114,7 @@ public class LogicCountry {
 		}
 	}
 
-	public static Object updateCountry(Country country, long parseLong) {
+	public static JSONObject updateCountry(Country country, long parseLong) {
 		// TODO Auto-generated method stub
 		return null;
 	}

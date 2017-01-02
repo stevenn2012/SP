@@ -25,7 +25,7 @@ public class LogicAddress {
 		}
 	}
 
-	public static Object createAddress(Address address) {
+	public static JSONObject createAddress(Address address) {
 		JSONObject obj = new JSONObject();
 		List<Address> addresses = DAOAddress.getAddress();
 				

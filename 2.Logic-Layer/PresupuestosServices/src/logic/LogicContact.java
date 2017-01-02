@@ -3,9 +3,7 @@ package logic;
 import java.util.List;
 
 import org.json.JSONObject;
-
 import dao.DAOContact;
-import vo.Address;
 import vo.Contact;
 
 public class LogicContact {
@@ -26,7 +24,7 @@ public class LogicContact {
 		}
 	}
 
-	public static Object createContact(Contact contact) {
+	public static JSONObject createContact(Contact contact) {
 		JSONObject obj = new JSONObject();
 		List<Contact> contacts = DAOContact.getContact();
 				

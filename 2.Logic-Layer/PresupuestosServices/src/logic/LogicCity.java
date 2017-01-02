@@ -24,7 +24,7 @@ public class LogicCity {
 			}
 	}
 
-	public static Object createCity(City city) {
+	public static JSONObject createCity(City city) {
 		JSONObject obj = new JSONObject();
 		List<City> cities = DAOCity.getCities();
 		if (cities==null) {
@@ -71,12 +71,12 @@ public class LogicCity {
 		}
 	}
 
-	public static Object deleteCity(String idCity) {
+	public static JSONObject deleteCity(String idCity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static Object updateCity(City city, long parseLong) {
+	public static JSONObject updateCity(City city, long parseLong) {
 		// TODO Auto-generated method stub
 		return null;
 	}
