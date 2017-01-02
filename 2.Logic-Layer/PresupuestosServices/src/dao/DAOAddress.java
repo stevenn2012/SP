@@ -43,17 +43,29 @@ public class DAOAddress {
 	
 	public static boolean insertAddress(Address address) {
 		initDriver();
-		
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="insert into address(address, idProvider, idCity, idClient) values(:address, :idP, :idcy, :idct)";
-			connection.createQuery(query)
-					.addParameter("address",address.getAddress())
-					.addParameter("idP", address.getIdProvider())
-					.addParameter("idcy", address.getIdCity())
-					.addParameter("idct", address.getIdClient())
-					.executeUpdate();
-			connection.commit();
-			return true;
+			if (address.getIdProvider()==0) {
+				String query="insert into address(address, idCity, idClient) values(:address, :idcy, :idct)";
+				connection.createQuery(query)
+						.addParameter("address",address.getAddress())
+						.addParameter("idcy", address.getIdCity())
+						.addParameter("idct", address.getIdClient())
+						.executeUpdate();
+				connection.commit();
+				return true;
+			}else if(address.getIdClient()==0){
+				String query="insert into address(address, idProvider, idCity) values(:address, :idP, :idcy)";
+				connection.createQuery(query)
+						.addParameter("address",address.getAddress())
+						.addParameter("idP", address.getIdProvider())
+						.addParameter("idcy", address.getIdCity())
+						.executeUpdate();
+				connection.commit();
+				return true;
+			}else{
+				System.out.println("Error debido a que los id de provedor o cliente son erroneos");
+				return false;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" -> Error insertar Address");

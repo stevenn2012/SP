@@ -5,7 +5,7 @@ public class ConectionData {
 	private static String dataBase = "jdbc:mysql://localhost:3306/SPDB";
 	private static String dataBaseUser = "root";
 	private static String dataBasePass = "";
-	private static String[] urlAccess = {"http://localhost","null"};
+	private static String[] urlAccess = {"http://localhost"};
 	
 	
 	public static String[] getUrlAccess() {
