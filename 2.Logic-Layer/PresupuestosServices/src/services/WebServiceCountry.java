@@ -63,7 +63,6 @@ public class WebServiceCountry {
 	public Response createCountry(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 	          @DefaultValue("null") @QueryParam("username") String username, 
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
-	          @DefaultValue("null") @QueryParam("countryCode") String countrycode,
 	          @DefaultValue("null") @QueryParam("cname") String cname
 	          ) {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
@@ -77,7 +76,7 @@ public class WebServiceCountry {
 			countries.put("logincode", logincode);	
 			countries = LogicLoginAuthent.valLogin(request.getRemoteAddr(), countries);
 			if (countries.getString("validate").equals("true")) {
-				Country country = new Country(0, countrycode, cname);
+				Country country = new Country(0, cname);
 				return Response.ok(LogicCountry.createCountry(country).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando countries\n");
@@ -130,7 +129,6 @@ public class WebServiceCountry {
 	@Produces("application/json")
 	public Response updateCountry(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 			  @DefaultValue("null") @QueryParam("idCountry") String idcountry,
-			  @DefaultValue("null") @QueryParam("countryCode") String countrycode, 
 			  @DefaultValue("null") @QueryParam("name") String name,
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
 	          @DefaultValue("null") @QueryParam("username") String username
@@ -146,7 +144,7 @@ public class WebServiceCountry {
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				Country country = new Country(Long.parseLong(idcountry), countrycode, name);
+				Country country = new Country(Long.parseLong(idcountry), name);
 				return Response.ok(LogicCountry.updateCountry(country,Long.parseLong(idcountry)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");

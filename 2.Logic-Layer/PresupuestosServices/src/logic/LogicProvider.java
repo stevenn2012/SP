@@ -2,9 +2,7 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONObject;
-
 import dao.DAOAddress;
 import dao.DAOCity;
 import dao.DAOContact;
@@ -125,6 +123,45 @@ public class LogicProvider {
 			obj.put("status", "Error al insertar proveedor en la base de datos");
 			return obj;
 		}
+	}
+
+	public static JSONObject updateProvider(Provider provider) {
+		JSONObject obj = new JSONObject();
+		List<Provider> proveedores = DAOProvider.getProvider();
+		if (proveedores!=null) {
+			for (int i = 0; i < proveedores.size(); i++) {
+				if (provider.getIdProvider()!=proveedores.get(i).getIdProvider()) {
+					if (proveedores.get(i).getNIT().toLowerCase().equals(provider.getNIT().toLowerCase()) ) {
+						obj.put("validate", "true");
+						obj.put("update", "false");
+						obj.put("status", "NIT invalido");
+						return obj;
+					}
+				}
+			}
+			if (DAOProvider.updateProvider(provider)) {
+				obj.put("validate", "true");
+				obj.put("update", "true");
+				obj.put("status", "Proveedor actualizado correctamente");
+				return obj;
+			}else{
+				obj.put("validate", "true");
+				obj.put("update", "false");
+				obj.put("status", "Error al acceder a la base de datos.");
+				return obj;
+			}
+			
+		}else{
+			obj.put("validate", "true");
+			obj.put("update", "false");
+			obj.put("status", "error al acceder a la base de datos.");
+			return obj;
+		}
+	}
+
+	public static JSONObject deleteProvider(String idProvider) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

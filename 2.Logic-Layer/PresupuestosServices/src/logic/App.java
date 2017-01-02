@@ -3,7 +3,9 @@ package logic;
 import dao.DAOAddress;
 import dao.DAOCity;
 import dao.DAOCountry;
+import dao.DAOProvider;
 import vo.Country;
+import vo.Provider;
 
 public class App {
 
@@ -12,9 +14,8 @@ public class App {
 	//System.out.println(LogicProvider.getProvidersJSON());
 		//System.out.println(LogicCountry.getCountriesJSON());
 		//System.out.println(LogicCountry.createCountry(new Country(0, "+075", "Peru")));
-		System.out.println(DAOAddress.getAddress());
-		System.out.println(DAOCity.getCities());
-		System.out.println(DAOCountry.getCountry());	
-		System.out.println(LogicCountry.deleteCountry("2"));
+		System.out.println(LogicProvider.getProvidersJSON());
+		System.out.println(LogicProvider.updateProvider(new Provider(1, "10000003", "Super Papas", "descripcion papas ricas")));
+
 	}
 }

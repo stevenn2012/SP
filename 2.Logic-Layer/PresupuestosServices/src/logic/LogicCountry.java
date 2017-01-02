@@ -51,7 +51,6 @@ public class LogicCountry {
 				if (countries.get(i).getName().equals(country.getName())) {
 					obj.put("status", "Se ha insertado correctamente el pais.");
 					obj.put("idCountry", countries.get(i).getIdCountry());
-					obj.put("countryCode", countries.get(i).getCountryCode());
 					obj.put("name", countries.get(i).getName());
 					break;
 				}

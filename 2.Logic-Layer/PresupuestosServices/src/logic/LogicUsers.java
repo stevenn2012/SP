@@ -6,9 +6,11 @@ import java.util.List;
 import org.json.JSONObject;
 
 import dao.DAOArea;
+import dao.DAOProject;
 import dao.DAORoll;
 import dao.DAOUser;
 import dao.DAOUserRoll;
+import vo.Project;
 import vo.User;
 import vo.UserRoll;
 import vo.vista.UserListJSON;
@@ -85,6 +87,17 @@ public class LogicUsers {
 
 	public static JSONObject deleteUser(String idUser) {
 		JSONObject obj = new JSONObject();
+		List<Project> proyectos = DAOProject.getProjects();
+		if (proyectos!=null) {
+			for (int i = 0; i < proyectos.size(); i++) {
+				if (proyectos.get(i).getUser_idUser()==Long.parseLong(idUser)) {
+					obj.put("validate", "true");
+					obj.put("delete", "false");
+					obj.put("status", "El usuario tiene asociado proyectos. No se puede borrar.");
+					return obj;
+				}
+			}
+		}
 		if (DAOUserRoll.deleteUserRoll(Long.parseLong(idUser))) {
 			if (DAOUser.deleteUser(Long.parseLong(idUser))) {
 				obj.put("validate", "true");

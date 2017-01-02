@@ -26,10 +26,16 @@ public class LogicLoginAuthent {
 			obj.put("access", true);
 			obj.put("namel", user.getName());
 			obj.put("username", user.getUserName());
-			obj.put("logincode", generateLoginCode(username, password));
-			obj.put("roll", DAORoll.getRoleByIdUser(user.getIdUser()).getName());
+			obj.put("logincode", generateLoginCode(username, user.getUserName()));
+			String roll = DAORoll.getRoleByIdUser(user.getIdUser()).getName();
+			if (roll == null) {
+				obj.put("access", false);
+				obj.put("status", "Error de conexion en la base de datos");
+				return obj;
+			}
+			obj.put("roll", roll);
 			loginAccounts.put(user.getUserName().toLowerCase(), 
-					new AccountLogin(user.getUserName(), obj.getString("logincode"), ip));
+					new AccountLogin(user.getUserName(), obj.getString("logincode"), ip,roll));
 			return obj;
 		}else{
 			obj.put("access", false);
@@ -76,9 +82,9 @@ public class LogicLoginAuthent {
 		return obj;
 	}
 	
-	private static String generateLoginCode(String user, String pass){
+	private static String generateLoginCode(String user, String name){
 		logAccounts=logAccounts.add(new BigInteger("1"));
-		return MD5Encryption.getMD5(MD5Encryption.getMD5(logAccounts+"")+MD5Encryption.getMD5(user)+MD5Encryption.getMD5(pass));
+		return MD5Encryption.getMD5(MD5Encryption.getMD5(logAccounts+"")+MD5Encryption.getMD5(user)+MD5Encryption.getMD5(name));
 	}
 	
 }

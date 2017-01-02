@@ -8,8 +8,6 @@ import vo.Area;
 
 public class DAOArea {
 	
-	
-	
 	public static List<Area> getAreas(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){

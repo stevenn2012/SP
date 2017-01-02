@@ -45,7 +45,7 @@ public class DAOUser {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="insert into user(document, name, userName, password, idArea, email) values(:document, :name, :username, :password, :idArea, :email)";
+			String query="insert into user(document, name, userName, password, idArea, email, active) values(:document, :name, :username, :password, :idArea, :email, :active)";
 			connection.createQuery(query)
 					.addParameter("document",usuario.getDocument())
 					.addParameter("name", usuario.getName())
@@ -53,6 +53,7 @@ public class DAOUser {
 					.addParameter("password", usuario.getPassword())
 					.addParameter("idArea", usuario.getIdArea())
 					.addParameter("email",usuario.getEmail())
+					.addParameter("active",usuario.isActive())
 					.executeUpdate();
 			connection.commit();
 			return true;
@@ -84,7 +85,7 @@ public class DAOUser {
 	public static boolean updateUser(User usuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="update user set document = :document, name = :name, userName = :username, password = :password, idArea = :idArea, email = :email where user.idUser = :idUser";
+			String query="update user set document = :document, name = :name, userName = :username, password = :password, idArea = :idArea, email = :email, active = :active where user.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("document",usuario.getDocument())
 					.addParameter("name", usuario.getName())
@@ -93,6 +94,7 @@ public class DAOUser {
 					.addParameter("idArea", usuario.getIdArea())
 					.addParameter("email",usuario.getEmail())
 					.addParameter("idUser",usuario.getIdUser())
+					.addParameter("active",usuario.isActive())
 					.executeUpdate();
 			connection.commit();
 			return true;

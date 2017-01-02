@@ -3,12 +3,11 @@ package vo;
 public class Country {
 
 	private long idCountry;
-	private String countryCode;
 	private String name;
 	
-	public Country(long idCountry, String countryCode, String name) {
+	public Country(long idCountry, String name) {
+		super();
 		this.idCountry = idCountry;
-		this.countryCode = countryCode;
 		this.name = name;
 	}
 
@@ -18,14 +17,6 @@ public class Country {
 
 	public void setIdCountry(long idCountry) {
 		this.idCountry = idCountry;
-	}
-
-	public String getCountryCode() {
-		return countryCode;
-	}
-
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
 	}
 
 	public String getName() {
@@ -38,7 +29,7 @@ public class Country {
 
 	@Override
 	public String toString() {
-		return "Country [idCountry=" + idCountry + ", countryCode=" + countryCode + ", name=" + name + "]";
+		return "Country [idCountry=" + idCountry + ", name=" + name + "]";
 	}
 		
 }

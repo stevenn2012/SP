@@ -45,9 +45,8 @@ public class DAOCountry {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="insert into country(countryCode, name) values(:cc, :name)";
+			String query="insert into country(name) values(:name)";
 			connection.createQuery(query)
-					.addParameter("cc",country.getCountryCode())
 					.addParameter("name", country.getName())
 					.executeUpdate();
 			connection.commit();
@@ -80,9 +79,8 @@ public class DAOCountry {
 	public static boolean updateCountry(Country country) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="update country set countryCode = :cc, name = :name where country.idCountry = :id";
+			String query="update country set name = :name where country.idCountry = :id";
 			connection.createQuery(query)
-					.addParameter("cc",country.getCountryCode())
 					.addParameter("name", country.getName())
 					.addParameter("id", country.getIdCountry())
 					.executeUpdate();

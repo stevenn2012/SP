@@ -70,6 +70,7 @@ public class WebServiceUsers {
 			  @DefaultValue("null") @QueryParam("password") String password, 
 	          @DefaultValue("null") @QueryParam("idarea") String idarea,
 	          @DefaultValue("null") @QueryParam("email") String email,
+	          @DefaultValue("null") @QueryParam("active") String active,
 	          @DefaultValue("null") @QueryParam("idRol") String idRol,
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
 	          @DefaultValue("null") @QueryParam("username") String username
@@ -85,7 +86,7 @@ public class WebServiceUsers {
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				User usuario = new User(Long.parseLong("0"), document, name, usernameObj, password, Long.parseLong(idarea), email);
+				User usuario = new User(Long.parseLong("0"), document, name, usernameObj, password, Long.parseLong(idarea), email,Boolean.parseBoolean(active));
 				return Response.ok(LogicUsers.insertUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
@@ -145,6 +146,7 @@ public class WebServiceUsers {
 			  @DefaultValue("null") @QueryParam("password") String password, 
 	          @DefaultValue("null") @QueryParam("idarea") String idarea,
 	          @DefaultValue("null") @QueryParam("email") String email,
+	          @DefaultValue("null") @QueryParam("active") String active,
 	          @DefaultValue("null") @QueryParam("idRol") String idRol,
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
 	          @DefaultValue("null") @QueryParam("username") String username
@@ -160,7 +162,7 @@ public class WebServiceUsers {
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				User usuario = new User(Long.parseLong(idUser), document, name, usernameObj, password, Long.parseLong(idarea), email);
+				User usuario = new User(Long.parseLong(idUser), document, name, usernameObj, password, Long.parseLong(idarea), email, Boolean.parseBoolean(active));
 				return Response.ok(LogicUsers.updateUser(usuario,Long.parseLong(idRol)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");

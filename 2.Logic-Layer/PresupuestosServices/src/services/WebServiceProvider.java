@@ -19,7 +19,6 @@ import logic.LogicLoginAuthent;
 import logic.LogicProvider;
 import vo.Provider;
 
-
 @Path("/AppProviderCRUD")
 
 public class WebServiceProvider {
@@ -83,6 +82,76 @@ public class WebServiceProvider {
 			if (account.getString("validate").equals("true")) {
 				Provider provider = new Provider(0,nit, name, description);
 				return Response.ok(LogicProvider.insertProvider(provider).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			}else{
+				System.out.print(", Error cargando Usuarios\n");
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			}
+			
+		}else{
+			JSONObject account = new JSONObject();
+			account.put("access", "false");
+			System.out.print(", Access denied\n");
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+		}
+    }
+	
+	@GET
+	@Path("/update")
+	@Produces("application/json")
+	public Response updateProvider(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+			  @DefaultValue("null") @QueryParam("idProvider") String idProvider,
+			  @DefaultValue("null") @QueryParam("nit") String nit, 
+			  @DefaultValue("null") @QueryParam("name") String name,
+			  @DefaultValue("null") @QueryParam("description") String description,
+	          @DefaultValue("null") @QueryParam("logincode") String logincode,
+	          @DefaultValue("null") @QueryParam("username") String username
+	          ) {
+		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print("\tAttempt to validate log in from : "+referer);
+		System.out.print("\tEn EDITAR USUARIO");
+		int verifyAccess = verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.print(", Access granted");  
+			JSONObject account = new JSONObject();
+			account.put("username", username);
+			account.put("logincode", logincode);	
+			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
+			if (account.getString("validate").equals("true")) {
+				Provider provider = new Provider(Long.parseLong(idProvider), nit, username, description);
+				return Response.ok(LogicProvider.updateProvider(provider).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			}else{
+				System.out.print(", Error cargando Usuarios\n");
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			}
+			
+		}else{
+			JSONObject account = new JSONObject();
+			account.put("access", "false");
+			System.out.print(", Access denied\n");
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+		}
+    }	
+	
+	@GET
+	@Path("/delete")
+	@Produces("application/json")
+	public Response deleteUser(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+			  @DefaultValue("null") @QueryParam("idProvider") String idProvider, 
+			  @DefaultValue("null") @QueryParam("username") String username,
+	          @DefaultValue("null") @QueryParam("logincode") String logincode
+	          ) {
+		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print("\tAttempt to validate log in from : "+referer);
+		System.out.print("\tBORRAR PROVEEDOR");
+		int verifyAccess = verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.print(", Access granted");  
+			JSONObject account = new JSONObject();
+			account.put("username", username);
+			account.put("logincode", logincode);	
+			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
+			if (account.getString("validate").equals("true")) {
+				return Response.ok(LogicProvider.deleteProvider(idProvider).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();

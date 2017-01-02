@@ -11,9 +11,12 @@ public class User {
 	private String password;
 	private long idArea;
 	private String email;
+	private boolean active;
 	
-	public User(long idUser, String document, String name, String userName, String password, long idArea , String email) {
-		super();
+	
+
+	public User(long idUser, String document, String name, String userName, String password, long idArea, String email,
+			boolean active) {
 		this.idUser = idUser;
 		this.document = document;
 		this.name = name;
@@ -21,6 +24,15 @@ public class User {
 		this.password = password;
 		this.idArea = idArea;
 		this.email = email;
+		this.active = active;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public String getEmail() {
