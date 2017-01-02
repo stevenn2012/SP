@@ -1,12 +1,8 @@
 package logic;
 
 import java.util.List;
-
 import org.json.JSONObject;
-
 import dao.DAOProductService;
-import dao.DAOProductService;
-import vo.ProductService;
 import vo.ProductService;
 
 public class LogicProductService {
@@ -56,5 +52,4 @@ public class LogicProductService {
 			return obj;
 		}
 	}
-
 }
