@@ -17,6 +17,9 @@ import org.json.JSONObject;
 import dao.ConectionData;
 import logic.LogicLoginAuthent;
 import logic.LogicProvider;
+import logic.LogicUsers;
+import vo.Provider;
+import vo.User;
 
 
 @Path("/AppProviderCRUD")
@@ -55,6 +58,42 @@ public class WebServiceProvider {
 			JSONObject account = new JSONObject();
 			account.put("validate", "false");
 			System.out.println(", Access denied\n");
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+		}
+    }
+	
+	@GET
+	@Path("/create")
+	@Produces("application/json")
+	public Response createProvider(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+			  @DefaultValue("null") @QueryParam("nit") String nit, 
+			  @DefaultValue("null") @QueryParam("name") String name,
+			  @DefaultValue("null") @QueryParam("description") String description,
+	          @DefaultValue("null") @QueryParam("logincode") String logincode,
+	          @DefaultValue("null") @QueryParam("username") String username
+	          ) {
+		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print("\tAttempt to validate log in from : "+referer);
+		System.out.print("\tEn CREAR PROVEEDOR");
+		int verifyAccess = verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.print(", Access granted");  
+			JSONObject account = new JSONObject();
+			account.put("username", username);
+			account.put("logincode", logincode);	
+			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
+			if (account.getString("validate").equals("true")) {
+				Provider provider = new Provider(0,nit, name, description);
+				return Response.ok(LogicProvider.insertProvider(provider).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			}else{
+				System.out.print(", Error cargando Usuarios\n");
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			}
+			
+		}else{
+			JSONObject account = new JSONObject();
+			account.put("access", "false");
+			System.out.print(", Access denied\n");
 			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 		}
     }

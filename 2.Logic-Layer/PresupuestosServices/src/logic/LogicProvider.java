@@ -78,4 +78,53 @@ public class LogicProvider {
 		}
 	}
 
+	public static JSONObject insertProvider(Provider provider) {
+		JSONObject obj = new JSONObject();
+		List<Provider> proveedores = DAOProvider.getProvider();
+		if (proveedores==null) {
+			obj.put("insert", "false");
+			obj.put("validate", "true");
+			obj.put("status", "Error en base de datos");
+			return obj;
+		}
+		if (!proveedores.isEmpty()) {
+			for (int i = 0; i < proveedores.size(); i++) {
+				if(proveedores.get(i).getNIT().toLowerCase().equals(provider.getNIT().toLowerCase())){
+					obj.put("insert", "false");
+					obj.put("validate", "true");
+					obj.put("status", "Ya existe un proveedor con el nit");
+					return obj;
+				}
+			}	
+		}
+		if (DAOProvider.insertProvider(provider)) {
+			proveedores = DAOProvider.getProvider();
+			if (proveedores==null) {
+				obj.put("insert", "false");
+				obj.put("validate", "true");
+				obj.put("status", "Error en base de datos");
+				return obj;
+			}
+			for (int i = 0; i < proveedores.size(); i++) {
+				if (proveedores.get(i).getNIT().toLowerCase().equals(provider.getNIT())) {
+					obj.put("insert", "true");
+					obj.put("validate", "true");
+					obj.put("idProvider", proveedores.get(i).getIdProvider());
+					obj.put("status", "proveedor insertado correctamente.");
+					return obj;
+				}
+			}
+			obj.put("insert", "true");
+			obj.put("validate", "true");
+			obj.put("status", "obtener el id mediante el listar proveedores.");
+			return obj;
+		}
+		else{
+			obj.put("insert", "false");
+			obj.put("validate", "true");
+			obj.put("status", "Error al insertar en la base de datos");
+			return obj;
+		}
+	}
+
 }
