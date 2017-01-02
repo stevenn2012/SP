@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `SPDB`.`User` (
   `password` VARCHAR(100) NOT NULL,
   `idArea` BIGINT(255) NOT NULL,
   `email` VARCHAR(100) NULL,
+  `active` TINYINT(1) NOT NULL,
   PRIMARY KEY (`idUser`),
   INDEX `fk_User_Area_idx` (`idArea` ASC),
   CONSTRAINT `fk_User_Area`
@@ -96,7 +97,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `SPDB`.`Country` (
   `idCountry` BIGINT(255) NOT NULL AUTO_INCREMENT,
-  `countryCode` VARCHAR(100) NOT NULL,
   `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`idCountry`))
 ENGINE = InnoDB;
