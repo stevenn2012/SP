@@ -41,16 +41,16 @@ public class LogicAddress {
 			}
 			for(int i = 0; i < addresses.size(); i++) {
 				if (addresses.get(i).getAddress().toLowerCase().equals(address.getAddress().toLowerCase())) {
-					obj.put("status", "Se ha insertado correctamente la direccion.");
+					obj.remove("idAddress");
 					obj.put("idAddress", addresses.get(i).getIdAddress());
-					break;
 				}
 			}
+			obj.put("status", "Se ha insertado correctamente la direccion.");
 			return obj;
 		}else{
 			obj.put("validate", "true");
 			obj.put("insert", "false");
-			obj.put("status", "No ha insertado correctamente el pais.");
+			obj.put("status", "No ha insertado correctamente la direccion.");
 			return obj;
 		}
 	}

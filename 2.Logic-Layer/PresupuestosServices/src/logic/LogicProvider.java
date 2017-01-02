@@ -116,13 +116,13 @@ public class LogicProvider {
 			}
 			obj.put("insert", "true");
 			obj.put("validate", "true");
-			obj.put("status", "obtener el id mediante el listar proveedores.");
+			obj.put("status", "error al obtener el id del proveedor.");
 			return obj;
 		}
 		else{
 			obj.put("insert", "false");
 			obj.put("validate", "true");
-			obj.put("status", "Error al insertar en la base de datos");
+			obj.put("status", "Error al insertar proveedor en la base de datos");
 			return obj;
 		}
 	}

@@ -45,16 +45,30 @@ public class DAOContact {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="insert into contact(name,email,phoneNumber,idProvider,idClient) values(:name, :email, :phonenumber, :idprovider, :idclient)";
-			connection.createQuery(query)
-					.addParameter("name",contact.getName())
-					.addParameter("email", contact.getEmail())
-					.addParameter("phonenumber", contact.getPhoneNumber())
-					.addParameter("idprovider", contact.getIdProvider())
-					.addParameter("idclient", contact.getIdClient())
-					.executeUpdate();
-			connection.commit();
-			return true;
+			if (contact.getIdProvider()==0) {
+				String query="insert into contact(name,email,phoneNumber,idClient) values(:name, :email, :phonenumber, :idclient)";
+				connection.createQuery(query)
+						.addParameter("name",contact.getName())
+						.addParameter("email", contact.getEmail())
+						.addParameter("phonenumber", contact.getPhoneNumber())
+						.addParameter("idclient", contact.getIdClient())
+						.executeUpdate();
+				connection.commit();
+				return true;
+			}else if (contact.getIdClient()==0) {
+				String query="insert into contact(name,email,phoneNumber,idProvider) values(:name, :email, :phonenumber, :idprovider)";
+				connection.createQuery(query)
+						.addParameter("name",contact.getName())
+						.addParameter("email", contact.getEmail())
+						.addParameter("phonenumber", contact.getPhoneNumber())
+						.addParameter("idprovider", contact.getIdProvider())
+						.executeUpdate();
+				connection.commit();
+				return true;
+			}else{
+				return false;
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" -> Error insertar Contact");

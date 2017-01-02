@@ -55,7 +55,7 @@ public class LogicCity {
 			}
 			for(int i = 0; i < cities.size(); i++) {
 				if (cities.get(i).getName().toLowerCase().equals(city.getName().toLowerCase())) {
-					obj.put("status", "Se ha insertado correctamente el pais.");
+					obj.put("status", "Se ha insertado correctamente la ciudad.");
 					obj.put("idCity", cities.get(i).getIdCity());
 					obj.put("name", cities.get(i).getName());
 					obj.put("idPais", cities.get(i).getIdCountry());
@@ -66,7 +66,7 @@ public class LogicCity {
 		}else{
 			obj.put("validate", "true");
 			obj.put("insert", "false");
-			obj.put("status", "No ha insertado correctamente el pais.");
+			obj.put("status", "No ha insertado correctamente la ciudad.");
 			return obj;
 		}
 	}
