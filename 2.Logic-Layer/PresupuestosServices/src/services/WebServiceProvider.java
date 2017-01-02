@@ -17,9 +17,7 @@ import org.json.JSONObject;
 import dao.ConectionData;
 import logic.LogicLoginAuthent;
 import logic.LogicProvider;
-import logic.LogicUsers;
 import vo.Provider;
-import vo.User;
 
 
 @Path("/AppProviderCRUD")

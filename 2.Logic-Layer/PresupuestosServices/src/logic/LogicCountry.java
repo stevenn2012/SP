@@ -36,7 +36,7 @@ public class LogicCountry {
 		for (int i = 0; i < countries.size(); i++) {
 			if(countries.get(i).getName().toLowerCase().equals(country.getName().toLowerCase())){
 				obj.put("validate", "true");
-				obj.put("insert", "true");
+				obj.put("insert", "false");
 				obj.put("status", "El pais se encontraba previamente en la base de datos.");
 				obj.put("idCountry", countries.get(i).getIdCountry());
 				obj.put("Nombre", countries.get(i).getName());

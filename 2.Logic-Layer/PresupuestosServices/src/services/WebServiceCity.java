@@ -11,92 +11,93 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+
 import org.json.JSONObject;
+
 import dao.ConectionData;
-import logic.LogicCountry;
+import logic.LogicCity;
 import logic.LogicLoginAuthent;
-import vo.Country;
+import vo.City;
 
+@Path("/AppCityCRUD")
 
-@Path("/AppCountryCRUD")
-
-public class WebServiceCountry {
+public class WebServiceCity {
 
 	private String[] urlAccess = ConectionData.getUrlAccess();
 	
 	@GET
 	@Path("/list")
 	@Produces("application/json")
-	public Response listCountry(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	public Response listCity(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 	          @DefaultValue("null") @QueryParam("username") String username, 
 	          @DefaultValue("null") @QueryParam("logincode") String logincode
 	          ) {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
-		System.out.print("\nLISTAR PAISES");
+		System.out.print("\nLISTAR CIUDADES");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
-			JSONObject countries = new JSONObject();
-			countries.put("username", username);
-			countries.put("logincode", logincode);	
-			countries = LogicLoginAuthent.valLogin(request.getRemoteAddr(), countries);
-			if (countries.getString("validate").equals("true")) {
-				countries = LogicCountry.getCountriesJSON();
-				return Response.ok(countries.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			JSONObject cities = new JSONObject();
+			cities.put("username", username);
+			cities.put("logincode", logincode);	
+			cities = LogicLoginAuthent.valLogin(request.getRemoteAddr(), cities);
+			if (cities.getString("validate").equals("true")) {
+				cities = LogicCity.getCitiesJSON();
+				return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
-				System.out.println(", Error cargando countries\n");
-				return Response.ok(countries.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				System.out.println(", Error cargando cities\n");
+				return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 			}
 			
 		}else{
-			JSONObject countries = new JSONObject();
-			countries.put("validate", "false");
+			JSONObject cities = new JSONObject();
+			cities.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(countries.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 		}
     }
 	
 	@GET
 	@Path("/create")
 	@Produces("application/json")
-	public Response createCountry(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	public Response createCity(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 	          @DefaultValue("null") @QueryParam("username") String username, 
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
-	          @DefaultValue("null") @QueryParam("countryCode") String countrycode,
-	          @DefaultValue("null") @QueryParam("cname") String cname
+	          @DefaultValue("null") @QueryParam("name") String name,
+	          @DefaultValue("null") @QueryParam("idCountry") String idCountry
 	          ) {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
-		System.out.print("\nCREAR COUNTRY");
+		System.out.print("\nCREAR PAISES");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
-			JSONObject countries = new JSONObject();
-			countries.put("username", username);
-			countries.put("logincode", logincode);	
-			countries = LogicLoginAuthent.valLogin(request.getRemoteAddr(), countries);
-			if (countries.getString("validate").equals("true")) {
-				Country country = new Country(0, countrycode, cname);
-				return Response.ok(LogicCountry.createCountry(country).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			JSONObject cities = new JSONObject();
+			cities.put("username", username);
+			cities.put("logincode", logincode);	
+			cities = LogicLoginAuthent.valLogin(request.getRemoteAddr(), cities);
+			if (cities.getString("validate").equals("true")) {
+				City city = new City(0, name, Long.parseLong(idCountry));
+				return Response.ok(LogicCity.createCity(city).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
-				System.out.println(", Error cargando countries\n");
-				return Response.ok(countries.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				System.out.println(", Error cargando cities\n");
+				return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 			}
 			
 		}else{
-			JSONObject countries = new JSONObject();
-			countries.put("validate", "false");
+			JSONObject cities = new JSONObject();
+			cities.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(countries.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 		}
     }
 	
 	@GET
 	@Path("/delete")
 	@Produces("application/json")
-	public Response deleteCountry(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
-			  @DefaultValue("null") @QueryParam("idCountry") String idCountry, 
+	public Response deleteCity(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+			  @DefaultValue("null") @QueryParam("idCity") String idCity, 
 			  @DefaultValue("null") @QueryParam("username") String username,
 	          @DefaultValue("null") @QueryParam("logincode") String logincode
 	          ) {
@@ -106,32 +107,32 @@ public class WebServiceCountry {
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
-			JSONObject country = new JSONObject();
-			country.put("username", username);
-			country.put("logincode", logincode);	
-			country = LogicLoginAuthent.valLogin(request.getRemoteAddr(), country);
-			if (country.getString("validate").equals("true")) {
-				return Response.ok(LogicCountry.deleteCountry(idCountry).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			JSONObject city = new JSONObject();
+			city.put("username", username);
+			city.put("logincode", logincode);	
+			city = LogicLoginAuthent.valLogin(request.getRemoteAddr(), city);
+			if (city.getString("validate").equals("true")) {
+				return Response.ok(LogicCity.deleteCity(idCity).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
-				return Response.ok(country.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(city.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 			}
 			
 		}else{
-			JSONObject country = new JSONObject();
-			country.put("access", "false");
+			JSONObject city = new JSONObject();
+			city.put("access", "false");
 			System.out.print(", Access denied\n");
-			return Response.ok(country.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(city.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
 		}
     }
 	
 	@GET
 	@Path("/update")
 	@Produces("application/json")
-	public Response updateCountry(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
-			  @DefaultValue("null") @QueryParam("idCountry") String idcountry,
-			  @DefaultValue("null") @QueryParam("countryCode") String countrycode, 
-			  @DefaultValue("null") @QueryParam("name") String name,
+	public Response updateCity(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+			  @DefaultValue("null") @QueryParam("idCity") String idCity,
+			  @DefaultValue("null") @QueryParam("name") String name, 
+			  @DefaultValue("null") @QueryParam("idCountry") String idCountry,
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
 	          @DefaultValue("null") @QueryParam("username") String username
 	          ) {
@@ -146,8 +147,8 @@ public class WebServiceCountry {
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				Country country = new Country(Long.parseLong(idcountry), countrycode, name);
-				return Response.ok(LogicCountry.updateCountry(country,Long.parseLong(idcountry)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				City city = new City(Long.parseLong(idCity), name, Long.parseLong(idCountry));
+				return Response.ok(LogicCity.updateCity(city,Long.parseLong(idCity)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
