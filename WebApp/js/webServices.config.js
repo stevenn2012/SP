@@ -13,3 +13,7 @@ var rollList = page+"/WebServicesPresupuestos/AppRollCRUD/list";
 var createAreaService = page+"/WebServicesPresupuestos/AppAreaCRUD/create";
 var providersList = page+"/WebServicesPresupuestos/AppProviderCRUD/list";
 var clientList = page+"/WebServicesPresupuestos/"; //falta
+var createCountryService = page+'/WebServicesPresupuestos/AppCountryCRUD/create';
+var countryListService = page+'/WebServicesPresupuestos/AppCountryCRUD/list';
+var citysListService = page+'/WebServicesPresupuestos/AppCityCRUD/list';
+var createCityService = page+'/WebServicesPresupuestos/AppCityCRUD/create';

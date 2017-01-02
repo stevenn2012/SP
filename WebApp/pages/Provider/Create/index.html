@@ -29,7 +29,7 @@
 			<ul class="nav nav-tabs">
 			  	<li role="presentation" class="backli"><a type="button" class="btn btn-link" href="../../">volver</a></li>
 			  	<li role="presentation" class="titleMenu">Crear Proveedor</li>
-			  	<li role="presentation" class="signoutli"><a type="button" class="signout btn btn-link">Sign out</a></li>
+			  	<li role="presentation" class="signoutli"><a type="button" class="signout btn btn-link">Salir</a></li>
 			</ul>	
 		</head>
 		<section>
@@ -54,7 +54,7 @@
 				    		<div class="panel-heading">Direcciones</div>
 							<div class="panel-body">
 							    <div id="addressTable" class="scroll"></div>
-						    	<center><button type="button" class="btn btn-default">Aregar direccion <span class="glyphicon glyphicon-road" aria-hidden="true"></button></center>
+						    	<center><button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalAddAddress">Aregar direccion <span class="glyphicon glyphicon-road" aria-hidden="true"></button></center>
 							</div>
 				    	</div>
 				  	</div>
@@ -64,7 +64,7 @@
 				    		<div class="panel-heading">Contactos</div>
 							<div class="panel-body">
 								<div id="contactsTable" class="scroll"></div>
-						    	<center><button type="button" class="btn btn-default">Aregar contacto <span class="glyphicon glyphicon-user" aria-hidden="true"></button></center>
+						    	<center><button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalAddContact">Aregar contacto <span class="glyphicon glyphicon-user" aria-hidden="true"></button></center>
 							</div>
 				    	</div>
 				    	
@@ -75,7 +75,7 @@
 				    		<div class="panel-heading">Productos y/o servicios</div>
 							<div class="panel-body">
 								<div id="productsServicesTable" class="scroll"></div>		
-						    	<center><button type="button" class="btn btn-default">Aregar direccion <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></button></center>
+						    	<center><button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalAddProductService">Aregar direccion <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></button></center>
 							</div>
 				    	</div>
 				  	</div>
@@ -89,6 +89,224 @@
 					  	</div>
 					</div>
 				</form>
+			</div>
+
+			<!-- Modal add Address-->
+			<div id="modalAddAddress" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Agregar direccion</h4>
+			      		</div>
+			      		<form action="javascript:addAddress()">
+			      			<div id="msAddAddress"></div>
+				      		<div class="modal-body">
+				      			<div class="form-group">
+							    	<label for="exampleInputPassword1">Pais</label>
+							    	<select id="countryList" class="form-control"></select>
+							  	</div>
+							  	<div class="checkbox">
+									<label>
+									    <input id="countryButton" type="checkbox" value="">
+									    Crear un nuevo pais
+									</label>
+								</div>
+							  	<div class="form-group">
+							    	<input id="countryAddress" type="text" class="form-control" placeholder="Pais">
+							  	</div>
+
+							  	<div class="form-group">
+							    	<label for="exampleInputPassword1">Ciudad</label>
+							    	<select id="cityList" class="form-control"></select>
+							  	</div>
+							  	<div class="checkbox">
+									<label>
+									    <input id="cityButton" type="checkbox" value="">
+									    Crear una nueva ciudad
+									</label>
+								</div>
+							  	<div class="form-group">
+							    	<input id="cityAddress" type="text" class="form-control" placeholder="Ciudad">
+							  	</div>
+				      			
+				      			<div class="form-group">
+							    	<label for="exampleInputEmail1">Direccion</label>
+							    	<input id="addressProvider" type="text" class="form-control" placeholder="Direccion" required>
+							  	</div>
+				      		</div>
+				      		<div class="modal-footer">
+				      			<button type="submit" class="btn btn-primary">Save changes</button>
+				        		<button id="closeAddAddress" type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+				        	</div>
+			        	</form>
+			    	</div>
+			  	</div>
+			</div>
+
+			<!-- Modal add Contact-->
+			<div id="modalAddContact" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Agregar Contacto</h4>
+			      		</div>
+			      		<form>
+			      			<div class="modal-body">
+			      				<div class="form-group">
+							    	<label for="exampleInputEmail1">Nombre</label>
+							    	<input id="nameContact" type="text" class="form-control" placeholder="Nombre" required>
+							  	</div>
+							  	<div class="form-group">
+							    	<label for="exampleInputEmail1">Correo electronico</label>
+							    	<input id="emailContact" type="text" class="form-control" placeholder="Correo electronico" required>
+							  	</div>
+							  	<div class="form-group">
+							    	<label for="exampleInputEmail1">Numero telefonico</label>
+							    	<input id="phoneNumberContact" type="text" class="form-control" placeholder="Numero telefonico" required>
+							  	</div>
+			      			</div>
+			      		
+				      		<div class="modal-footer">
+				      			<button type="submit" class="btn btn-primary">Save changes</button>
+				        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+				        	</div>
+			        	</form>
+			    	</div>
+			  	</div>
+			</div>
+
+			<!-- Modal add product service-->
+			<div id="modalAddProductService" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Aregar Producto o servicio</h4>
+			      		</div>
+			      		<form>
+				      		<div class="modal-body">
+				      			<div class="form-group">
+							    	<label for="exampleInputEmail1">Nombre del producto o servicio</label>
+							    	<input id="nameProductService" type="text" class="form-control" placeholder="Nombre del producto o servicio" required>
+							  	</div>
+							  	<div class="form-group">
+							    	<label for="exampleInputEmail1">Descripcion</label>
+							    	<textarea id="descriptionProductService" type="textarea" name="comment" class="form-control" form="form" placeholder="Descripcion" style="max-width:100%;"; required></textarea>
+							  	</div>
+							  	<div class="form-group">
+							    	<label for="exampleInputEmail1">Precio</label>
+							    	<input id="priceProductService" type="number" class="form-control" placeholder="Precio" required>
+							  	</div>
+				      		</div>
+		
+				      		<div class="modal-footer">
+				      			<button type="submit" class="btn btn-primary">Save changes</button>
+				        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+				        	</div>
+			        	</form>
+			    	</div>
+			  	</div>
+			</div>
+
+			<!-- Modal See Address-->
+			<div id="modalSeeAddress" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Ver direccion</h4>
+			      		</div>
+			      		<div id="bodyModalSeeAddress" class="modal-body"></div>
+			      		<div class="modal-footer">
+			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			        	</div>
+			    	</div>
+			  	</div>
+			</div>
+
+			<!-- Modal Edit Address-->
+			<div id="modalEditAddress" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Editar direccion</h4>
+			      		</div>
+			      		<div class="modal-body"></div>
+			      		<div class="modal-footer">
+			      			<button type="button" class="btn btn-primary">Save changes</button>
+			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			      		</div>
+			    	</div>
+			  	</div>
+			</div>
+
+			<!-- Modal See Contact-->
+			<div id="modalSeeContact" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Ver Contacto</h4>
+			      		</div>
+			      		<div id="bodyModalSeeContact" class="modal-body"></div>
+			      		<div class="modal-footer">
+			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			        	</div>
+			    	</div>
+			  	</div>
+			</div>
+
+			<!-- Modal Edit Contact-->
+			<div id="modalEditContact" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Editar Contacto</h4>
+			      		</div>
+			      		<div class="modal-body"></div>
+			      		<div class="modal-footer">
+			        		<button type="button" class="btn btn-primary">Save changes</button>
+			      			<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			        	</div>
+			    	</div>
+			  	</div>
+			</div>
+
+			<!-- Modal See Product or Service-->
+			<div id="modalSeeProductService" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Ver Producto o Servicio</h4>
+			      		</div>
+			      		<div id="bodyModalSeeProductService" class="modal-body"></div>
+			      		<div class="modal-footer">
+			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			      		</div>
+			    	</div>
+			  	</div>
+			</div>
+
+			<!-- Modal Edit Product or Service-->
+			<div id="modalEditProductService" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Editar Producto o Servicio</h4>
+			      		</div>
+			      		<div class="modal-body"></div>
+			      		<div class="modal-footer">
+			        		<button type="button" class="btn btn-primary">Save changes</button>
+			      			<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			        	</div>
+			    	</div>
+			  	</div>
 			</div>
 		</section>
 		<footer aligin="bottom">
