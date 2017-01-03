@@ -519,4 +519,5 @@ function editUserAjax() {
 		$('#msCreateUser').html('<div class="alert alert-warning" role="alert">Hace falta seleccionar el area o el roll</div>');
 		ScreenUp("msCreateUser");
 	}
+	validateAccount();
 }
