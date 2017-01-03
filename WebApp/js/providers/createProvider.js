@@ -136,16 +136,17 @@ function addAddress() {
 	if(newAddres.idCountry!=0 || newAddres.country!=""){
 		if($('#countryButton').prop('checked') == true && newAddres.idCountry==0){
 			newAddres.idCountry = createCountry(newAddres.country);
-			$("#countryList").val(newAddres.idCountry);
-			$('#countryAddress').val("");
 		}else{
 			if($('#countryButton').prop('checked') != false && newAddres.idCountry != 0){
 				$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Error seleccionando Pais</div>');
 				ScreenUp("modalAddAddress", "msAddAddress");
 				return;
 			}
-		}	
-		newAddres.country = $('#countryList option:selected').html();	
+		}
+		if(newAddres.country == ""){
+			newAddres.country = $('#countryList option:selected').html();	
+		}
+			
 	}else{
 		$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Seleccione un pais</div>');
 		ScreenUp("modalAddAddress", "msAddAddress");
@@ -155,22 +156,23 @@ function addAddress() {
 	if(newAddres.idCity!=0 || newAddres.city!=""){
 		if($('#cityButton').prop('checked') == true && newAddres.idCity==0){
 			newAddres.idCity = createCity(newAddres.idCountry, newAddres.city);
-			$("#cityList").val(newAddres.idCity);
-			$('#cityAddress').val("");
 		}else{
 			if($('#cityButton').prop('checked') != false && newAddres.idCity != 0){
 				$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Error seleccionando Ciudad</div>');
 				ScreenUp("modalAddAddress", "msAddAddress");
 				return;
 			}
+		}
+		if(newAddres.city == ""){
+			newAddres.city = $('#cityList option:selected').html();
 		}	
-		newAddres.city = $('#cityList option:selected').html();	
 	}else{
 		$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Seleccione una ciudad</div>');
 		ScreenUp("modalAddAddress", "msAddAddress");
 		return;
 	}
 
+	console.log("NewAddress: "+JSON.stringify(newAddres));
 	if(newAddres.idCity <= 0 || newAddres.idCountry <=0){
 		$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Error seleccionando pais o ciudad en el servidor</div>');
 		ScreenUp("modalAddAddress", "msAddAddress");
@@ -293,11 +295,11 @@ function createCountry(countryName){
 			if(data.validate == "true"){
 				if(data.insert=="true"){
 					getCountrys();
-					idReturn = data.idCountry;
 				}else{
 					$('#msAddAddress').html('<div class="alert alert-danger" role="alert">No se pudo crear el pais'+data.status+'</div>');
 					ScreenUp("modalAddAddress", "msAddAddress");
 				}
+				idReturn = data.idCountry;
 			}else{
 				$('#msAddAddress').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear paises</div>');
 				ScreenUp("modalAddAddress", "msAddAddress");
@@ -309,6 +311,7 @@ function createCountry(countryName){
 	       	console.log("error",objXMLHttpRequest);
 		}
 	});
+	console.log("Create country return: "+idReturn);
 	return idReturn;
 }
 
@@ -331,11 +334,11 @@ function createCity(idCountry, cityName){
 			if(data.validate == "true"){
 				if(data.insert=="true"){
 					getCitys(idCountry);
-					idReturn = data.idCity;
 				}else{
 					$('#msAddAddress').html('<div class="alert alert-danger" role="alert">No se pudo crear la ciudad'+data.status+'</div>');
 					ScreenUp("modalAddAddress", "msAddAddress");
 				}
+				idReturn = data.idCity;
 			}else{
 				$('#msAddAddress').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear ciudades</div>');
 				ScreenUp("modalAddAddress", "msAddAddress");
@@ -347,6 +350,7 @@ function createCity(idCountry, cityName){
 	       	console.log("error",objXMLHttpRequest);
 		}
 	});
+	console.log("Create city return: "+idReturn);
 	return idReturn;
 }
 

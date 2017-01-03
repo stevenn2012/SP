@@ -19,7 +19,7 @@ function validateAccount() {
 				console.log("VALIDATION : "+JSON.stringify(data));
 				if(data.validate == "true"){
 					sessionStorage.roll = data.roll;
-					if(indexPage == window.location || indexPage == window.location+"index.html"){
+					if(indexPage == window.location || indexPage == window.location+"index.html" || (window.location != (indexPage+'pages/') && validarPermisos(data.roll) == false)){
 						window.location.assign(indexPage+'pages/');
 					}
 				}else{
@@ -39,6 +39,20 @@ function validateAccount() {
 			window.location.assign(indexPage);
 		}
 	}	
+}
+
+function validarPermisos(roll) {
+	var link = window.location;	
+	if(roll != rollAdmin){
+		for (var i = 0; i < OperatorFoldersAllowed.length ; i++) {
+			if(OperatorFoldersAllowed[i].indexOf(link) != -1){
+				return true;
+			}
+		}
+		return false;
+	}else{
+		return true;
+	}
 }
 
 function singOut() {
