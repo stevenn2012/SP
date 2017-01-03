@@ -113,7 +113,7 @@ public class DAOUser {
 					.addParameter("idArea", usuario.getIdArea())
 					.addParameter("email",usuario.getEmail())
 					.addParameter("idUser",usuario.getIdUser())
-					.addParameter("active",usuario.isActive())
+					.addParameter("active",true)
 					.executeUpdate();
 			connection.commit();
 			return true;
@@ -125,6 +125,23 @@ public class DAOUser {
 		}
 	}
 	
+	public static boolean updateUserActive(String id) {
+		initDriver();
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+			String query="update user set  active = :active where user.idUser = :idUser";
+			connection.createQuery(query)
+					.addParameter("idUser",id)
+					.addParameter("active",false)
+					.executeUpdate();
+			connection.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" -> Error");
+			System.out.println(e);
+			return false;
+		}
+	}
 	public static void initDriver(){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
