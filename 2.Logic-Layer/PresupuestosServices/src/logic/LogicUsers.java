@@ -96,12 +96,14 @@ public class LogicUsers {
 	public static JSONObject deleteUser(String idUser) {
 		JSONObject obj = new JSONObject();
 		List<Project> proyectos = DAOProject.getProjects();
-		if (proyectos!=null) {
+		User usuario = DAOUser.getUserById(idUser);
+		if (proyectos!=null && usuario != null) {
 			for (int i = 0; i < proyectos.size(); i++) {
 				if (proyectos.get(i).getUser_idUser()==Long.parseLong(idUser)) {					
 					if (DAOUser.updateUserActive(idUser)) {
 						obj.put("validate", "true");
 						obj.put("delete", "true");
+						obj.put("usernameDeleted", usuario.getUserName());
 						obj.put("status", "El usuario tiene asociado proyectos. No se puede borrar. Active = 0");
 						return obj;
 					}else{
@@ -113,10 +115,11 @@ public class LogicUsers {
 				}
 			}
 		}
-		if (DAOUserRoll.deleteUserRoll(Long.parseLong(idUser))) {
+		if (DAOUserRoll.deleteUserRoll(Long.parseLong(idUser))&&usuario!=null) {
 			if (DAOUser.deleteUser(Long.parseLong(idUser))) {
 				obj.put("validate", "true");
 				obj.put("delete", "true");
+				obj.put("usernameDeleted", usuario.getUserName());
 				obj.put("status", "Usuario Borrado correctamente");
 			}else{
 				obj.put("validate", "true");

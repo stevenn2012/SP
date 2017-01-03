@@ -53,18 +53,17 @@ public class LogicLoginAuthent {
 		System.out.print("\tReceived -> User: '"+username+"', loginCode: **** ");
 		AccountLogin acc= loginAccounts.get(username);
 		System.out.println("\n\n");
-		System.out.println(acc.getLoginCode()+" "+logincode);
-		System.out.println(acc.getUsername()+" "+username);
-		System.out.println(acc.getIp()+" "+ip);
 		JSONObject obj = new JSONObject();
 		obj.put("validate", "false");
 		if(acc != null){
+			System.out.println(acc.getLoginCode()+" "+logincode);
+			System.out.println(acc.getUsername()+" "+username);
+			System.out.println(acc.getIp()+" "+ip);
 			if(username.equals(acc.getUsername().toLowerCase()) && logincode.equals(acc.getLoginCode()) && ip.equals(acc.getIp())){
 				User usuario = DAOUser.getUserByUsername(username);
 				Roll roll = DAORoll.getRoleByIdUser(usuario.getIdUser());
 				obj.put("roll", acc.getRoll());
 				if (usuario!=null && roll!=null) {
-					System.out.println("VALIDACION ROLL\n"+loginAccounts.get(username).getRoll()+"\n"+roll.getName());
 					if (!acc.getRoll().toLowerCase().equals(roll.getName())) {
 						loginAccounts.get(username).setRoll(roll.getName());
 						obj.remove("roll");
@@ -85,7 +84,7 @@ public class LogicLoginAuthent {
 			}
 		}
 		System.out.println(" -> Validate Login: "+obj.getString("validate"));
-		obj.put("status","Error de validación");
+		obj.put("status","No hay sesion de usuario");
 		return obj;
 	}
 	
@@ -109,17 +108,19 @@ public class LogicLoginAuthent {
 	
 	public static JSONObject logOutDeletedAccount(String username) {
 		System.out.print("\tReceived -> User: '"+username+"', loginCode: **** ");
+		System.out.println("USUARIO ELIMINADO SE DESLOGUEA A "+username);
 		AccountLogin acc= loginAccounts.get(username.toLowerCase());
 		JSONObject obj = new JSONObject();
 		obj.put("logOutDeletedAccount", "false");
 		obj.put("status", "El usuario no esta logueado");
-		
 		if(acc != null){
 			loginAccounts.remove(username.toLowerCase());
 			obj.remove("logOutDeletedAccount");
 			obj.put("logOutDeletedAccount", "true");
+			obj.remove("status");
+			obj.put("status", "Se ha eliminado la sesion del "+username);
 		}
-		System.out.println(" -> Log out: "+obj.getString("logout"));
+		System.out.println(" -> Log out: "+obj.getString("status"));
 		return obj;
 	}
 	

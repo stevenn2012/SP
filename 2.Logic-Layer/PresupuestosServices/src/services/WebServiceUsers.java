@@ -121,9 +121,10 @@ public class WebServiceUsers {
 			if (account.getString("validate").equals("true")) {
 				account = LogicUsers.deleteUser(idUser);
 				if (account.getString("delete").equals("true")) {
-					
+					System.out.println(account.get("status"));
+					LogicLoginAuthent.logOutDeletedAccount(account.getString("usernameDeleted"));
 				}
-				return Response.ok().header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
