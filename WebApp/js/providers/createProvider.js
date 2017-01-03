@@ -136,16 +136,17 @@ function addAddress() {
 	if(newAddres.idCountry!=0 || newAddres.country!=""){
 		if($('#countryButton').prop('checked') == true && newAddres.idCountry==0){
 			newAddres.idCountry = createCountry(newAddres.country);
-			$("#countryList").val(newAddres.idCountry);
-			$('#countryAddress').val("");
 		}else{
 			if($('#countryButton').prop('checked') != false && newAddres.idCountry != 0){
 				$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Error seleccionando Pais</div>');
 				ScreenUp("modalAddAddress", "msAddAddress");
 				return;
 			}
-		}	
-		newAddres.country = $('#countryList option:selected').html();	
+		}
+		if(newAddres.country == ""){
+			newAddres.country = $('#countryList option:selected').html();	
+		}
+			
 	}else{
 		$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Seleccione un pais</div>');
 		ScreenUp("modalAddAddress", "msAddAddress");
@@ -161,7 +162,10 @@ function addAddress() {
 				ScreenUp("modalAddAddress", "msAddAddress");
 				return;
 			}
-		}		
+		}
+		if(newAddres.city == ""){
+			newAddres.city = $('#cityList option:selected').html();
+		}	
 	}else{
 		$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Seleccione una ciudad</div>');
 		ScreenUp("modalAddAddress", "msAddAddress");
