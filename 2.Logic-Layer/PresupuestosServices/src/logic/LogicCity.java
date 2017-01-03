@@ -83,12 +83,31 @@ public class LogicCity {
 			for (int i = 0; i < direcciones.size(); i++) {
 				if (direcciones.get(i).getIdCity()==idcity) {
 					if (!DAOAddress.deleteAddress(direcciones.get(i).getIdAddress())) {
-						
+						obj.put("validate", "true");
+						obj.put("delete", "false");
+						obj.put("status", "Error al borrar las direcciones asociadas.");
+						return obj;
 					}
 				}
 			}
+			if (DAOCity.deleteCity(idcity)) {
+				obj.put("validate", "true");
+				obj.put("delete", "true");
+				obj.put("status", "Borrado de ciudad correcto.");
+				return obj;
+			}else{
+				obj.put("validate", "true");
+				obj.put("delete", "false");
+				obj.put("status", "Error al borrar la ciudad.");
+				return obj;
+			}
+		}else{
+			obj.put("validate", "true");
+			obj.put("delete", "false");
+			obj.put("status", "Error al borrar la ciudad.");
+			return obj;
+
 		}
-		return obj;
 	}
 
 	public static JSONObject updateCity(City city) {

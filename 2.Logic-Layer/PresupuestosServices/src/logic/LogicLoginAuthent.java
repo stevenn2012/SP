@@ -1,19 +1,18 @@
 package logic;
 
-import java.math.BigInteger;
+import java.util.Date;
 import java.util.HashMap;
 import org.json.JSONObject;
-
 import dao.DAORoll;
 import dao.DAOUser;
 import vo.AccountLogin;
+import vo.Roll;
 import vo.User;
 
 
 public class LogicLoginAuthent {
 
 	private static HashMap<String, AccountLogin> loginAccounts = new HashMap<String, AccountLogin>();
-	private static BigInteger logAccounts = new BigInteger("0");
 	
 	public static JSONObject login(String ip, JSONObject account){
 		String username = account.getString("user");
@@ -61,11 +60,32 @@ public class LogicLoginAuthent {
 		obj.put("validate", "false");
 		if(acc != null){
 			if(username.equals(acc.getUsername().toLowerCase()) && logincode.equals(acc.getLoginCode()) && ip.equals(acc.getIp())){
+				User usuario = DAOUser.getUserByUsername(username);
+				Roll roll = DAORoll.getRoleByIdUser(usuario.getIdUser());
+				obj.put("roll", acc.getRoll());
+				if (usuario!=null && roll!=null) {
+					System.out.println("VALIDACION ROLL\n"+loginAccounts.get(username).getRoll()+"\n"+roll.getName());
+					if (!acc.getRoll().toLowerCase().equals(roll.getName())) {
+						loginAccounts.get(username).setRoll(roll.getName());
+						obj.remove("roll");
+						obj.put("roll", loginAccounts.get(username).getRoll());
+					}
+					if (!usuario.isActive()) {
+						obj.put("status", "inactive");
+						logOut(ip, account);
+						return obj;
+					}
+				}else{
+					obj.put("status", "Error de validación");
+					return obj;
+				}
 				obj.remove("validate");
 				obj.put("validate", "true");
+				obj.put("status", "active");
 			}
 		}
 		System.out.println(" -> Validate Login: "+obj.getString("validate"));
+		obj.put("status","Error de validación");
 		return obj;
 	}
 	
@@ -88,8 +108,8 @@ public class LogicLoginAuthent {
 	}
 	
 	private static String generateLoginCode(String user, String name){
-		logAccounts=logAccounts.add(new BigInteger("1"));
-		return MD5Encryption.getMD5(MD5Encryption.getMD5(logAccounts+"")+MD5Encryption.getMD5(user)+MD5Encryption.getMD5(name));
+		Date logAccounts = new Date();
+		return MD5Encryption.getMD5(MD5Encryption.getMD5(logAccounts.toString())+MD5Encryption.getMD5(user)+MD5Encryption.getMD5(name));
 	}
 	
 }
