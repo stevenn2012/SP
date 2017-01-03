@@ -17,3 +17,7 @@ var createCountryService = page+'/WebServicesPresupuestos/AppCountryCRUD/create'
 var countryListService = page+'/WebServicesPresupuestos/AppCountryCRUD/list';
 var citysListService = page+'/WebServicesPresupuestos/AppCityCRUD/list';
 var createCityService = page+'/WebServicesPresupuestos/AppCityCRUD/create';
+var createProviderService = page+'/WebServicesPresupuestos/AppProviderCRUD/create';
+var createAddressService = page+'/WebServicesPresupuestos/AppAddressCRUD/create';
+var createContactService = page+'/WebServicesPresupuestos/AppContactCRUD/create';
+var createProductServiceService = page+'/WebServicesPresupuestos/AppProductServiceCRUD/create';

@@ -8,31 +8,19 @@ var pointerContacts = 0;
 var pointerProductsServices = 0;
 
 $(document).ready(function(){
-	//**Pruebas****
-	contacts.push({
-		"id":pointerContacts++,
-		"name":"Steven Puerto",
-		"email":"2012Stevenn@gmail.com",
-		"phoneNumber":"(+57 3015436823)"
-	});
-
-	productsServices.push({
-		"id":pointerProductsServices++,
-		"name":"Televisor HD",
-		"description":"Televisor pantalla pantalla plana hd",
-		"price":"500000"
-	});
-	//*************
 	listAddress();
 	listContacts();
 	listProductsServices();
 	getCountrys();
-	cityButton();
+	getCitys(0);
 	countryButton();
+	cityButton();
 	$('#cityButton').click(function(){cityButton()});
 	$('#countryButton').click(function(){countryButton()});
 	$('.closeModal').click(function(){closeModal()});
 	$('#cancel').click(function(){cancel()});
+	$('#countryList').change(function(){listCitys($('#countryList').val())});
+	$('.modal').on('hidden.bs.modal', function(){closeModal()})
 });
 
 function cancel() {
@@ -141,9 +129,7 @@ function addAddress() {
 		"idCountry":$("#countryList option:selected").val(),
 		"country":$('#countryAddress').val(),
 		"city":$('#cityAddress').val(),
-		"address":$('#addressProvider').val(),
-		"inDB":false,
-		"idDB":-1
+		"address":$('#addressProvider').val()
 	};
 
 	if(newAddres.idCountry!=0 || newAddres.country!=""){
@@ -154,36 +140,52 @@ function addAddress() {
 		}else{
 			if($('#countryButton').prop('checked') != false && newAddres.idCountry != 0){
 				$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Error seleccionando Pais</div>');
-				ScreenUp("modalAddAddress");
+				ScreenUp("modalAddAddress", "msAddAddress");
 				return;
 			}
 		}	
 		newAddres.country = $('#countryList option:selected').html();	
 	}else{
 		$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Seleccione un pais</div>');
-		ScreenUp("modalAddAddress");
+		ScreenUp("modalAddAddress", "msAddAddress");
 		return;
 	}
 
 	if(newAddres.idCity!=0 || newAddres.city!=""){
 		if($('#cityButton').prop('checked') == true && newAddres.idCity==0){
-			newAddres.idCity = createCity(newAddres.city);
+			newAddres.idCity = createCity(newAddres.idCountry, newAddres.city);
 			$("#cityList").val(newAddres.idCity);
 			$('#cityAddress').val("");
 		}else{
 			if($('#cityButton').prop('checked') != false && newAddres.idCity != 0){
 				$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Error seleccionando Ciudad</div>');
-				ScreenUp("modalAddAddress");
+				ScreenUp("modalAddAddress", "msAddAddress");
 				return;
 			}
 		}	
 		newAddres.city = $('#cityList option:selected').html();	
 	}else{
 		$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Seleccione una ciudad</div>');
-		ScreenUp("modalAddAddress");
+		ScreenUp("modalAddAddress", "msAddAddress");
 		return;
 	}
+
+	if(newAddres.idCity <= 0 || newAddres.idCountry <=0){
+		$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Error seleccionando pais o ciudad en el servidor</div>');
+		ScreenUp("modalAddAddress", "msAddAddress");
+		return;	
+	}
+
 	console.log(JSON.stringify(newAddres));
+	address.push({
+		"id":newAddres.id,
+		"idCity":newAddres.idCity,
+		"idCountry":newAddres.idCountry,
+		"country":newAddres.country,
+		"city":newAddres.city,
+		"address":newAddres.address,
+		"inDB":false
+	});
 	listAddress();
 	$('#closeAddAddress').click();
 }
@@ -206,18 +208,18 @@ function getCountrys() {
 				listCountrys();
 			}else{
 				$('#msAddAddress').html('<div class="alert alert-danger" role="alert">No tiene permisos de listar paises</div>');
-				ScreenUp("modalAddAddress");
+				ScreenUp("modalAddAddress", "msAddAddress");
 			}
 	    },
 	    error: function(objXMLHttpRequest) {
 	       	$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
-	       	ScreenUp("modalAddAddress");
+	       	ScreenUp("modalAddAddress", "msAddAddress");
 	       	console.log("error",objXMLHttpRequest);
 		}
 	});
 }
 
-function getCitys() {
+function getCitys(idCountry) {
 	var dataAndAccount = {
 		"username":sessionStorage.username,
 		"logincode":sessionStorage.logincode
@@ -232,15 +234,15 @@ function getCitys() {
 			console.log("WebService get Citys: "+JSON.stringify(data));
 			if(data.validate == "true"){
 				citys = data.cities;
-				listCitys();
+				listCitys(idCountry);
 			}else{
 				$('#msAddAddress').html('<div class="alert alert-danger" role="alert">No tiene permisos de listar ciudades</div>');
-				ScreenUp("modalAddAddress");
+				ScreenUp("modalAddAddress", "msAddAddress");
 			}
 	    },
 	    error: function(objXMLHttpRequest) {
 	       	$('#msAddAddress').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
-	       	ScreenUp("modalAddAddres");
+	       	ScreenUp("modalAddAddres", "msAddAddress");
 	       	console.log("error",objXMLHttpRequest);
 		}
 	});
@@ -254,10 +256,12 @@ function listCountrys() {
 	$('#countryList').html(data);
 }
 
-function listCitys() {
+function listCitys(idCountry) {
 	var data = '<option value="0">-- Seleccione la ciudad --</option>';
 	for (var i = 0; i < citys.length; i++) {
-		data += '<option value="'+citys[i].idCity+'">'+citys[i].name+'</option>';
+		if(citys[i].idCountry == idCountry){
+			data += '<option value="'+citys[i].idCity+'">'+citys[i].name+'</option>';
+		}
 	};
 	$('#cityList').html(data);
 }
@@ -284,28 +288,29 @@ function createCountry(countryName){
 					idReturn = data.idCountry;
 				}else{
 					$('#msAddAddress').html('<div class="alert alert-danger" role="alert">No se pudo crear el pais'+data.status+'</div>');
-					ScreenUp("modalAddAddress");
+					ScreenUp("modalAddAddress", "msAddAddress");
 				}
 			}else{
 				$('#msAddAddress').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear paises</div>');
-				ScreenUp("modalAddAddress");
+				ScreenUp("modalAddAddress", "msAddAddress");
 			}
 	    },
 	    error: function(objXMLHttpRequest) {
 	       	$('#msAddAddress').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
-	       	ScreenUp("modalAddAddress");
+	       	ScreenUp("modalAddAddress", "msAddAddress");
 	       	console.log("error",objXMLHttpRequest);
 		}
 	});
 	return idReturn;
 }
 
-function createCity(cityName){
+function createCity(idCountry, cityName){
 	var idReturn = -1;
 	var dataAndAccount = {
 		"username":sessionStorage.username,
 		"logincode":sessionStorage.logincode,
-		"cname":cityName
+		"name":cityName,
+		"idCountry":idCountry
 	};
 	$.ajax({
 		url: createCityService,
@@ -317,49 +322,101 @@ function createCity(cityName){
 			console.log("WebService Crear City: "+JSON.stringify(data));
 			if(data.validate == "true"){
 				if(data.insert=="true"){
-					getCitys();
+					getCitys(idCountry);
 					idReturn = data.idCity;
 				}else{
 					$('#msAddAddress').html('<div class="alert alert-danger" role="alert">No se pudo crear la ciudad'+data.status+'</div>');
-					ScreenUp("modalAddAddress");
+					ScreenUp("modalAddAddress", "msAddAddress");
 				}
 			}else{
 				$('#msAddAddress').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear ciudades</div>');
-				ScreenUp("modalAddAddress");
+				ScreenUp("modalAddAddress", "msAddAddress");
 			}
 	    },
 	    error: function(objXMLHttpRequest) {
 	       	$('#msAddAddress').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
-	       	ScreenUp("modalAddAddress");
+	       	ScreenUp("modalAddAddress", "msAddAddress");
 	       	console.log("error",objXMLHttpRequest);
 		}
 	});
 	return idReturn;
 }
 
-function ScreenUp (id) {
+function ScreenUp (id, idMs) {
 	console.log("SCREEN UP "+id);
 	if(id != "msCreateProvider"){
 		$('#'+id).scrollTop(0);
 	}else{
-		$('html,body').animate({
-		    scrollTop: $("#"+id).offset().top
+		$('htmls,body').animate({
+		    scrollTop: $("#nameEmployed").offset().top
 		}, 500);
 	}
-
 	setTimeout(function() {
-		$('#'+id).html("");
+		$('#'+idMs).html("");
 	},10000);
 }
 
 function addContact() {
 	console.log("ADD CONTACT");
-	
+	var newContact = {
+		"id":pointerContacts++,
+		"name":$("#nameContact").val(),
+		"email":$("#emailContact").val(),
+		"phoneNumber":$('#phoneNumberContact').val()
+	};
+
+	var valEmail = true;
+	if(newContact.email.indexOf('@', 0) == -1) {
+		valEmail = false;
+    }else {
+    	if(newContact.email.substring(newContact.email.indexOf('@', 0)).indexOf('.', 0) == -1){
+    		valEmail = false;
+    	}
+    }
+    if(valEmail == false){
+    	$('#msContact').html('<div class="alert alert-warning" role="alert">El correo electrónico introducido no es correcto.</div>');
+		ScreenUp("modalAddContact", "msContact");
+        return false;
+    }
+
+	console.log(JSON.stringify(newContact));
+	contacts.push({
+		"id":newContact.id,
+		"name":newContact.name,
+		"email":newContact.email,
+		"phoneNumber":newContact.phoneNumber,
+		"inDB":false
+	});
+	listContacts();
+	$('#closeAddContact').click();
 }
 
 function addProductService() {
 	console.log("ADD PRODUCT SERVICE");
+	var newProductService = {
+		"id":pointerProductsServices++,
+		"name":$("#nameProductService").val(),
+		"description":$("#descriptionProductService").val(),
+		"price":$('#priceProductService').val().replace(",",".")
+	};
+
+	var valNumber = parseFloat(newProductService.price);
+	if(isNaN(valNumber)){
+		$('#msAddProductService').html('<div class="alert alert-warning" role="alert">El precio no es correcto</div>');
+		ScreenUp("modalAddProductService", "msAddProductService");
+		return;
+	}
 	
+	console.log(JSON.stringify(newProductService));
+	productsServices.push({
+		"id":newProductService.id,
+		"name":newProductService.name,
+		"description":newProductService.description,
+		"price":newProductService.price,
+		"inDB":false
+	});
+	listProductsServices();
+	$('#closeAddProductService').click();
 }
 
 //See
@@ -495,4 +552,259 @@ function closeModal() {
 	$('#addressProvider').val("");
 	if($('#countryButton').prop('checked')){$('#countryButton').click();}
 	if($('#cityButton').prop('checked')){$('#cityButton').click();}
+	listCitys(0);
+
+	$('#nameContact').val("");
+	$('#emailContact').val("");
+	$('#phoneNumberContact').val("");
+
+	$('#nameProductService').val("");
+	$('#descriptionProductService').val("");
+	$('#priceProductService').val("");
+
+	$('#msAddAddress').html("");
+	$('#msContact').html("");
+	$('#msAddProductService').html("");
 }
+
+//**********Guardar***********
+function createProvider(){
+	var provider = {
+		"nit":$('#NIT').val(),
+		"name":$('#name').val(),
+		"description":$('#description').val(),
+		"contacts":contacts,
+		"address":address,
+		"productsServices":productsServices
+	};
+	console.log("CREATE PROVIDER: ",JSON.stringify(provider));
+
+	if(provider.address.length == 0){
+		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar almenos una direccion</div>');
+		ScreenUp("msCreateProvider", "msCreateProvider");
+		return;
+	}
+	if(provider.contacts.length == 0){
+		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar almenos un contacto</div>');
+		ScreenUp("msCreateProvider", "msCreateProvider");
+		return;
+	}
+	if(provider.productsServices.length == 0){
+		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar almenos un producto o servicio</div>');
+		ScreenUp("msCreateProvider", "msCreateProvider");
+		return;
+	}
+
+	var dataProvider = saveProviderInServer(provider.nit, provider.name, provider.description);
+	var idProvider = dataProvider.idProvider;
+	
+	if(isNaN(parseInt(idProvider)) || idProvider <= 0){
+		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Error al crear el proveedor '+dataProvider.status+'</div>');
+		ScreenUp("msCreateProvider", "msCreateProvider");
+		return;
+	}
+
+	var validation = true;
+	for (var i = 0; i < provider.address.length; i++) {
+		if(provider.address[i].inDB != true){
+			provider.address[i].inDB = saveAddressInServer(provider.address[i].address, idProvider, provider.address[i].idCity, provider.address[i].idCountry);	
+		}
+		if(provider.address[i].inDB != true){
+			validation = false;
+		}
+	};
+
+	for (var i = 0; i < provider.contacts.length; i++) {
+		if(provider.contacts[i].inDB != true){
+			provider.contacts[i].inDB = saveContactInServer(provider.contacts[i].name, provider.contacts[i].email, provider.contacts[i].phoneNumber, idProvider);	
+		}
+		if(provider.contacts[i].inDB != true){
+			validation = false;
+		}
+	};
+
+	for (var i = 0; i < provider.productsServices.length; i++) {
+		if(provider.productsServices[i].inDB != true){
+			provider.productsServices[i].inDB = saveProductServiceInServer(provider.productsServices[i].name, provider.productsServices[i].description, provider.productsServices[i].price, idProvider);	
+		}
+		if(provider.productsServices[i].inDB != true){
+			validation = false;
+		}
+	};
+
+	if(validation){
+		$('#msCreateProvider').html('<div class="alert alert-success" role="alert">Se creo el proveedor con exito!</div>');
+		ScreenUp("msCreateProvider", "msCreateProvider");
+		closeModal();
+		contacts = [];
+		address = [];
+		productsServices = [];
+		listAddress();
+		listContacts();
+		listProductsServices();
+		$('#NIT').val("");
+		$('#name').val("");
+		$('#description').val("");
+	}else{
+		$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">Error al insertar datos del proveedor</div>');
+		ScreenUp("msCreateProvider", "msCreateProvider");
+		contacts = provider.contacts;
+		address = provider.address;
+		productsServices = provider.productsServices;
+		listAddress();
+		listContacts();
+		listProductsServices();
+		return;
+	}
+}
+
+function saveProviderInServer(nit, name, description){
+	console.log("SAVE PROVIDER IN SERVER");
+	if(sessionStorage.username && sessionStorage.logincode){
+		var dataAndAccount = {
+			"username":sessionStorage.username,
+			"logincode":sessionStorage.logincode,
+			"nit":nit,
+			"name":name,
+			"description":description
+		};
+		var data = insertInServer(createProviderService, dataAndAccount, "Create provider");
+		if(data.validate == "true"){
+			if(data.insert=="true"){
+				return data;
+			}else{
+				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear el proveedor '+data.status+'</div>');		
+				ScreenUp("msCreateUser","msCreateUser");
+				return data;
+			}
+		}else{
+			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear proveedores</div>');
+			ScreenUp("msCreateUser","msCreateUser");
+			return data;
+		}
+	}else{
+		if(indexPage != window.location && indexPage != window.location+"index.html"){
+			window.location.assign(indexPage);
+		}
+	}
+}
+
+function saveAddressInServer(address, idProvider, idCity, idCountry){
+	console.log("SAVE ADDRESS IN SERVER");
+	if(sessionStorage.username && sessionStorage.logincode){
+		var dataAndAccount = {
+			"username":sessionStorage.username,
+			"logincode":sessionStorage.logincode,
+			"address":address,
+			"idProvider":idProvider,
+			"idCity":idCity,
+			"idCountry":idCountry
+		};
+		var data = insertInServer(createAddressService, dataAndAccount, "Create address");
+		if(data.validate == "true"){
+			if(data.insert=="true"){
+				return true;
+			}else{
+				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear la direccion '+data.status+'</div>');		
+				ScreenUp("msCreateUser","msCreateUser");
+				return false;
+			}
+		}else{
+			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear Direcciones</div>');
+			ScreenUp("msCreateUser","msCreateUser");
+			return false;
+		}
+	}else{
+		if(indexPage != window.location && indexPage != window.location+"index.html"){
+			window.location.assign(indexPage);
+		}
+	}
+}
+
+function saveContactInServer(name, email, phoneNumber, idProvider){
+	console.log("SAVE CONTACT IN SERVER: "+name);
+	if(sessionStorage.username && sessionStorage.logincode){
+		var dataAndAccount = {
+			"username":sessionStorage.username,
+			"logincode":sessionStorage.logincode,
+			"name":name,
+			"email":email,
+			"phoneNumber":phoneNumber,
+			"idProvider":idProvider
+		};
+		var data = insertInServer(createContactService, dataAndAccount, "Create Contact");
+		if(data.validate == "true"){
+			if(data.insert=="true"){
+				return true;
+			}else{
+				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear el contacto '+data.status+'</div>');		
+				ScreenUp("msCreateUser","msCreateUser");
+				return false;
+			}
+		}else{
+			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear contactos</div>');
+			ScreenUp("msCreateUser","msCreateUser");
+			return false;
+		}
+	}else{
+		if(indexPage != window.location && indexPage != window.location+"index.html"){
+			window.location.assign(indexPage);
+		}
+	}
+}
+
+function saveProductServiceInServer(name, description, price, idProvider){
+	console.log("SAVE PRODUCT SERVICE IN SERVER");
+	if(sessionStorage.username && sessionStorage.logincode){
+		var dataAndAccount = {
+			"username":sessionStorage.username,
+			"logincode":sessionStorage.logincode,
+			"name":name,
+			"description":description,
+			"price":price,
+			"idProvider":idProvider
+		};
+		var data = insertInServer(createProductServiceService, dataAndAccount, "Create Product or service");
+		if(data.validate == "true"){
+			if(data.insert=="true"){
+				return true;
+			}else{
+				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear el producto o servicio'+data.status+'</div>');		
+				ScreenUp("msCreateUser","msCreateUser");
+				return false;
+			}
+		}else{
+			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear Productos o servicios</div>');
+			ScreenUp("msCreateUser","msCreateUser");
+			return false;
+		}
+	}else{
+		if(indexPage != window.location && indexPage != window.location+"index.html"){
+			window.location.assign(indexPage);
+		}
+	}
+}
+
+function insertInServer(link, dataAndAccount, type) {
+	console.log("INSERT IN SERVER");
+	validateAccount();
+	var returnData = false;
+	$.ajax({
+		url: link,
+		type: 'GET',
+		data: dataAndAccount,
+		async : false,
+		dataTipe: 'JSON',
+		success: function (data) {
+			console.log("WebService "+type+": "+JSON.stringify(data));
+			returnData = data;
+		},
+		error: function(objXMLHttpRequest) {
+		   	$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
+		    ScreenUp("msCreateProvider", "msCreateProvider");
+		    console.log("error",objXMLHttpRequest);
+		}
+	});
+	return returnData;
+}
+

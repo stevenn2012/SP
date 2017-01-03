@@ -100,8 +100,8 @@
 			        		<h4 class="modal-title" id="myModalLabel">Agregar direccion</h4>
 			      		</div>
 			      		<form action="javascript:addAddress()">
-			      			<div id="msAddAddress"></div>
 				      		<div class="modal-body">
+				      			<div id="msAddAddress"></div>
 				      			<div class="form-group">
 							    	<label for="exampleInputPassword1">Pais</label>
 							    	<select id="countryList" class="form-control"></select>
@@ -136,8 +136,8 @@
 							  	</div>
 				      		</div>
 				      		<div class="modal-footer">
-				      			<button type="submit" class="btn btn-primary">Save changes</button>
-				        		<button id="closeAddAddress" type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+				      			<button type="submit" class="btn btn-primary">Guardar Direccion</button>
+				        		<button id="closeAddAddress" type="button" class="closeModal btn btn-default" data-dismiss="modal">Cancelar</button>
 				        	</div>
 			        	</form>
 			    	</div>
@@ -152,8 +152,9 @@
 			        		<button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			        		<h4 class="modal-title" id="myModalLabel">Agregar Contacto</h4>
 			      		</div>
-			      		<form>
+			      		<form action="javascript:addContact()">
 			      			<div class="modal-body">
+			      				<div id="msContact"></div>
 			      				<div class="form-group">
 							    	<label for="exampleInputEmail1">Nombre</label>
 							    	<input id="nameContact" type="text" class="form-control" placeholder="Nombre" required>
@@ -169,8 +170,8 @@
 			      			</div>
 			      		
 				      		<div class="modal-footer">
-				      			<button type="submit" class="btn btn-primary">Save changes</button>
-				        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+				      			<button type="submit" class="btn btn-primary">Guardar contacto</button>
+				        		<button id="closeAddContact" type="button" class="closeModal btn btn-default" data-dismiss="modal">Cancelar</button>
 				        	</div>
 			        	</form>
 			    	</div>
@@ -185,8 +186,9 @@
 			        		<button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			        		<h4 class="modal-title" id="myModalLabel">Aregar Producto o servicio</h4>
 			      		</div>
-			      		<form>
+			      		<form action="javascript:addProductService()">
 				      		<div class="modal-body">
+				      			<div id="msAddProductService"></div>
 				      			<div class="form-group">
 							    	<label for="exampleInputEmail1">Nombre del producto o servicio</label>
 							    	<input id="nameProductService" type="text" class="form-control" placeholder="Nombre del producto o servicio" required>
@@ -202,8 +204,8 @@
 				      		</div>
 		
 				      		<div class="modal-footer">
-				      			<button type="submit" class="btn btn-primary">Save changes</button>
-				        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+				      			<button type="submit" class="btn btn-primary">Guardar producto o servicio</button>
+				        		<button id="closeAddProductService" type="button" class="closeModal btn btn-default" data-dismiss="modal">Cancelar</button>
 				        	</div>
 			        	</form>
 			    	</div>
@@ -220,7 +222,7 @@
 			      		</div>
 			      		<div id="bodyModalSeeAddress" class="modal-body"></div>
 			      		<div class="modal-footer">
-			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Cerrar</button>
 			        	</div>
 			    	</div>
 			  	</div>
@@ -236,8 +238,8 @@
 			      		</div>
 			      		<div class="modal-body"></div>
 			      		<div class="modal-footer">
-			      			<button type="button" class="btn btn-primary">Save changes</button>
-			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			      			<button type="button" class="btn btn-primary">Guardar cambios</button>
+			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Cerrar</button>
 			      		</div>
 			    	</div>
 			  	</div>
@@ -253,7 +255,7 @@
 			      		</div>
 			      		<div id="bodyModalSeeContact" class="modal-body"></div>
 			      		<div class="modal-footer">
-			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Cerrar</button>
 			        	</div>
 			    	</div>
 			  	</div>
@@ -269,8 +271,8 @@
 			      		</div>
 			      		<div class="modal-body"></div>
 			      		<div class="modal-footer">
-			        		<button type="button" class="btn btn-primary">Save changes</button>
-			      			<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			        		<button type="button" class="btn btn-primary">Guardar cambios</button>
+			      			<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Cerrar</button>
 			        	</div>
 			    	</div>
 			  	</div>
@@ -286,7 +288,7 @@
 			      		</div>
 			      		<div id="bodyModalSeeProductService" class="modal-body"></div>
 			      		<div class="modal-footer">
-			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			        		<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Cerrar</button>
 			      		</div>
 			    	</div>
 			  	</div>
@@ -302,8 +304,8 @@
 			      		</div>
 			      		<div class="modal-body"></div>
 			      		<div class="modal-footer">
-			        		<button type="button" class="btn btn-primary">Save changes</button>
-			      			<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Close</button>
+			        		<button type="button" class="btn btn-primary">Guardar cambios</button>
+			      			<button type="button" class="closeModal btn btn-default" data-dismiss="modal">Cerrar</button>
 			        	</div>
 			    	</div>
 			  	</div>
