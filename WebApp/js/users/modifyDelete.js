@@ -116,6 +116,7 @@ function deleteUser(iduser) {
 
 function deleteUserAjax(iduser) {
 	console.log("DELETE USER AJAX: "+iduser);
+	validateAccount();
 	if(sessionStorage.username && sessionStorage.logincode){
 		var accountAndData = {
 			"idUser":iduser,
@@ -168,6 +169,7 @@ function deleteUserAjax(iduser) {
 				},10000);
 			}
 		});
+	validateAccount();
 	}else{
 		if(indexPage != window.location && indexPage != window.location+"index.html"){
 			window.location.assign(indexPage);
