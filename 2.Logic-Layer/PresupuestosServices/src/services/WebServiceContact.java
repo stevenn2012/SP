@@ -116,7 +116,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 	          ) {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
-		System.out.print("\nCREAR CONTACTOS");
+		System.out.print("\nACTUALIZAR CONTACTOS");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
@@ -136,6 +136,39 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 				contacts.put("update", "false");
 				contacts.put("status", "id provedor o id cliente erroneos");
 				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			}else{
+				System.out.println(", Error cargando contacts\n");
+				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			}
+			
+		}else{
+			JSONObject contacts = new JSONObject();
+			contacts.put("validate", "false");
+			System.out.println(", Access denied\n");
+			return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+		}
+    }
+	
+	@GET
+	@Path("/delete")
+	@Produces("application/json")
+	public Response deleteContact(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	          @DefaultValue("null") @QueryParam("username") String username, 
+	          @DefaultValue("null") @QueryParam("logincode") String logincode,
+	          @DefaultValue("null") @QueryParam("idContact") String idContact
+	          ) {
+		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.println("\tAttempt to validate log in from : "+referer);
+		System.out.print("\nBORRAR CONTACTOS");
+		int verifyAccess = verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.println(", Access granted");  
+			JSONObject contacts = new JSONObject();
+			contacts.put("username", username);
+			contacts.put("logincode", logincode);	
+			contacts = LogicLoginAuthent.valLogin(request.getRemoteAddr(), contacts);
+			if (contacts.getString("validate").equals("true")) {
+				return Response.ok(LogicContact.deleteContact(Long.parseLong(idContact)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando contacts\n");
 				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();

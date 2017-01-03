@@ -69,4 +69,21 @@ public class LogicContact {
 		}
 	}
 
+	public static Object deleteContact(long contact) {
+		JSONObject obj = new JSONObject();
+		if (DAOContact.deleteContact(contact)) {
+			obj.put("validate", "true");
+			obj.put("delete", "true");
+			obj.put("status", "Se ha borrado el contacto correctamente.");
+			return obj;
+		}else{
+			obj.put("validate", "true");
+			obj.put("delete", "false");
+			obj.put("status", "Error al borrar el contacto.");
+			return obj;
+		}
+	}
+
+
+
 }

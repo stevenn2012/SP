@@ -107,6 +107,22 @@ public class LogicLoginAuthent {
 		return obj;
 	}
 	
+	public static JSONObject logOutDeletedAccount(String username) {
+		System.out.print("\tReceived -> User: '"+username+"', loginCode: **** ");
+		AccountLogin acc= loginAccounts.get(username.toLowerCase());
+		JSONObject obj = new JSONObject();
+		obj.put("logOutDeletedAccount", "false");
+		obj.put("status", "El usuario no esta logueado");
+		
+		if(acc != null){
+			loginAccounts.remove(username.toLowerCase());
+			obj.remove("logOutDeletedAccount");
+			obj.put("logOutDeletedAccount", "true");
+		}
+		System.out.println(" -> Log out: "+obj.getString("logout"));
+		return obj;
+	}
+	
 	private static String generateLoginCode(String user, String name){
 		Date logAccounts = new Date();
 		return MD5Encryption.getMD5(MD5Encryption.getMD5(logAccounts.toString())+MD5Encryption.getMD5(user)+MD5Encryption.getMD5(name));

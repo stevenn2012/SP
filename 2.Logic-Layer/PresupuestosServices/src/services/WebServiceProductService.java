@@ -132,6 +132,39 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 		}
     }
 	
+	@GET
+	@Path("/delete")
+	@Produces("application/json")
+	public Response deleteProductService(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	          @DefaultValue("null") @QueryParam("username") String username, 
+	          @DefaultValue("null") @QueryParam("logincode") String logincode,
+	          @DefaultValue("null") @QueryParam("idProductService") String idProductService
+	          ) {
+		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.println("\tAttempt to validate log in from : "+referer);
+		System.out.print("\nBORRAR PRODUCTOSERVICIO");
+		int verifyAccess = verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.println(", Access granted");  
+			JSONObject productservices = new JSONObject();
+			productservices.put("username", username);
+			productservices.put("logincode", logincode);	
+			productservices = LogicLoginAuthent.valLogin(request.getRemoteAddr(), productservices);
+			if (productservices.getString("validate").equals("true")) {			
+				return Response.ok(LogicProductService.deleteProductService(Long.parseLong(idProductService)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			}else{
+				System.out.println(", Error cargando productservices\n");
+				return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			}
+			
+		}else{
+			JSONObject productservices = new JSONObject();
+			productservices.put("validate", "false");
+			System.out.println(", Access denied\n");
+			return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+		}
+    }
+	
 	public int verifyAccess(String referer){
 		if(referer != null) {
 			for (int i = 0; i < urlAccess.length; i++) {
