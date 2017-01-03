@@ -499,6 +499,7 @@ function editUserAjax() {
 						setTimeout(function() {
 							$('#msModifyDelete').html("");
 						},10000);
+						validateAccount();
 					}else{
 						$('#msCreateUser').html('<div class="alert alert-warning" role="alert">No se pudo crear el usuario: '+data.status+'</div>');
 						ScreenUp("msCreateUser");
