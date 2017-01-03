@@ -67,4 +67,11 @@ public class LogicProductService {
 			return obj;
 		}
 	}
+
+	public static JSONObject deleteProductService(long parseLong) {
+		JSONObject obj = new JSONObject();
+		//List<BudgetPS> enPresupuesto = DAO
+		obj.put("test", 0);
+		return obj;
+	}
 }
