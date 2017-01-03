@@ -34,14 +34,14 @@ function listAddress() {
 	if(address.length > 0){
 		data += '<table class="table table-bordered"><tr>';
 		data += '<th>Direccion</th>';
-		data += '<th>Ver</th>';
-		data += '<th>Editar</th>';
+		data += '<th>Ciudad</th>';
+		data += '<th>Pais</th>';
 		data += '<th>Borrar</th></tr>';								
 		for (var i = 0; i < address.length; i++) {
 			data += '<tr>';
 			data += '<td>'+address[i].address+'</td>';
-			data += '<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSeeAddress" onclick="seeAddress('+address[i].id+')">Ver</button></td>';
-			data += '<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditAddress" onclick="editAddress('+address[i].id+')">Editar</button></td>';
+			data += '<td>'+address[i].city+'</td>';
+			data += '<td>'+address[i].country+'</td>';
 			data += '<td><button class="btn btn-default" type="button" onclick="removeAddress('+address[i].id+')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></button></td>';
 			data += '</tr>';
 		}
@@ -56,14 +56,14 @@ function listContacts() {
 	if(contacts.length > 0){
 		data += '<table class="table table-bordered"><tr>';
 		data += '<th>Nombre</th>';
-		data += '<th>Ver</th>';
-		data += '<th>Editar</th>';
+		data += '<th>Correo</th>';
+		data += '<th>Telefono</th>';
 		data += '<th>Borrar</th></tr>';								
 		for (var i = 0; i < contacts.length; i++) {
 			data += '<tr>';
 			data += '<td>'+contacts[i].name+'</td>';
-			data += '<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSeeContact" onclick="seeContact('+contacts[i].id+')">Ver</button></td>';
-			data += '<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditContact" onclick="editContact('+contacts[i].id+')">Editar</button></td>';
+			data += '<td>'+contacts[i].email+'</td>';
+			data += '<td>'+contacts[i].phoneNumber+'</td>';
 			data += '<td><button class="btn btn-default" type="button" onclick="removeContact('+contacts[i].id+')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></button></td>';
 			data += '</tr>';
 		}
@@ -78,14 +78,14 @@ function listProductsServices() {
 	if(productsServices.length > 0){
 		data += '<table class="table table-bordered"><tr>';
 		data += '<th>Producto o servicio</th>';
-		data += '<th>Ver</th>';
-		data += '<th>Editar</th>';
+		data += '<th>Descripcion</th>';
+		data += '<th>Precio</th>';
 		data += '<th>Borrar</th></tr>';								
 		for (var i = 0; i < productsServices.length; i++) {
 			data += '<tr>';
 			data += '<td>'+productsServices[i].name+'</td>';
-			data += '<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSeeProductService" onclick="seeProductService('+productsServices[i].id+')">Ver</button></td>';
-			data += '<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditProductService" onclick="editProductService('+productsServices[i].id+')">Editar</button></td>';
+			data += '<td>'+productsServices[i].description+'</td>';
+			data += '<td>'+productsServices[i].price+'</td>';
 			data += '<td><button class="btn btn-default" type="button" onclick="removeProductService('+productsServices[i].id+')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></button></td>';
 			data += '</tr>';
 		}
@@ -492,19 +492,6 @@ var formatNumber = {
 	  	this.simbol = simbol ||'';
 	  	return this.formatear(num);
 	}
-}
-
-//Edit
-function editAddress(idAddress) {
-	console.log("EDIT ADDRESS: "+idAddress);
-}
-
-function editContact(idContact) {
-	console.log("EDIT CONTACT: "+idContact);
-}
-
-function editProductService(idProductService) {
-	console.log("EDIT PRODUCT SERVICE: "+idProductService);
 }
 
 //Remove
