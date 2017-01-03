@@ -16,6 +16,7 @@ function validateAccount() {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
+				console.log("VALIDATION : "+JSON.stringify(data));
 				if(data.validate == "true"){
 					if(indexPage == window.location || indexPage == window.location+"index.html"){
 						window.location.assign(indexPage+'pages/');

@@ -264,7 +264,6 @@ function listCitys(idCountry) {
 			data += '<option value="'+citys[i].idCity+'">'+citys[i].name+'</option>';
 		}
 	};
-
 	if(data == ''){
 		$('#cityButton').prop('checked', true);
 	}else{
