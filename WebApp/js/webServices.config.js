@@ -1,5 +1,7 @@
 //http://www.danstools.com/javascript-obfuscate/index.php
 var indexPage = "http://localhost/Proyects/SantaPublicidad/WebApp/";
+var rollAdmin = 'Gerencia';
+var OperatorFoldersAllowed = [indexPage+'Proyect/'];
 var page = "http://localhost:8080";
 var loginService = page+"/WebServicesPresupuestos/AppLoginAuthentication/login";
 var validateLogin = page+"/WebServicesPresupuestos/AppLoginAuthentication/validation";
