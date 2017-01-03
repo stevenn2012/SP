@@ -98,11 +98,18 @@ public class LogicUsers {
 		List<Project> proyectos = DAOProject.getProjects();
 		if (proyectos!=null) {
 			for (int i = 0; i < proyectos.size(); i++) {
-				if (proyectos.get(i).getUser_idUser()==Long.parseLong(idUser)) {
-					obj.put("validate", "true");
-					obj.put("delete", "false");
-					obj.put("status", "El usuario tiene asociado proyectos. No se puede borrar.");
-					return obj;
+				if (proyectos.get(i).getUser_idUser()==Long.parseLong(idUser)) {					
+					if (DAOUser.updateUserActive(idUser)) {
+						obj.put("validate", "true");
+						obj.put("delete", "true");
+						obj.put("status", "El usuario tiene asociado proyectos. No se puede borrar. Active = 0");
+						return obj;
+					}else{
+						obj.put("validate", "true");
+						obj.put("delete", "false");
+						obj.put("status", "Error de conexion");
+						return obj;
+					}
 				}
 			}
 		}

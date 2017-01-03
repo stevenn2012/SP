@@ -69,4 +69,19 @@ public class LogicAddress {
 		}
 	}
 
+	public static Object deleteAddress(long address) {
+		JSONObject obj = new JSONObject();
+		if (DAOAddress.deleteAddress(address)) {
+			obj.put("validate", "true");
+			obj.put("delete", "true");
+			obj.put("status", "Se ha borrado la dirección correctamente.");
+			return obj;
+		}else{
+			obj.put("validate", "true");
+			obj.put("delete", "false");
+			obj.put("status", "Error en borrar la dirección");
+			return obj;
+		}
+	}
+
 }
