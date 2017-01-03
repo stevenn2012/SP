@@ -2,7 +2,10 @@ package logic;
 
 import java.util.List;
 import org.json.JSONObject;
+
+import dao.DAOAddress;
 import dao.DAOCity;
+import vo.Address;
 import vo.City;
 
 
@@ -72,13 +75,30 @@ public class LogicCity {
 	}
 
 	public static JSONObject deleteCity(String idCity) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject obj = new JSONObject();
+		List<Address> direcciones = DAOAddress.getAddress();
+		List<City>    ciudades    = DAOCity.getCities();
+		if (direcciones!=null && ciudades != null) {
+			for (int i = 0; i < direcciones.size(); i++) {
+				
+			}
+		}
+		return obj;
 	}
 
-	public static JSONObject updateCity(City city, long parseLong) {
-		// TODO Auto-generated method stub
-		return null;
+	public static JSONObject updateCity(City city) {
+		JSONObject obj = new JSONObject();
+		if (DAOCity.updateCity(city)) {
+			obj.put("validate", "true");
+			obj.put("update", "true");
+			obj.put("status", "Actualización de la ciudad correcta.");
+			return obj;
+		}else{
+			obj.put("validate", "true");
+			obj.put("update", "false");
+			obj.put("status", "Error en la actualización de la ciudad.");
+			return obj;
+		}
 	}
 
 }

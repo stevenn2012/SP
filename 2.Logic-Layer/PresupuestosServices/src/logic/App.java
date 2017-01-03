@@ -1,13 +1,8 @@
 package logic;
 
-import dao.DAOAddress;
-import dao.DAOCity;
-import dao.DAOCountry;
-import dao.DAOProvider;
+
 import vo.City;
-import vo.Country;
-import vo.Provider;
-import vo.User;
+
 
 public class App {
 

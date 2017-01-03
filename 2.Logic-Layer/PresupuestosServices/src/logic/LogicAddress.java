@@ -3,9 +3,7 @@ package logic;
 import java.util.List;
 
 import org.json.JSONObject;
-
 import dao.DAOAddress;
-import dao.DAOCity;
 import vo.Address;
 
 public class LogicAddress {

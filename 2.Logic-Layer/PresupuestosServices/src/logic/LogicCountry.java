@@ -72,11 +72,8 @@ public class LogicCountry {
 		
 		if (direcciones!=null && ciudades != null && paises != null) {
 			for (int i = 0; i < ciudades.size(); i++) {
-				System.out.println(ciudades.get(i).getIdCountry()+" for 1. "+Long.parseLong(idCountry));
 				if (ciudades.get(i).getIdCountry()==Long.parseLong(idCountry)) {
-					System.out.println(ciudades.get(i).getIdCountry()+" for 1. if 1"+Long.parseLong(idCountry));
 					for (int j = 0; j < direcciones.size(); j++) {
-						System.out.println(ciudades.get(i).getIdCity()+" for 2. "+direcciones.get(j).getIdCity());
 						if (direcciones.get(j).getIdCity()==ciudades.get(i).getIdCity()) {
 							if (!DAOAddress.deleteAddress(direcciones.get(j).getIdAddress())) {
 								obj.put("validate", "true");
@@ -102,19 +99,29 @@ public class LogicCountry {
 			}else{
 				obj.put("validate", "true");
 				obj.put("delete", "false");
-				obj.put("status", "Error al el pais. Error al acceder a la base de datos");
+				obj.put("status", "Error al borrar el pais.");
 				return obj;
 			}
 		}else{
 			obj.put("validate", "true");
 			obj.put("delete", "false");
-			obj.put("status", "Error al borrar pais. Error al acceder a la base de datos");
+			obj.put("status", "Error al borrar pais.");
 			return obj;
 		}
 	}
 
 	public static JSONObject updateCountry(Country country, long parseLong) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject obj = new JSONObject();
+		if (DAOCountry.updateCountry(country)) {
+			obj.put("validate", "true");
+			obj.put("update", "true");
+			obj.put("status", "Pais actualizado correctamente");
+			return obj;
+		}else{
+			obj.put("validate", "true");
+			obj.put("update", "false");
+			obj.put("status", "Error al actualizar pais.");
+			return obj;
+		}
 	}
 }

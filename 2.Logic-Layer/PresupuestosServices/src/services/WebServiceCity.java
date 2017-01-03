@@ -148,7 +148,7 @@ public class WebServiceCity {
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				City city = new City(Long.parseLong(idCity), name, Long.parseLong(idCountry));
-				return Response.ok(LogicCity.updateCity(city,Long.parseLong(idCity)).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicCity.updateCity(city).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
