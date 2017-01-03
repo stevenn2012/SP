@@ -1,14 +1,18 @@
 package logic;
 
 
+import java.util.Date;
+
 import vo.City;
 
 
 public class App {
 
 	public static void main(String[] args) {
-	System.out.println(MD5Encryption.getMD5("1234"));
-	System.out.println(LogicCity.createCity(new City(0, "Bogota", 1)));
+	//System.out.println(MD5Encryption.getMD5("1234"));
+	//System.out.println(LogicCity.createCity(new City(0, "Bogota", 1)));
+	Date date = new Date();
+	System.out.println(date.toString());
 	//System.out.println(LogicProvider.getProvidersJSON());
 		//System.out.println(LogicCountry.getCountriesJSON());
 		//System.out.println(LogicCountry.createCountry(new Country(0, "+075", "Peru")));
