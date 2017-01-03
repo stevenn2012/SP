@@ -111,6 +111,7 @@ function countryButton(){
 	var value = $('#countryButton').prop('checked');
 	if(value){
 		$('#countryList').val(0);
+		listCitys(0);
 		$('#countryList').prop('disabled', true);
 		$('#countryAddress').prop('disabled', false);
 	}else{
@@ -257,12 +258,19 @@ function listCountrys() {
 }
 
 function listCitys(idCountry) {
-	var data = '<option value="0">-- Seleccione la ciudad --</option>';
+	var data = '';
 	for (var i = 0; i < citys.length; i++) {
 		if(citys[i].idCountry == idCountry){
 			data += '<option value="'+citys[i].idCity+'">'+citys[i].name+'</option>';
 		}
 	};
+	if(data == ''){
+		$('#cityButton').prop('checked', true);
+	}else{
+		$('#cityButton').prop('checked', false);
+	}
+	cityButton();
+	data = '<option value="0">-- Seleccione la ciudad --</option>'+data;
 	$('#cityList').html(data);
 }
 
