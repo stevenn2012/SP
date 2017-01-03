@@ -85,7 +85,55 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 					Contact contact = new Contact(0, name, email, phoneNumber, 0,Long.parseLong(idClient));
 					return Response.ok(LogicContact.createContact(contact).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 				}
-				contacts.put("list", "false");
+				contacts.put("create", "false");
+				contacts.put("status", "id provedor o id cliente erroneos");
+				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			}else{
+				System.out.println(", Error cargando contacts\n");
+				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			}
+			
+		}else{
+			JSONObject contacts = new JSONObject();
+			contacts.put("validate", "false");
+			System.out.println(", Access denied\n");
+			return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+		}
+    }
+	
+	@GET
+	@Path("/update")
+	@Produces("application/json")
+	public Response updateContact(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	          @DefaultValue("null") @QueryParam("username") String username, 
+	          @DefaultValue("null") @QueryParam("logincode") String logincode,
+	          @DefaultValue("null") @QueryParam("idContact") String idContact,
+	          @DefaultValue("null") @QueryParam("name") String name,
+	          @DefaultValue("null") @QueryParam("email") String email,
+	          @DefaultValue("null") @QueryParam("phoneNumber") String phoneNumber,
+	          @DefaultValue("null") @QueryParam("idProvider") String idProvider,
+	          @DefaultValue("null") @QueryParam("idClient") String idClient
+	          ) {
+		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.println("\tAttempt to validate log in from : "+referer);
+		System.out.print("\nCREAR CONTACTOS");
+		int verifyAccess = verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.println(", Access granted");  
+			JSONObject contacts = new JSONObject();
+			contacts.put("username", username);
+			contacts.put("logincode", logincode);	
+			contacts = LogicLoginAuthent.valLogin(request.getRemoteAddr(), contacts);
+			if (contacts.getString("validate").equals("true")) {
+				if (idClient.equals("null")) {
+					Contact contact = new Contact(Long.parseLong(idContact), name, email, phoneNumber, Long.parseLong(idProvider), 0);
+					return Response.ok(LogicContact.updateContact(contact).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				}				
+				if (idProvider.equals("null")) {
+					Contact contact = new Contact(Long.parseLong(idContact), name, email, phoneNumber, 0,Long.parseLong(idClient));
+					return Response.ok(LogicContact.updateContact(contact).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				}
+				contacts.put("update", "false");
 				contacts.put("status", "id provedor o id cliente erroneos");
 				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{

@@ -5,6 +5,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import dao.DAOAddress;
+import dao.DAOCity;
 import vo.Address;
 
 public class LogicAddress {
@@ -51,6 +52,21 @@ public class LogicAddress {
 			obj.put("validate", "true");
 			obj.put("insert", "false");
 			obj.put("status", "No ha insertado correctamente la direccion.");
+			return obj;
+		}
+	}
+
+	public static JSONObject updateAddress(Address address) {
+		JSONObject obj = new JSONObject();
+		if (DAOAddress.updateAddress(address)) {
+			obj.put("validate", "true");
+			obj.put("update", "true");
+			obj.put("status", "Se ha actualizado la dirección correctamente.");
+			return obj;
+		}else{
+			obj.put("validate", "true");
+			obj.put("update", "false");
+			obj.put("status", "Error en la actualización de la dirección");
 			return obj;
 		}
 	}

@@ -54,4 +54,19 @@ public class LogicContact {
 		}
 	}
 
+	public static JSONObject updateContact(Contact contact) {
+		JSONObject obj = new JSONObject();
+		if (DAOContact.updateContact(contact)) {
+			obj.put("validate", "true");
+			obj.put("update", "true");
+			obj.put("status", "Se ha actualizado el contacto correctamente.");
+			return obj;
+		}else{
+			obj.put("validate", "true");
+			obj.put("update", "false");
+			obj.put("status", "Error de actualizacion del contacto.");
+			return obj;
+		}
+	}
+
 }

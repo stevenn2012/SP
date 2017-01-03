@@ -52,4 +52,19 @@ public class LogicProductService {
 			return obj;
 		}
 	}
+
+	public static Object updateProductService(ProductService productservice) {
+		JSONObject obj = new JSONObject();
+		if (DAOProductService.updateProductService(productservice)) {
+			obj.put("validate", "true");
+			obj.put("update", "true");
+			obj.put("status", "Actualización del producto o servicio correctamente.");
+			return obj;
+		}else{
+			obj.put("validate", "true");
+			obj.put("update", "false");
+			obj.put("status", "No se ha actualizado el producto o servicio.");
+			return obj;
+		}
+	}
 }

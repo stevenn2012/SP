@@ -94,16 +94,30 @@ public class DAOAddress {
 	public static boolean updateAddress(Address address) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="update address set address = :address, idProvider = :idp, idCity = :idcy, idClient = :idc where address.idAddress = :id";
-			connection.createQuery(query)
-					.addParameter("id",  address.getIdAddress())
-					.addParameter("address",address.getAddress())
-					.addParameter("idP", address.getIdProvider())
-					.addParameter("idcy", address.getIdCity())
-					.addParameter("idct", address.getIdClient())
-					.executeUpdate();
-			connection.commit();
-			return true;
+			if (address.getIdProvider()==0){
+				String query="update address set address = :address, idCity = :idcy, idClient = :idc where address.idAddress = :id";
+				connection.createQuery(query)
+						.addParameter("id",  address.getIdAddress())
+						.addParameter("address",address.getAddress())
+						.addParameter("idcy", address.getIdCity())
+						.addParameter("idct", address.getIdClient())
+						.executeUpdate();
+				connection.commit();
+				return true;
+			}else  if(address.getIdClient()==0){
+				String query="update address set address = :address, idProvider = :idp, idCity = :idcy where address.idAddress = :id";
+				connection.createQuery(query)
+						.addParameter("id",  address.getIdAddress())
+						.addParameter("address",address.getAddress())
+						.addParameter("idP", address.getIdProvider())
+						.addParameter("idcy", address.getIdCity())
+						.executeUpdate();
+				connection.commit();
+				return true;
+			}else{
+				return false;
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" -> Error update address dao");

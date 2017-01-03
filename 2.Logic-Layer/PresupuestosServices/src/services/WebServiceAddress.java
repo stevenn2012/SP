@@ -86,7 +86,54 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 					Address city = new Address(0, address, 0,Long.parseLong(idCity),Long.parseLong(idClient));
 					return Response.ok(LogicAddress.createAddress(city).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 				}
-				addresses.put("list", "false");
+				addresses.put("create", "false");
+				addresses.put("status", "id provedor o id cliente erroneos");
+				return Response.ok(addresses.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+			}else{
+				System.out.println(", Error cargando addresses\n");
+				return Response.ok(addresses.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			}
+			
+		}else{
+			JSONObject addresses = new JSONObject();
+			addresses.put("validate", "false");
+			System.out.println(", Access denied\n");
+			return Response.ok(addresses.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+		}
+    }
+	
+	@GET
+	@Path("/update")
+	@Produces("application/json")
+	public Response updateAddress(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	          @DefaultValue("null") @QueryParam("username") String username, 
+	          @DefaultValue("null") @QueryParam("logincode") String logincode,
+	          @DefaultValue("null") @QueryParam("idAddress") String idAddress,
+	          @DefaultValue("null") @QueryParam("address") String address,
+	          @DefaultValue("null") @QueryParam("idProvider") String idProvider,
+	          @DefaultValue("null") @QueryParam("idCity") String idCity,
+	          @DefaultValue("null") @QueryParam("idClient") String idClient
+	          ) {
+		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print("\tAttempt to validate log in from : "+referer);
+		System.out.print("\nACTUALIZAR DIRECCIONES");
+		int verifyAccess = verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.println(", Access granted");  
+			JSONObject addresses = new JSONObject();
+			addresses.put("username", username);
+			addresses.put("logincode", logincode);	
+			addresses = LogicLoginAuthent.valLogin(request.getRemoteAddr(), addresses);
+			if (addresses.getString("validate").equals("true")) {
+				if (idClient.equals("null")) {
+					Address city = new Address(Long.parseLong(idAddress), address, Long.parseLong(idProvider),Long.parseLong(idCity),0);
+					return Response.ok(LogicAddress.updateAddress(city).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				}				
+				if (idProvider.equals("null")) {
+					Address city = new Address(Long.parseLong(idAddress), address, 0,Long.parseLong(idCity),Long.parseLong(idClient));
+					return Response.ok(LogicAddress.updateAddress(city).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				}
+				addresses.put("update", "false");
 				addresses.put("status", "id provedor o id cliente erroneos");
 				return Response.ok(addresses.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{

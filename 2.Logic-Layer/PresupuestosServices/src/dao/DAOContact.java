@@ -97,17 +97,31 @@ public class DAOContact {
 	public static boolean updateContact(Contact contact) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="update contact set name = :name, email = :email, phoneNumber = :phonenumber, idProvider = :idprovider, idClient = :idclient where contact.idContact = :id";
-			connection.createQuery(query)
-					.addParameter("id",  contact.getIdContact())
-					.addParameter("name",contact.getName())
-					.addParameter("email", contact.getEmail())
-					.addParameter("phonenumber", contact.getPhoneNumber())
-					.addParameter("idprovider", contact.getIdProvider())
-					.addParameter("idclient", contact.getIdClient())
-					.executeUpdate();
-			connection.commit();
-			return true;
+			if (contact.getIdClient()==0) {
+				String query="update contact set name = :name, email = :email, phoneNumber = :phonenumber, idProvider = :idprovider where contact.idContact = :id";
+				connection.createQuery(query)
+						.addParameter("id",  contact.getIdContact())
+						.addParameter("name",contact.getName())
+						.addParameter("email", contact.getEmail())
+						.addParameter("phonenumber", contact.getPhoneNumber())
+						.addParameter("idprovider", contact.getIdProvider())
+						.executeUpdate();
+				connection.commit();
+				return true;
+			}else if (contact.getIdProvider()==0) {
+				String query="update contact set name = :name, email = :email, phoneNumber = :phonenumber, idClient = :idclient where contact.idContact = :id";
+				connection.createQuery(query)
+						.addParameter("id",  contact.getIdContact())
+						.addParameter("name",contact.getName())
+						.addParameter("email", contact.getEmail())
+						.addParameter("phonenumber", contact.getPhoneNumber())
+						.addParameter("idclient", contact.getIdClient())
+						.executeUpdate();
+				connection.commit();
+				return true;
+			}else{
+				return false;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" -> Error update contact");

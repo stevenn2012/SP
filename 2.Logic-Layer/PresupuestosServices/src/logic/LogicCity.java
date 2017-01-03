@@ -36,7 +36,7 @@ public class LogicCity {
 		for (int i = 0; i < cities.size(); i++) {
 			if(cities.get(i).getName().toLowerCase().equals(city.getName().toLowerCase())){
 				obj.put("validate", "true");
-				obj.put("insert", "false");
+				obj.put("insert", "true");
 				obj.put("status", "La ciudad se encontraba previamente en la base de datos.");
 				obj.put("idCity", cities.get(i).getIdCity());
 				obj.put("Nombre", cities.get(i).getName());

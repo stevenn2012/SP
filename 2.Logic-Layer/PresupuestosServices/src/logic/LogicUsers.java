@@ -51,8 +51,14 @@ public class LogicUsers {
 	public static JSONObject insertUser(User usuario, long rol) {
 		JSONObject obj = new JSONObject();
 		List<User> usuarios = DAOUser.getUsers();
+		if (usuarios==null) {
+			obj.put("validate", "true");
+			obj.put("create", "false");
+			obj.put("status", "Error conexion base de datos");
+			return obj;
+		}
 		
-		if (usuario.getPassword()==null || usuario.getPassword().isEmpty()) {
+		if (usuario.getPassword()==null || usuario.getPassword().equals("d41d8cd98f00b204e9800998ecf8427e")) {
 			obj.put("validate", "true");
 			obj.put("create", "false");
 			obj.put("status", "Password Invalido");
@@ -60,7 +66,7 @@ public class LogicUsers {
 		}
 		
 		for (int i = 0; i < usuarios.size(); i++) {
-			if (usuario.getUserName().toLowerCase().equals(usuarios.get(i).getUserName().toLowerCase()) || usuario.getDocument()==usuarios.get(i).getDocument()) {
+			if (usuario.getUserName().toLowerCase().equals(usuarios.get(i).getUserName().toLowerCase()) || usuario.getDocument().toLowerCase().equals(usuarios.get(i).getDocument().toLowerCase())) {
 				obj.put("validate", "true");
 				obj.put("create", "false");
 				obj.put("status", "Nombre de Usuario o documento Invalido");
@@ -122,7 +128,7 @@ public class LogicUsers {
 				
 		for (int i = 0; i < usuarios.size(); i++) {
 			if (usuarios.get(i).getIdUser()!=usuario.getIdUser()) {
-				if (usuario.getUserName().toLowerCase().equals(usuarios.get(i).getUserName().toLowerCase()) || usuario.getDocument()==usuarios.get(i).getDocument()) {
+				if (usuario.getUserName().toLowerCase().equals(usuarios.get(i).getUserName().toLowerCase()) || usuario.getDocument().toLowerCase().equals(usuarios.get(i).getDocument())) {
 					obj.put("validate", "true");
 					obj.put("update", "false");
 					obj.put("status", "Nombre de Usuario o documento Invalido");

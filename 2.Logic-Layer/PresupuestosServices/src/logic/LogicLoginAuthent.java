@@ -23,6 +23,11 @@ public class LogicLoginAuthent {
 		JSONObject obj = new JSONObject();
 		if(user != null){
 			System.out.println(" -> The user was found");
+			if (!user.isActive()) {
+				obj.put("access", false);
+				obj.put("status", "Usuario inactivo.");
+				return obj;
+			}
 			obj.put("access", true);
 			obj.put("namel", user.getName());
 			obj.put("username", user.getUserName());
