@@ -41,7 +41,9 @@ public class LogicUsers {
 				String area1 = DAOArea.getAreaByIdArea(usuarios.get(i).getIdArea()).getName();
 				usuario.setArea(area1);
 				usuario.setEmail(usuarios.get(i).getEmail());
-				listaUsuarios.add(usuario);
+				if (usuarios.get(i).isActive()) {
+					listaUsuarios.add(usuario);
+				}
 			}
 			obj.putOnce("users", listaUsuarios);
 			return obj;

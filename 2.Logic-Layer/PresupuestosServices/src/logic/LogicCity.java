@@ -75,12 +75,17 @@ public class LogicCity {
 	}
 
 	public static JSONObject deleteCity(String idCity) {
+		Long idcity = Long.parseLong(idCity);
 		JSONObject obj = new JSONObject();
 		List<Address> direcciones = DAOAddress.getAddress();
 		List<City>    ciudades    = DAOCity.getCities();
 		if (direcciones!=null && ciudades != null) {
 			for (int i = 0; i < direcciones.size(); i++) {
-				
+				if (direcciones.get(i).getIdCity()==idcity) {
+					if (!DAOAddress.deleteAddress(direcciones.get(i).getIdAddress())) {
+						
+					}
+				}
 			}
 		}
 		return obj;

@@ -70,7 +70,6 @@ public class WebServiceUsers {
 			  @DefaultValue("null") @QueryParam("password") String password, 
 	          @DefaultValue("null") @QueryParam("idarea") String idarea,
 	          @DefaultValue("null") @QueryParam("email") String email,
-	          @DefaultValue("null") @QueryParam("active") String active,
 	          @DefaultValue("null") @QueryParam("idRol") String idRol,
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
 	          @DefaultValue("null") @QueryParam("username") String username
