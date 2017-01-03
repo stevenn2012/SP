@@ -72,8 +72,7 @@ public class LogicLoginAuthent {
 					}
 					if (!usuario.isActive()) {
 						obj.put("status", "inactive");
-						logOut(ip, account);
-						return obj;
+						return logOut(ip, account);
 					}
 				}else{
 					obj.put("status", "Error de validación");
@@ -82,6 +81,7 @@ public class LogicLoginAuthent {
 				obj.remove("validate");
 				obj.put("validate", "true");
 				obj.put("status", "active");
+				return obj;
 			}
 		}
 		System.out.println(" -> Validate Login: "+obj.getString("validate"));
