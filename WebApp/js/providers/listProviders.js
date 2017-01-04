@@ -136,7 +136,7 @@ function seeProductServices (idProvider) {
 	var productServices = provider.productServices;
 
 	var number = 3;
-	var data = '<div class="scroll panel panel-info"><div class="panel-heading"> Contactos de '+provider.name+'</div><div class="panel-body">';
+	var data = '<div class="scroll panel panel-info"><div class="panel-heading"> Productos y servicios de '+provider.name+'</div><div class="panel-body">';
 	data += '<p>Acontinuacion se muestran los productos y servicios del proveedor seleccionado, de click sobre el producto o servicio para ver mas informacion.</p>';
 	data += '<div id="accordion'+number+'" class="panel-group" role="tablist" aria-multiselectable="true">';
 	for (var i = 0; i <productServices.length; i++) {
