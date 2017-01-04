@@ -7,19 +7,41 @@ import dao.DAORoll;
 import dao.DAOUser;
 import vo.AccountLogin;
 import vo.Roll;
+import vo.TimeControlAccountLogin;
 import vo.User;
 
 
 public class LogicLoginAuthent {
 
 	private static HashMap<String, AccountLogin> loginAccounts = new HashMap<String, AccountLogin>();
+	private static HashMap<String, TimeControlAccountLogin> attempts = new HashMap<String, TimeControlAccountLogin>();
 	
 	public static JSONObject login(String ip, JSONObject account){
 		String username = account.getString("user");
 		String password = account.getString("pass");
+		JSONObject obj = new JSONObject();
+		TimeControlAccountLogin attempt = attempts.get(ip+username);
+		if (attempt==null) {
+			attempts.put(ip+username, new TimeControlAccountLogin(ip, 0, System.currentTimeMillis(), System.currentTimeMillis()));
+		}
+		if (attempts.get(ip+username).getAttemptCount()>=5) {
+			attempts.get(ip+username).setStopTime(System.currentTimeMillis());
+			long elapsedTime = attempts.get(ip+username).getStopTime()-attempts.get(ip+username).getStartTime();
+			long time = 60000;
+			if (elapsedTime>time) {
+				attempts.remove(ip+username);
+				attempts.put(ip+username, new TimeControlAccountLogin(ip, 0, System.currentTimeMillis(), System.currentTimeMillis()));
+			}else{
+				System.out.println("Bloquedado: tiempo transcurrido "+elapsedTime/1000+" segundos, Wait: "+time/1000+ " segundos.");
+				obj.put("access", false);
+				obj.put("status", "Bloqueado. Esperar "+time/1000+" segundos. Tiempo transcurrido = "+elapsedTime/1000);
+				return obj;
+			}
+		}
 		System.out.print("\tReceived -> User: '"+username+"', pass: **** ");
 		User user = DAOUser.getUserByUsernameAndPassword(username, password);
-		JSONObject obj = new JSONObject();
+		
+		System.out.println("USUARIO = "+user);
 		if(user != null){
 			System.out.println(" -> The user was found");
 			if (!user.isActive()) {
@@ -40,8 +62,16 @@ public class LogicLoginAuthent {
 			obj.put("roll", roll);
 			loginAccounts.put(user.getUserName().toLowerCase(), 
 					new AccountLogin(user.getUserName(), obj.getString("logincode"), ip,roll));
+			attempts.remove(ip+username);
 			return obj;
 		}else{
+			attempts.get(ip+username).setAttemptCount(attempts.get(ip+username).getAttemptCount()+1);
+			System.out.println("attempt "+attempts.get(ip+username).getAttemptCount());
+			if (attempts.get(ip+username).getAttemptCount()==5) {
+				attempts.get(ip+username).setStartTime(System.currentTimeMillis());
+				attempts.get(ip+username).setStopTime(System.currentTimeMillis());
+			}
+			obj.put("status", "Intentos: "+attempts.get(ip+username).getAttemptCount());
 			obj.put("access", false);
 			return obj;
 		}
