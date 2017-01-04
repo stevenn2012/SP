@@ -12,7 +12,7 @@ function initProviders() {
 function loadProviders() {
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode};
 	var data = Provider.get(providersList ,dataAndAccount, 'name', 'providers');
-	if(data.success == false) showMessage(data.status, 'danger');
+	if(data.success == false) showMessage('msModifyDelete', 'nameEmployed', data.status, 'danger', 'default', true);
 	listProviders();
 }
 
@@ -28,10 +28,10 @@ function listProviders() {
 			data+='<td>'+Provider.dataArray[i].NIT+'</td>';
 			data+='<td>'+Provider.dataArray[i].name+'</td>';
 			data+='<td>'+Provider.dataArray[i].description+'</td>';
-			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSee" onclick="seeAddress('+Provider.dataArray[i].idProvider+')">Direcciones</button></td>'; 
-			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSee" onclick="seeContacts('+Provider.dataArray[i].idProvider+')">Contactos</button></td>';
-			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSee" onclick="seeProductServices('+Provider.dataArray[i].idProvider+')">Productos y servicios</button></td>';
-		  	data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditProvider" onclick="editProvider('+Provider.dataArray[i].idProvider+')"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
+			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSee" onclick="seeAddress(1, '+Provider.dataArray[i].idProvider+',true)">Direcciones</button></td>'; 
+			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSee" onclick="seeContacts(1, '+Provider.dataArray[i].idProvider+', true)">Contactos</button></td>';
+			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSee" onclick="seeProductServices(1, '+Provider.dataArray[i].idProvider+', true)">Productos y servicios</button></td>';
+		  	data+='<td><button id="Edit'+Provider.dataArray[i].idProvider+'" class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditProvider" onclick="editProvider('+Provider.dataArray[i].idProvider+')"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
 		  	data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalDeleteProvider" onclick="deleteProvider('+Provider.dataArray[i].idProvider+')"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
 		  	data+='</tr>';
 		}
@@ -42,21 +42,21 @@ function listProviders() {
 	$('#lista').html(content);
 }
 
-function modalSee (number, titleModal, titlePanel, info, message) {
+function modalSee (number, titleModal, titlePanel, info, message, idModal) {
 	$('#myModalSeeLabel').html(titleModal);
 	var data = '<div class="scroll panel panel-info"><div class="panel-heading">'+titlePanel+'</div><div class="panel-body">';
 	data += '<p>'+message+'</p>';
 	data += '<div id="accordion'+number+'" class="panel-group" role="tablist" aria-multiselectable="true">';
 	data += info;
 	data += '</div></div></div>';		
-	$('#bodyModalSeeAddress').html(data);
+	$('#'+idModal).html(data);
 }
 
-function seeAddress(idProvider) {
-	var provider = Provider.getById(idProvider, 'idProvider', false, '');
-	//console.log("SEE ADDRESS: "+JSON.stringify(provider));
+function seeAddress(number, idProvider, edit, idModal) {
+	if(idModal==undefined) idModal = 'bodyModalSee';
+	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a mostrar');
+	//console.log("SEE ADDRESS: "+idProvider);
 	var message = 'Acontinuacion se muestran las direcciones del proveedor seleccionado, de click sobre la direccion para ver mas informacion.';
-	var number = 1;
 	var data = '';
 	var address = provider.address;
 	for (var i = 0; i <address.length; i++) {
@@ -69,16 +69,17 @@ function seeAddress(idProvider) {
 	   	data += '<strong>Pais: </strong>'+address[i].pais+"<br>";
 	    data += '<strong>Ciudad: </strong>'+address[i].ciudad+"<br>";
 	    data += '<strong>Direccion: </strong>'+address[i].direccion+"<br>";
+	   	if(edit) data+='<button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditAddress" onclick="editAddress('+address[i].idAddress+')">Editar</button>';
 	    data += '</div></div></div>';	
 	}
-   	modalSee(number, 'Direcciones', 'Direcciones de '+provider.name, data, message);
+   	modalSee(number, 'Direcciones', 'Direcciones de '+provider.name, data, message, idModal);
 }
 
-function seeContacts(idProvider) {
-	var provider = Provider.getById(idProvider, 'idProvider', false, '');
+function seeContacts(number, idProvider, edit, idModal) {
+	if(idModal==undefined) idModal = 'bodyModalSee';
+	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a mostrar');
 	//console.log("SEE CONTACTS: "+JSON.stringify(provider));
 	var message = 'Acontinuacion se muestran los contactos del proveedor seleccionado, de click sobre el contacto para ver mas informacion.';
-	var number = 1;
 	var data = '';
 	var contacts = provider.contacts;
 	for (var i = 0; i <contacts.length; i++) {
@@ -91,16 +92,17 @@ function seeContacts(idProvider) {
 	    data += '<strong>Nombre: </strong>'+contacts[i].name+"<br>";
 	    data += '<strong>Correo electronico: </strong>'+contacts[i].email+"<br>";
 	    data += '<strong>Telefono: </strong>'+contacts[i].phoneNumber+"<br>";
+	    if(edit) data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditContact" onclick="editContact('+contacts[i].idContact+')">Editar</button></td>';
 	    data += '</div></div></div>';
 	}
-   	modalSee(number, 'Contactos',  'Contactos de '+provider.name, data, message);
+   	modalSee(number, 'Contactos',  'Contactos de '+provider.name, data, message, idModal);
 }
 
-function seeProductServices(idProvider) {
-	var provider = Provider.getById(idProvider, 'idProvider', false, '');
+function seeProductServices(number, idProvider, edit, idModal) {
+	if(idModal==undefined) idModal = 'bodyModalSee';
+	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a mostrar');
 	//console.log("SEE PRODUCTS SERVICES: "+JSON.stringify(provider));
 	var message = 'Acontinuacion se muestran los productos y servicios del proveedor seleccionado, de click sobre el producto o servicio para ver mas informacion.';
-	var number = 1;
 	var data = '';
 	var productServices = provider.productServices;
 	for (var i = 0; i <productServices.length; i++) {
@@ -113,29 +115,110 @@ function seeProductServices(idProvider) {
 	    data += '<strong>Producto o servicio: </strong>'+productServices[i].name+"<br>";
 	    data += '<strong>Precio: </strong>'+formatNumber.new(parseFloat(productServices[i].price), "$")+"<br>";
 	    data += '<strong>Descripcion: </strong>'+productServices[i].description+"<br>";
+	    if(edit) data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditPS" onclick="editPS('+productServices[i].idProductService+')">Editar</button></td>';
 	    data += '</div></div></div>';
 	}
-   	modalSee(number, 'Productos y servicios',  'Productos y servicios de '+provider.name, data, message);
+   	modalSee(number, 'Productos y servicios',  'Productos y servicios de '+provider.name, data, message, idModal);
 }
 
 function deleteProvider(idProvider) {
-	console.clear();
-	var provider = Provider.getById(idProvider, 'idProvider', true, 'Proveedor a eliminar');
+	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a eliminar');
 	var data = '<p> Esta a punto de borrar el proveedor con los siguientes datos: </p>';
 	data += '<div class="panel panel-info"><div class="panel-heading">Proveedor</div><div class="panel-body">';
+    data += '<Strong>NIT : </strong>'+provider.NIT+"<br>";
+    data += '<Strong>Nombre : </strong>'+provider.name+"<br>";
+    data += '<Strong>Descripcion : </strong>'+provider.description+"<br>";
     
-  	data += '</div></div><p>está accion es irreversible, ¿desea continuar?</p>';
+    data += '<Strong>Direcciones : </strong>';
+    data += '<div id="seeAddressDelete"></div>';
+    data += '<Strong>Contactos : </strong>';
+    data += '<div id="seeContactsDelete"></div>';
+    data += '<Strong>Productos y servicios : </strong>';
+    data += '<div id="seeProductsServicesDelete"></div>';
+    data += '</div></div><p>está accion es irreversible, ¿desea continuar?</p>';
   	$('#bodyModalDeleteProvider').html(data);
-  	ApprovedDeleteProvider(provider.idProvider);
-  	loadProviders();
+
+  	seeAddress(2, idProvider, false,'seeAddressDelete');
+  	seeContacts(3, idProvider, false,'seeContactsDelete');
+  	seeProductServices(4, idProvider, false, 'seeProductsServicesDelete');
+
+  	var buttons = '<button id="continueDelete" type="button" class="btn btn-primary" onclick="ApprovedDeleteProvider('+idProvider+')">Continuar, Borrar el proveedor</button>';
+  	buttons += '<button id="closeDeleteProvider" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+  	$('#modalDeleteProviderContinueButton').html(buttons);
+  	
 }
 
 function ApprovedDeleteProvider(idProvider) {
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode, 'idProvider':idProvider};
-	Provider.remove(deleteProviderService ,dataAndAccount, '');
+	var data = Provider.remove(deleteProviderService ,dataAndAccount, '');
+	if(data.success == false) Provider.showMessage('msModifyDelete', 'nameEmployed', data.status, 'danger', 'default', true);
+	else Provider.showMessage('msModifyDelete', 'nameEmployed', 'Se elimino el proveedor con exito!', 'success', 'default', true);
+	$('#closeDeleteProvider').click();
+	loadProviders();
 }
 
 function editProvider(idProvider){
-	console.clear();
 	var provider = Provider.getById(idProvider, 'idProvider', true, 'Proveedor a editar');
+	
+	var data = '<form action="javascript:ApprovedEditProvider()"><div id="messageEditProvider"></div>';
+	data += '<div class="panel panel-default">';
+  	data += '<div class="panel-heading">Informacion del proveedor</div>';
+  	data += '<div class="panel-body">';
+	data += generateInput('id','input','hidden','idEditProvider',true);
+	data += generateInput('NIT','input','text','nitEditProvider',true);
+	data += generateInput('Nombre','input','text','nameEditProvider',true);
+	data += generateInput('Descripcion','input','textarea','descriptionEditProvider',true);
+    data += '</div></div>';
+	data += '<div class="panel panel-default">';
+  	data += '<div class="panel-heading">Más informacion del proveedor</div>';
+  	data += '<div class="panel-body">';
+    data += '<p>Para editar una de las siguientes opciones de click sobre el elemento que desea editar y oprima el boton editar</p>';
+    data += '<label for="exampleInputEmail1">Direcciones: </label>';
+    data += '<div id="editAddressDelete"></div>';
+    data += '<label for="exampleInputEmail1">Contactos: </label>';
+    data += '<div id="editContactsDelete"></div>';
+    data += '<label for="exampleInputEmail1">Productos y/o servicios: </label>';
+    data += '<div id="editProductsServicesDelete"></div>';
+    data += '</div></div>';
+    data += '</form>';
+    $('#bodyModalEditProvider').html(data);
+
+    var buttons = '<button id="continueEdit" type="button" class="btn btn-primary" onclick="ApprovedEditProvider()">Guardar</button>';
+  	buttons += '<button id="closeDeleteProvider" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+  	$('#modalEditProviderButtons').html(buttons);
+
+    $('#idEditProvider').val(provider.idProvider);
+ 	$('#nitEditProvider').val(provider.NIT);
+ 	$('#nameEditProvider').val(provider.name);
+ 	$('#descriptionEditProvider').val(provider.description); 
+ 	
+ 	seeAddress(2, idProvider, true,'editAddressDelete');
+  	seeContacts(3, idProvider, true,'editContactsDelete');
+  	seeProductServices(4, idProvider, true, 'editProductsServicesDelete');
+}
+
+function generateInput (title, typeTag, type, idInput, required) {
+	var data = '<div class="form-group">';
+	if(type.toLowerCase() != 'hidden') data +='<label for="exampleInputEmail1">'+title+'</label>';
+	data += '<'+typeTag+' id="'+idInput+'" type="'+type+'" name="comment" class="form-control" form="form" placeholder="'+title+'"'; 
+	if(required) data += 'required';
+	if(type.toLowerCase() == 'textarea') data += 'style="max-width:100%;"></textarea';	
+	data += '></div>';
+	return data;
+}
+
+function ApprovedEditProvider(){
+
+}
+
+function editAddress (idAddress) {
+	console.log(idAddress);
+}
+
+function editContact (idContact) {
+	console.log(idContact);
+}
+
+function editPS (idPS) {
+	console.log(idPS);
 }

@@ -16,7 +16,6 @@ function validateAccount() {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				//console.log("VALIDATION : "+JSON.stringify(data));
 				if(data.validate == "true"){
 					sessionStorage.roll = data.roll;
 					if(indexPage == window.location || indexPage == window.location+"index.html" || (window.location != (indexPage+'pages/') && validarPermisos(data.roll) == false)){

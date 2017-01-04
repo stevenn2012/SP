@@ -16,7 +16,13 @@ var impScripts = {
   *********************************/
   import: function(DocumentURL){
     if(this.starImport == false) { this.clearConsole(); start = true; }
-    var script = "<script type='text/javascript' src='"+DocumentURL+"'></script>";
+    var script = 'null';
+    var extension = DocumentURL.split(".")[DocumentURL.split(".").length-1].toLowerCase();
+    if( extension == 'js'){
+      script = "<script type='text/javascript' src='"+DocumentURL+"'></script>";
+    }else if(extension = 'css'){  
+      script = "<link rel='stylesheet' type='text/css' href='"+DocumentURL+"'>";
+    }
     document.write(script); 
     this.trace += "\tImport "+DocumentURL.split("/")[DocumentURL.split("/").length-1]+": "+"\n\t\t->url: "+DocumentURL+", \n\t\t->Script: "+script+"\n";
   },
