@@ -93,11 +93,17 @@ public class LogicUsers {
 		return obj;
 	}
 
-	public static JSONObject deleteUser(String idUser) {
+	public static JSONObject deleteUser(String idUser, String username) {
 		JSONObject obj = new JSONObject();
 		List<Project> proyectos = DAOProject.getProjects();
 		User usuario = DAOUser.getUserById(idUser);
 		if (proyectos!=null && usuario != null) {
+			if (username.toLowerCase().equals(usuario.getUserName().toLowerCase())) {
+				obj.put("validate", "true");
+				obj.put("delete", "false");
+				obj.put("status", "No se puede eliminar a si mismo.");
+				return obj;
+			}
 			for (int i = 0; i < proyectos.size(); i++) {
 				if (proyectos.get(i).getUser_idUser()==Long.parseLong(idUser)) {					
 					if (DAOUser.updateUserActive(idUser)) {

@@ -119,7 +119,7 @@ public class WebServiceUsers {
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				account = LogicUsers.deleteUser(idUser);
+				account = LogicUsers.deleteUser(idUser,username);
 				if (account.getString("delete").equals("true")) {
 					System.out.println(account.get("status"));
 					LogicLoginAuthent.logOutDeletedAccount(account.getString("usernameDeleted"));
