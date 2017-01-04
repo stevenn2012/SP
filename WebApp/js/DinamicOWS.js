@@ -3,7 +3,7 @@
 * by stevenn2012, https://stevenn2012.github.io
 */
 function newDinamicOWS(msNewObj){
-	if(msNewObj)console.log("DinamicOWS.js: new object newDinamicOWS created");
+	if(msNewObj)console.log("DinamicOWS.js: new object DinamicOWS created");
     return {
     	/**************************************
     	*datos recibidos en get
