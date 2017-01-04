@@ -3,7 +3,7 @@ package logic;
 
 import java.util.Date;
 
-import vo.City;
+
 
 
 public class App {
