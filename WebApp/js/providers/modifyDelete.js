@@ -69,7 +69,7 @@ function seeAddress(number, idProvider, edit, idModal) {
 	   	data += '<strong>Pais: </strong>'+address[i].pais+"<br>";
 	    data += '<strong>Ciudad: </strong>'+address[i].ciudad+"<br>";
 	    data += '<strong>Direccion: </strong>'+address[i].direccion+"<br>";
-	   	if(edit) data+='<button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditAddress" onclick="editAddress('+address[i].idAddress+')">Editar</button>';
+	   	if(edit) data+='<button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditAddress" onclick="editAddress('+provider.idProvider+','+address[i].idAddress+')">Editar</button>';
 	    data += '</div></div></div>';	
 	}
    	modalSee(number, 'Direcciones', 'Direcciones de '+provider.name, data, message, idModal);
@@ -92,7 +92,7 @@ function seeContacts(number, idProvider, edit, idModal) {
 	    data += '<strong>Nombre: </strong>'+contacts[i].name+"<br>";
 	    data += '<strong>Correo electronico: </strong>'+contacts[i].email+"<br>";
 	    data += '<strong>Telefono: </strong>'+contacts[i].phoneNumber+"<br>";
-	    if(edit) data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditContact" onclick="editContact('+contacts[i].idContact+')">Editar</button></td>';
+	    if(edit) data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditContact" onclick="editContact('+provider.idProvider+','+contacts[i].idContact+')">Editar</button></td>';
 	    data += '</div></div></div>';
 	}
    	modalSee(number, 'Contactos',  'Contactos de '+provider.name, data, message, idModal);
@@ -115,7 +115,7 @@ function seeProductServices(number, idProvider, edit, idModal) {
 	    data += '<strong>Producto o servicio: </strong>'+productServices[i].name+"<br>";
 	    data += '<strong>Precio: </strong>'+formatNumber.new(parseFloat(productServices[i].price), "$")+"<br>";
 	    data += '<strong>Descripcion: </strong>'+productServices[i].description+"<br>";
-	    if(edit) data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditPS" onclick="editPS('+productServices[i].idProductService+')">Editar</button></td>';
+	    if(edit) data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEditPS" onclick="editPS('+provider.idProvider+','+productServices[i].idProductService+')">Editar</button></td>';
 	    data += '</div></div></div>';
 	}
    	modalSee(number, 'Productos y servicios',  'Productos y servicios de '+provider.name, data, message, idModal);
@@ -144,8 +144,7 @@ function deleteProvider(idProvider) {
 
   	var buttons = '<button id="continueDelete" type="button" class="btn btn-primary" onclick="ApprovedDeleteProvider('+idProvider+')">Continuar, Borrar el proveedor</button>';
   	buttons += '<button id="closeDeleteProvider" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
-  	$('#modalDeleteProviderContinueButton').html(buttons);
-  	
+  	$('#modalDeleteProviderContinueButton').html(buttons);	
 }
 
 function ApprovedDeleteProvider(idProvider) {
@@ -158,16 +157,17 @@ function ApprovedDeleteProvider(idProvider) {
 }
 
 function editProvider(idProvider){
-	var provider = Provider.getById(idProvider, 'idProvider', true, 'Proveedor a editar');
+	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a editar');
 	
 	var data = '<form action="javascript:ApprovedEditProvider()"><div id="messageEditProvider"></div>';
+	data += '<div class="modal-body" >';
 	data += '<div class="panel panel-default">';
   	data += '<div class="panel-heading">Informacion del proveedor</div>';
   	data += '<div class="panel-body">';
 	data += generateInput('id','input','hidden','idEditProvider',true);
 	data += generateInput('NIT','input','text','nitEditProvider',true);
 	data += generateInput('Nombre','input','text','nameEditProvider',true);
-	data += generateInput('Descripcion','input','textarea','descriptionEditProvider',true);
+	data += generateInput('Descripcion','input','textarea','descriptionEditProvider',false);
     data += '</div></div>';
 	data += '<div class="panel panel-default">';
   	data += '<div class="panel-heading">Más informacion del proveedor</div>';
@@ -179,13 +179,15 @@ function editProvider(idProvider){
     data += '<div id="editContactsDelete"></div>';
     data += '<label for="exampleInputEmail1">Productos y/o servicios: </label>';
     data += '<div id="editProductsServicesDelete"></div>';
-    data += '</div></div>';
+    data += '</div></div></div>';
+    
+    data += '<div class="modal-footer">';
+    data += '<button id="continueEdit" type="submit" class="btn btn-primary">Guardar</button>';
+  	data += '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+    data += '</div>';
+    
     data += '</form>';
     $('#bodyModalEditProvider').html(data);
-
-    var buttons = '<button id="continueEdit" type="button" class="btn btn-primary" onclick="ApprovedEditProvider()">Guardar</button>';
-  	buttons += '<button id="closeDeleteProvider" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
-  	$('#modalEditProviderButtons').html(buttons);
 
     $('#idEditProvider').val(provider.idProvider);
  	$('#nitEditProvider').val(provider.NIT);
@@ -208,17 +210,120 @@ function generateInput (title, typeTag, type, idInput, required) {
 }
 
 function ApprovedEditProvider(){
-
+	console.log("ApprovedEditProvider");
 }
 
-function editAddress (idAddress) {
-	console.log(idAddress);
+function editAddress (idProvider, idAddress) {
+	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a editar direccion');
+	var address = findElement(provider.address, 'idAddress', idAddress);
+	console.log(address);
+
+	var data = '<form action="javascript:ApprovedEditAddress()"><div id="messageEditAddress"></div>';
+	data += '<div class="modal-body" >';
+	data += '<div class="panel panel-info">';
+  	data += '<div class="panel-heading">Direccion del proveedor '+provider.name+'</div>';
+  	data += '<div class="panel-body">';
+	data += generateInput('id','input','hidden','idEditAddress',true);
+	data += generateInput('Pais','input','text','countryEditAddress',false);
+	data += generateInput('Ciudad electronico','input','text','cityEditAddress',false);
+	data += generateInput('Direccion','input','text','addressEditAddress',true);
+     data += '</div></div></div>';
+    
+    data += '<div class="modal-footer">';
+    data += '<button id="continueEdit" type="submit" class="btn btn-primary">Guardar</button>';
+  	data += '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+  	
+    data += '</div>';
+	data += '</form>';
+    $('#bodyModalEditElementProvider').html(data);
+    $('#labelModalEditElementProvider').html("Editar Direccion");
+
+    $('#idEditAddress').val(address.idContact);
+ 	$('#countryEditAddress').val(address.pais);
+ 	$('#cityEditAddress').val(address.ciudad);
+ 	$('#addressEditAddress').val(address.direccion); 
+
+	$('#modalEditElementProvider').modal('show');
 }
 
-function editContact (idContact) {
-	console.log(idContact);
+function ApprovedEditAddress(){
+	console.log("ApprovedEditAddress");
 }
 
-function editPS (idPS) {
-	console.log(idPS);
+function editContact (idProvider, idContact) {
+	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a editar contacto');
+	var contact = findElement(provider.contacts, 'idContact', idContact);
+	console.log(contact);
+	
+	var data = '<form action="javascript:ApprovedEditContact()"><div id="messageEditContact"></div>';
+	data += '<div class="modal-body" >';
+	data += '<div class="panel panel-info">';
+  	data += '<div class="panel-heading">Contacto del proveedor '+provider.name+'</div>';
+  	data += '<div class="panel-body">';
+	data += generateInput('id','input','hidden','idEditContact',true);
+	data += generateInput('Nombre','input','text','nameEditContact',true);
+	data += generateInput('Correo electronico','input','text','emailEditContact',true);
+	data += generateInput('Telefono','input','text','phoneEditContact',true);
+     data += '</div></div></div>';
+    
+    data += '<div class="modal-footer">';
+    data += '<button id="continueEdit" type="submit" class="btn btn-primary">Guardar</button>';
+  	data += '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+  	
+    data += '</div>';
+	data += '</form>';
+    $('#bodyModalEditElementProvider').html(data);
+    $('#labelModalEditElementProvider').html("Editar Contacto");
+
+    $('#idEditContact').val(contact.idContact);
+ 	$('#nameEditContact').val(contact.name);
+ 	$('#emailEditContact').val(contact.email);
+ 	$('#phoneEditContact').val(contact.phoneNumber); 
+
+	$('#modalEditElementProvider').modal('show');
+}
+
+function ApprovedEditContact(){
+	console.log("ApprovedEditContact");
+}
+
+function editPS (idProvider, idProductService) {
+	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a editar producto o servicio');
+	var productService = findElement(provider.productServices, 'idProductService', idProductService);
+	console.log(productService);
+
+	var data = '<form action="javascript:ApprovedEditPS()"><div id="messageEditPS"></div>';
+	data += '<div class="modal-body" >';
+	data += '<div class="panel panel-info">';
+  	data += '<div class="panel-heading">Productos y servicios del proveedor '+provider.name+'</div>';
+  	data += '<div class="panel-body">';
+	data += generateInput('id','input','hidden','idEditPS',true);
+	data += generateInput('Nombre del Producto o servicio','input','text','nameEditPS',true);
+	data += generateInput('Descripcion','input','textarea','descEditPS',false);
+	data += generateInput('Precio','input','number','priceEditPS',true);
+     data += '</div></div></div>';
+    
+    data += '<div class="modal-footer">';
+    data += '<button id="continueEdit" type="submit" class="btn btn-primary">Guardar</button>';
+  	data += '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+  	
+    data += '</div>';
+	data += '</form>';
+    $('#bodyModalEditElementProvider').html(data);
+    $('#labelModalEditElementProvider').html("Editar Producto o servicio");
+
+    $('#idEditPS').val(productService.idProductService);
+ 	$('#nameEditPS').val(productService.name);
+ 	$('#descEditPS').val(productService.description);
+ 	$('#priceEditPS').val(productService.price); 
+
+	$('#modalEditElementProvider').modal('show');
+}
+
+function ApprovedEditPS(){
+	console.log("ApprovedEditPS");
+}
+
+function findElement(obj, attrib, idCompare) {
+	for (var i = 0; i < obj.length; i++){ var element = obj[i]; if(idCompare == element[attrib]) return element;} return null;
 }
