@@ -65,6 +65,7 @@ public class WebServiceProvider {
 	public Response createProvider(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
 			  @DefaultValue("null") @QueryParam("nit") String nit, 
 			  @DefaultValue("null") @QueryParam("name") String name,
+			  @DefaultValue("null") @QueryParam("DV") String dv,
 			  @DefaultValue("null") @QueryParam("description") String description,
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
 	          @DefaultValue("null") @QueryParam("username") String username
@@ -80,7 +81,7 @@ public class WebServiceProvider {
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				Provider provider = new Provider(0,nit, name, description, true);
+				Provider provider = new Provider(0,nit, name, description,Integer.parseInt(dv), true);
 				return Response.ok(LogicProvider.insertProvider(provider).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
@@ -102,6 +103,7 @@ public class WebServiceProvider {
 			  @DefaultValue("null") @QueryParam("idProvider") String idProvider,
 			  @DefaultValue("null") @QueryParam("nit") String nit, 
 			  @DefaultValue("null") @QueryParam("name") String name,
+			  @DefaultValue("null") @QueryParam("DV") String dv,
 			  @DefaultValue("null") @QueryParam("description") String description,
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
 	          @DefaultValue("null") @QueryParam("username") String username
@@ -117,7 +119,7 @@ public class WebServiceProvider {
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				Provider provider = new Provider(Long.parseLong(idProvider), nit, username, description, true);
+				Provider provider = new Provider(Long.parseLong(idProvider), nit, username, description, Integer.parseInt(dv), true);
 				return Response.ok(LogicProvider.updateProvider(provider).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");

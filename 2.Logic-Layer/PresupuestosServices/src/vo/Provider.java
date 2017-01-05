@@ -6,15 +6,25 @@ public class Provider {
 	private String NIT;
 	private String name;
 	private String description;
+	private int DV;
 	private boolean active;
-	
-	public Provider(long idProvider, String nIT, String name, String description, boolean active) {
+		
+	public Provider(long idProvider, String nIT, String name, String description, int dV, boolean active) {
 		super();
 		this.idProvider = idProvider;
 		NIT = nIT;
 		this.name = name;
 		this.description = description;
+		DV = dV;
 		this.active = active;
+	}
+
+	public int getDV() {
+		return DV;
+	}
+
+	public void setDV(int dV) {
+		DV = dV;
 	}
 
 	public boolean isActive() {
@@ -60,7 +70,7 @@ public class Provider {
 	@Override
 	public String toString() {
 		return "Provider [idProvider=" + idProvider + ", NIT=" + NIT + ", name=" + name + ", description=" + description
-				+ ", active=" + active + "]";
+				+ ", DV=" + DV + ", active=" + active + "]";
 	}
 
 	

@@ -45,11 +45,12 @@ public class DAOProvider {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="insert into provider(NIT, name, description, active) values(:nit, :name, :desc, :active)";
+			String query="insert into provider(NIT, name, description,DV, active) values(:nit, :name, :desc, :dv,:active)";
 			connection.createQuery(query)
 					.addParameter("nit",provider.getNIT())
 					.addParameter("name", provider.getName())
 					.addParameter("desc", provider.getDescription())
+					.addParameter("dv", provider.getDV())
 					.addParameter("active", provider.isActive())
 					.executeUpdate();
 			connection.commit();
@@ -82,12 +83,13 @@ public class DAOProvider {
 	public static boolean updateProvider(Provider provider) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="update provider set NIT = :nit, name = :name, description = :desc, active = :active where provider.idProvider = :id";
+			String query="update provider set NIT = :nit, name = :name, description = :desc, DV = :dv, active = :active where provider.idProvider = :id";
 			connection.createQuery(query)
 					.addParameter("id",  provider.getIdProvider())
 					.addParameter("nit", provider.getNIT())
 					.addParameter("name", provider.getName())
 					.addParameter("desc", provider.getDescription())
+					.addParameter("dv", provider.getDV())
 					.addParameter("active", provider.isActive())
 					.executeUpdate();
 			connection.commit();
