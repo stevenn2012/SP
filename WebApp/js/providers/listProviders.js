@@ -19,7 +19,7 @@ function getProviders() {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				//console.log("GET PROVIDERS: "+JSON.stringify(data));
+				console.log("GET PROVIDERS: "+JSON.stringify(data));
 				if(data.validate == "true"){
 					providers = sortByKey(data.providers, 'name');
 				}else{

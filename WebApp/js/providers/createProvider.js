@@ -573,6 +573,7 @@ function createProvider(){
 		"nit":$('#NIT').val(),
 		"name":$('#name').val(),
 		"description":$('#description').val(),
+		"DV":$( "#DV option:selected" ).val(),
 		"contacts":contacts,
 		"address":address,
 		"productsServices":productsServices
@@ -595,7 +596,7 @@ function createProvider(){
 		return;
 	}
 
-	var dataProvider = saveProviderInServer(provider.nit, provider.name, provider.description);
+	var dataProvider = saveProviderInServer(provider.nit, provider.name, provider.description, provider.DV);
 	var idProvider = dataProvider.idProvider;
 	
 	if(isNaN(parseInt(idProvider)) || idProvider <= 0){
@@ -658,7 +659,7 @@ function createProvider(){
 	}
 }
 
-function saveProviderInServer(nit, name, description){
+function saveProviderInServer(nit, name, description, DV){
 	//console.log("SAVE PROVIDER IN SERVER");
 	if(sessionStorage.username && sessionStorage.logincode){
 		var dataAndAccount = {
@@ -666,7 +667,8 @@ function saveProviderInServer(nit, name, description){
 			"logincode":sessionStorage.logincode,
 			"nit":nit,
 			"name":name,
-			"description":description
+			"description":description,
+			"DV":DV
 		};
 		var data = insertInServer(createProviderService, dataAndAccount, "Create provider");
 		if(data.validate == "true"){
