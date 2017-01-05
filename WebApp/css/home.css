@@ -10,15 +10,25 @@ body{background-color: white;}
 }
 
 #nameEmployed{
-	text-align: left;
-	padding-top: 9px;
-	width: 85%;
+	width: 100%;
 }
 
-#welcomeTitle:hover{
+#awelcomeTitle{
+	float: left;
+	height: 80px;
+}
+
+#awelcomeTitle:hover{
+	background-color: white;
+	border: none;
 	cursor: pointer;
+	margin: 1px;
 }
 
+#welcomeTitle{
+	margin-top:15px; 
+	font-size: 20px;
+}
 
 .footerText{
 	text-align: center;
@@ -32,26 +42,7 @@ div#createUserForm{
 }
 
 .homeIcon{
-	height: 60px;
-
-}
-
-.titleMenu{
-	width: 52%;
-	font-size: 30px;
-	text-align: right;
-	margin:0;
-	padding: 0;
-}
-
-.signoutli{
-	width: 38%;
-}
-
-.signout{
-	width: 80px;
-	float: right;
-	text-align: center;
+	height: 80px;
 }
 
 #menu{
@@ -65,9 +56,15 @@ footer{
 }
 
 #aHomeLogo{
+	float: right;
 	margin: 0%;
 	padding: 0%;
+}
 
+#aHomeLogo:hover{
+	background-color: white;
+	border: none;
+	margin: 1px;
 }
 
 #filtro{
@@ -101,3 +98,46 @@ footer{
     max-height: 300px;
     overflow: auto;
 }
+
+/*****/
+
+.menu2{
+	width: 100%;	
+}
+
+.menu2li{
+	width: 100%;
+}
+
+.botonMenu2{
+	width: 80px;
+	margin: 0;
+	padding: 0;
+}
+
+.botonBack{
+	float: left;
+}
+
+.signout{
+	float: right;
+}
+
+.titleMenu2{
+	float: left;
+	width: 1185px;
+	font-size: 30px;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+
+/******/
+
+
+
+
+
+
+
+

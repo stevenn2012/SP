@@ -75,7 +75,7 @@ function listUsers() {
 			data+='<td>'+users[i].email+'</td>'; 
 			data+='<td>'+users[i].area+'</td>';
 			data+='<td>'+users[i].roll+'</td>';
-			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEdit" onclick="editUser('+users[i].iduser+')">Editar</button></td>';
+			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalEdit" onclick="editUser('+users[i].iduser+')"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
 			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalDelete" onclick="deleteUser('+users[i].iduser+')"> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
 		  	data+='</tr>';
 		}
