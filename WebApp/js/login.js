@@ -18,6 +18,7 @@ function login () {
 		async : true,
 		dataTipe: 'JSON',
 		success: function (data) {
+			console.log(JSON.stringify(data));
 			if(data.access == true){
 				cleanInfo("loginValidation");
 				if (typeof(Storage) !== "undefined") {
@@ -32,9 +33,14 @@ function login () {
 					$('#loginValidation').html("Lo sentimos! tu buscador no soporta Web Storages");
 				}	
 			}else{
+				if(data.status.indexOf('Intentos') != -1){
+					$('#loginValidation').html("Usuario y/o contraseña incorrectos");
+				}else{
+					$('#loginValidation').html('Ha intentado ingresar fallidamente varias veces<br>En consecuencia Se ha bloqueado el accesso por un determinado tiempo');
+				}
 				singOut();
 				$('#pass').val("");
-				$('#loginValidation').html("Usuario y/o contraseña incorrectos");
+				
 			}
         },
         error: function(objXMLHttpRequest) {
