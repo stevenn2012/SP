@@ -10,6 +10,12 @@ function newDinamicOWS(msNewObj){
 		**************************************/
 		dataArray: [],
 		/**************************************
+		*crea una copia de los datos almacenados
+		**************************************/
+		cloneData: function() {
+			return this.dataArray;
+		},
+		/**************************************
 		*path: direccion del webservice
 		*dataAndAccount: datos a enviar al webservice
 		*idData: nombre de los datos que se recibiran del webservice
@@ -127,6 +133,7 @@ function newDinamicOWS(msNewObj){
 				async : false,
 				dataTipe: 'JSON',
 				success: function (data) {
+					//console.log(JSON.stringify(data));
 					dataReturn.data = data;
 			       	dataReturn.success = 'true';
 			      	dataReturn.status = "success";

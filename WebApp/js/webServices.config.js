@@ -33,9 +33,12 @@ var citysListService = page+'/WebServicesPresupuestos/AppCityCRUD/list';
 var createCityService = page+'/WebServicesPresupuestos/AppCityCRUD/create';
 //AppAddressCRUD - CRUD de direcciones
 var createAddressService = page+'/WebServicesPresupuestos/AppAddressCRUD/create';
+var deleteAddressService = page+'/WebServicesPresupuestos/AppAddressCRUD/delete';
 //AppContactCRUD - CRUD de contactos
 var createContactService = page+'/WebServicesPresupuestos/AppContactCRUD/create';
+var deleteContactService = page+'/WebServicesPresupuestos/AppContactCRUD/delete';
 //AppProductServiceCRUD - CRUD de productos y servicios
 var createProductServiceService = page+'/WebServicesPresupuestos/AppProductServiceCRUD/create';
+var deleteProductServiceService = page+'/WebServicesPresupuestos/AppProductServiceCRUD/delete';
 //CRUD de clientes
 var clientList = page+"/WebServicesPresupuestos/"; //falta
