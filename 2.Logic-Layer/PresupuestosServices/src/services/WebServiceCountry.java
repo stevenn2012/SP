@@ -135,7 +135,7 @@ public class WebServiceCountry {
 	          ) {
 		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
-		System.out.print("\tEn EDITAR USUARIO");
+		System.out.print("\tEn EDITAR PAISES");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  

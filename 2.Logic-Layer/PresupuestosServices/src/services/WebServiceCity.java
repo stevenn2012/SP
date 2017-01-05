@@ -103,7 +103,7 @@ public class WebServiceCity {
 	          ) {
 		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
-		System.out.print("\tBORRAR PAIS");
+		System.out.print("\tBORRAR CIUDADES");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
@@ -138,7 +138,7 @@ public class WebServiceCity {
 	          ) {
 		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
-		System.out.print("\tEn EDITAR USUARIO");
+		System.out.print("\tEn EDITAR CIUDADES");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
