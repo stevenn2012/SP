@@ -2,26 +2,26 @@ package logic;
 
 import org.json.JSONObject;
 
-import vo.Project;
+import vo.Client;
 
-public class LogicProject {
+public class LogicClient {
 
-	public static JSONObject getProjectJSON() {
+	public static JSONObject getClientsJSON() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static Object insertProject(Project project) {
+	public static JSONObject insertClient(Client client) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static JSONObject deleteProject(String idProject) {
+	public static JSONObject updateClient(Client client) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static Object updateProject(Project project) {
+	public static JSONObject deleteClient(String idClient) {
 		// TODO Auto-generated method stub
 		return null;
 	}

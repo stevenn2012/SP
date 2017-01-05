@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `SPDB`.`Budget` (
   `idBudget` BIGINT(255) NOT NULL AUTO_INCREMENT,
   `observations` TEXT NULL,
   `date` DATE NOT NULL,
-  `commercialConditions` TEXT NULL,
+  `commercialTerms` TEXT NULL,
   `bruteTotal` DECIMAL(40,4) NOT NULL,
   `IVA` DECIMAL(40,4) NOT NULL,
   `months` INT NOT NULL,

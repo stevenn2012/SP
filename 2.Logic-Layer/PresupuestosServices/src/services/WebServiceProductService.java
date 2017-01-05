@@ -108,7 +108,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 	          ) {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
-		System.out.print("\nCREAR PRODUCTOSERVICIO");
+		System.out.print("\nACTUALIZAR PRODUCTOSERVICIO");
 		int verifyAccess = verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  

@@ -7,7 +7,6 @@ public class UserRoll {
 	long idRole;
 	
 	public UserRoll(long id, long idUser, long idRole) {
-		super();
 		this.idUser_Role = id;
 		this.idUser = idUser;
 		this.idRole = idRole;

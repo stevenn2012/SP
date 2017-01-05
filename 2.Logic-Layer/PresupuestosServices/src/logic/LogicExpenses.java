@@ -2,26 +2,26 @@ package logic;
 
 import org.json.JSONObject;
 
-import vo.Project;
+import vo.Expenses;
 
-public class LogicProject {
+public class LogicExpenses {
 
-	public static JSONObject getProjectJSON() {
+	public static JSONObject getExpensesJSON() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static Object insertProject(Project project) {
+	public static JSONObject insertExpenses(Expenses usuario) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static JSONObject deleteProject(String idProject) {
+	public static JSONObject deleteExpenses(String idExpenses) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static Object updateProject(Project project) {
+	public static JSONObject updateExpenses(Expenses expenses) {
 		// TODO Auto-generated method stub
 		return null;
 	}
