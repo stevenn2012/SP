@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import dao.DAOAddress;
 import dao.DAOContact;
 import vo.Address;
-import vo.Contact;
 
 public class LogicAddress {
 
@@ -35,13 +34,11 @@ public class LogicAddress {
 			obj.put("insert", "true");
 			addresses = DAOAddress.getAddress();
 			if (addresses==null) {
-				obj.put("validate", "true");
-				obj.put("insert", "true");
 				obj.put("status", "Error el obtener el id de la direccion.");
 				return obj;
 			}
 			for(int i = 0; i < addresses.size(); i++) {
-				if (addresses.get(i).getAddress().toLowerCase().equals(address.getAddress().toLowerCase())) {
+				if (addresses.get(i).getAddress().equals(address.getAddress())&&address.getIdCity()==addresses.get(i).getIdCity()) {
 					obj.remove("idAddress");
 					obj.put("idAddress", addresses.get(i).getIdAddress());
 				}

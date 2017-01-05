@@ -37,7 +37,7 @@ public class LogicCity {
 			return obj;
 		}
 		for (int i = 0; i < cities.size(); i++) {
-			if(cities.get(i).getName().toLowerCase().equals(city.getName().toLowerCase())){
+			if(TextValidation.cambiarTildes(cities.get(i).getName()).equals(TextValidation.cambiarTildes(city.getName()))&&cities.get(i).getIdCountry()==city.getIdCountry()){
 				obj.put("validate", "true");
 				obj.put("insert", "false");
 				obj.put("status", "La ciudad se encontraba previamente en la base de datos.");
@@ -56,14 +56,11 @@ public class LogicCity {
 				obj.put("status", "Error el obtener el id de ciudad.");
 				return obj;
 			}
-			for(int i = 0; i < cities.size(); i++) {
-				if (cities.get(i).getName().toLowerCase().equals(city.getName().toLowerCase())) {
-					obj.put("status", "Se ha insertado correctamente la ciudad.");
-					obj.put("idCity", cities.get(i).getIdCity());
-					obj.put("name", cities.get(i).getName());
-					obj.put("idPais", cities.get(i).getIdCountry());
-					break;
-				}
+			if (TextValidation.cambiarTildes(cities.get(cities.size()-1).getName()).equals(TextValidation.cambiarTildes(city.getName()))) {
+				obj.put("status", "Se ha insertado correctamente la ciudad.");
+				obj.put("idCity", cities.get(cities.size()-1).getIdCity());
+				obj.put("name", cities.get(cities.size()-1).getName());
+				obj.put("idPais", cities.get(cities.size()-1).getIdCountry());
 			}
 			return obj;
 		}else{
