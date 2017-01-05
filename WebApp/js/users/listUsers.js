@@ -2,6 +2,7 @@ $(document).ready(function(){
 	getUsers();
 	listUsers();
 	$(".filter").keyup(function(){listUsers()});
+	$('.filter').focus();
 });
 
 var users = {};
@@ -18,7 +19,7 @@ function getUsers() {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("GET USERS: "+JSON.stringify(data));
+				//console.log("GET USERS: "+JSON.stringify(data));
 				if(data.validate == "true"){
 					users = sortByKey(data.users, 'name');
 				}else{

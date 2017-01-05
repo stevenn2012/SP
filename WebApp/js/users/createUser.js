@@ -12,7 +12,7 @@ $(document).ready(function(){
 	$('#infoPassword').css("display","none");
 	$('#pass').focus(function(){hiddeInfoPassword()});
 	$('#pass').blur(function(){hiddeInfoPassword()});
-	
+	$('#document').focus();
 });
 
 function getAreas() {
@@ -28,7 +28,7 @@ function getAreas() {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("Areas: "+JSON.stringify(data));
+				//console.log("Areas: "+JSON.stringify(data));
 				if(data.list == "true"){
 					areas = data.areas;
 				}else{
@@ -59,7 +59,7 @@ function getRolls () {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("Rolls: "+JSON.stringify(data));
+				//console.log("Rolls: "+JSON.stringify(data));
 				if(data.accionListar == "true"){
 					rolls = data.roles;
 				}else{
@@ -107,7 +107,7 @@ function areaButton() {
 }
 
 function validations() {
-	console.log("VALIDATIONS");
+	//console.log("VALIDATIONS");
 	if($('#document').val().indexOf("e")!=-1){
     	$('#msCreateUser').html('<div class="alert alert-warning" role="alert">La cedula introducida es incorrecta</div>');
 		ScreenUp("msCreateUser");
@@ -127,7 +127,7 @@ function validations() {
         return false;
     }
     if($('#pass').val().length<8 || $('#pass').val().length>20 || validatePassword() == false){
-    	console.log("Pasword-> min 8: "+($('#pass').val().length>=8)+", Max 20: "+($('#pass').val().length<=20)+", validate password: "+validatePassword());
+    	//console.log("Pasword-> min 8: "+($('#pass').val().length>=8)+", Max 20: "+($('#pass').val().length<=20)+", validate password: "+validatePassword());
     	$('#msCreateUser').html('<div class="alert alert-warning" role="alert">La contraseña no cumple con los requisitos</div>');
 		ScreenUp("msCreateUser");
     	return false;
@@ -157,13 +157,13 @@ function validatePassword() {
 			return true;
 		}
 	}
-	console.log("upperCase: "+upperCase+", lowerCase: "+lowerCase+", charespecial: "+charespecial+", number: "+number);
+	//console.log("upperCase: "+upperCase+", lowerCase: "+lowerCase+", charespecial: "+charespecial+", number: "+number);
 	return false;
 }
 
 
 function hiddeInfoPassword() {
-	console.log("HIDDEN PASSWORD INFO: "+$('#infoPassword').css("display"));
+	//console.log("HIDDEN PASSWORD INFO: "+$('#infoPassword').css("display"));
 	if($('#infoPassword').css("display") == "none"){
 		$('#infoPassword').css("display","block");
 	}else{
@@ -175,7 +175,7 @@ function createUser() {
 	validateAccount();
 	var dataAndAccount = {
 		"document":$('#document').val(),
-		"name":$('#name').val(),
+		"name":changeNameFirstUpperCase($('#name').val()),
 		"usernameObj":$('#username').val(),
 		"password":calcMD5($('#pass').val()),
 		"email":$('#email').val(),
@@ -186,7 +186,7 @@ function createUser() {
 	};
 	
 	var validationFields = validations();
-	console.log("Validation Fields: "+validationFields);
+	//console.log("Validation Fields: "+validationFields);
 	if(validationFields == false){
 		return false;
 	}
@@ -199,7 +199,7 @@ function createUser() {
 				"logincode":sessionStorage.logincode,
 				"nombreArea":$( "#area").val()
 			};
-			console.log("Crear Area: "+JSON.stringify(dataAndAccountArea));
+			//console.log("Crear Area: "+JSON.stringify(dataAndAccountArea));
 			$.ajax({
 				url: createAreaService,
 				type: 'GET',
@@ -207,7 +207,7 @@ function createUser() {
 				async : false,
 				dataTipe: 'JSON',
 				success: function (data) {
-					console.log("WebService Crear Area: "+JSON.stringify(data));
+					//console.log("WebService Crear Area: "+JSON.stringify(data));
 					if(data.validate == "true"){
 						if(data.insert=="true"){
 							dataAndAccount.idarea = data.idArea;
@@ -241,8 +241,8 @@ function createUser() {
 		validation = false;
 	}
 
-	console.log("Crear: "+JSON.stringify(dataAndAccount));
-	console.log("Validation: "+validation);
+	//console.log("Crear: "+JSON.stringify(dataAndAccount));
+	//console.log("Validation: "+validation);
 	if(validation == true){
 		$.ajax({
 			url: createUserService,
@@ -251,12 +251,13 @@ function createUser() {
 			async : true,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("WebService Crear: "+JSON.stringify(data));
+				//console.log("WebService Crear: "+JSON.stringify(data));
 				if(data.validate == "true"){
 					if(data.create == "true"){
 						limpiarForm();
 						$('#msCreateUser').html('<div class="alert alert-success" role="alert">Se creo el usuario con exito</div>');	
 						ScreenUp();
+						$('#document').focus();
 						setTimeout(function() {
 							$('#msCreateUser').html("");
 						},10000);
@@ -279,6 +280,16 @@ function createUser() {
 		$('#msCreateUser').html('<div class="alert alert-warning" role="alert">Hace falta seleccionar el area o el roll</div>');
 		ScreenUp();
 	}
+}
+
+function changeNameFirstUpperCase(name) {
+	var str = name.split(" ");
+	var n = '';
+	for (var i = 0; i < str.length; i++) {
+		n += str[i].charAt(0).toUpperCase()+str[i].substring(1).toLowerCase();
+		if(i < str.length-1) n+= ' ';	
+	}
+	return n;
 }
 
 function ScreenUp () {

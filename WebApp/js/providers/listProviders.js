@@ -2,6 +2,7 @@ $(document).ready(function(){
 	getProviders();
 	listProviders();
 	$(".filter").keyup(function(){listProviders()});
+	$(".filter").focus();
 });
 
 var providers = {};
@@ -18,7 +19,7 @@ function getProviders() {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("GET PROVIDERS: "+JSON.stringify(data));
+				//console.log("GET PROVIDERS: "+JSON.stringify(data));
 				if(data.validate == "true"){
 					providers = sortByKey(data.providers, 'name');
 				}else{
@@ -72,9 +73,9 @@ function listProviders() {
 }
 
 function seeAddress(idProvider) {
-	console.log("SEE ADDRESS: "+idProvider);
+	//console.log("SEE ADDRESS: "+idProvider);
 	var provider = getProvider(idProvider);
-	console.log(JSON.stringify(provider));
+	//console.log(JSON.stringify(provider));
 	
 	var address = provider.address;
 
@@ -101,9 +102,9 @@ function seeAddress(idProvider) {
 }
 
 function seeContacts(idProvider) {
-	console.log("SEE CONTACTS: "+idProvider);
+	//console.log("SEE CONTACTS: "+idProvider);
 	var provider = getProvider(idProvider);
-	console.log(JSON.stringify(provider));
+	//console.log(JSON.stringify(provider));
 
 	var contacts = provider.contacts;
 
@@ -129,9 +130,9 @@ function seeContacts(idProvider) {
 }
 
 function seeProductServices (idProvider) {
-	console.log("SEE PRODUCTS SERVICES: "+idProvider);
+	//console.log("SEE PRODUCTS SERVICES: "+idProvider);
 	var provider = getProvider(idProvider);
-	console.log(JSON.stringify(provider));
+	//console.log(JSON.stringify(provider));
 
 	var productServices = provider.productServices;
 

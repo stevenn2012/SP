@@ -21,6 +21,7 @@ $(document).ready(function(){
 	$('#cancel').click(function(){cancel()});
 	$('#countryList').change(function(){listCitys($('#countryList').val())});
 	$('.modal').on('hidden.bs.modal', function(){closeModal()})
+	$('#NIT').focus();
 });
 
 function cancel() {
@@ -29,7 +30,7 @@ function cancel() {
 }
 
 function listAddress() {
-	console.log("LIST ADDRESS "+address.length+", "+JSON.stringify(address));
+	//console.log("LIST ADDRESS "+address.length+", "+JSON.stringify(address));
 	var data = '';
 	if(address.length > 0){
 		data += '<table class="table table-bordered"><tr>';
@@ -51,7 +52,7 @@ function listAddress() {
 }
 
 function listContacts() {
-	console.log("LIST CONTACTS "+contacts.length+", "+JSON.stringify(contacts));
+	//console.log("LIST CONTACTS "+contacts.length+", "+JSON.stringify(contacts));
 	var data = '';
 	if(contacts.length > 0){
 		data += '<table class="table table-bordered"><tr>';
@@ -73,7 +74,7 @@ function listContacts() {
 }
 
 function listProductsServices() {
-	console.log("LIST PRODUCTS SERVICES "+productsServices.length+", "+JSON.stringify(productsServices));
+	//console.log("LIST PRODUCTS SERVICES "+productsServices.length+", "+JSON.stringify(productsServices));
 	var data = '';
 	if(productsServices.length > 0){
 		data += '<table class="table table-bordered"><tr>';
@@ -123,7 +124,7 @@ function countryButton(){
 
 //add
 function addAddress() {
-	console.log("ADD ADDRESS ::::::::::::::::::::::::");
+	//console.log("ADD ADDRESS ::::::::::::::::::::::::");
 	var newAddres = {
 		"id":pointerAddress++,
 		"idCity":$("#cityList option:selected").val(),
@@ -172,14 +173,14 @@ function addAddress() {
 		return;
 	}
 
-	console.log("NewAddress: "+JSON.stringify(newAddres));
+	//console.log("NewAddress: "+JSON.stringify(newAddres));
 	if(newAddres.idCity <= 0 || newAddres.idCountry <=0){
 		$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Error seleccionando pais o ciudad en el servidor</div>');
 		ScreenUp("modalAddAddress", "msAddAddress");
 		return;	
 	}
 
-	console.log(JSON.stringify(newAddres));
+	//console.log(JSON.stringify(newAddres));
 	address.push({
 		"id":newAddres.id,
 		"idCity":newAddres.idCity,
@@ -205,7 +206,7 @@ function getCountrys() {
 		async : false,
 		dataTipe: 'JSON',
 		success: function (data) {
-			console.log("WebService get Countrys: "+JSON.stringify(data));
+			//console.log("WebService get Countrys: "+JSON.stringify(data));
 			if(data.validate == "true"){
 				countrys = data.countries;
 				listCountrys();
@@ -234,7 +235,7 @@ function getCitys(idCountry) {
 		async : false,
 		dataTipe: 'JSON',
 		success: function (data) {
-			console.log("WebService get Citys: "+JSON.stringify(data));
+			//console.log("WebService get Citys: "+JSON.stringify(data));
 			if(data.validate == "true"){
 				citys = data.cities;
 				listCitys(idCountry);
@@ -291,7 +292,7 @@ function createCountry(countryName){
 		async : false,
 		dataTipe: 'JSON',
 		success: function (data) {
-			console.log("WebService Crear Country: "+JSON.stringify(data));
+			//console.log("WebService Crear Country: "+JSON.stringify(data));
 			if(data.validate == "true"){
 				if(data.insert=="true"){
 					getCountrys();
@@ -311,7 +312,7 @@ function createCountry(countryName){
 	       	console.log("error",objXMLHttpRequest);
 		}
 	});
-	console.log("Create country return: "+idReturn);
+	//console.log("Create country return: "+idReturn);
 	return idReturn;
 }
 
@@ -330,7 +331,7 @@ function createCity(idCountry, cityName){
 		async : false,
 		dataTipe: 'JSON',
 		success: function (data) {
-			console.log("WebService Crear City: "+JSON.stringify(data));
+			//console.log("WebService Crear City: "+JSON.stringify(data));
 			if(data.validate == "true"){
 				if(data.insert=="true"){
 					getCitys(idCountry);
@@ -350,12 +351,12 @@ function createCity(idCountry, cityName){
 	       	console.log("error",objXMLHttpRequest);
 		}
 	});
-	console.log("Create city return: "+idReturn);
+	//console.log("Create city return: "+idReturn);
 	return idReturn;
 }
 
 function ScreenUp (id, idMs) {
-	console.log("SCREEN UP "+id);
+	//console.log("SCREEN UP "+id);
 	if(id != "msCreateProvider"){
 		$('#'+id).scrollTop(0);
 	}else{
@@ -369,7 +370,7 @@ function ScreenUp (id, idMs) {
 }
 
 function addContact() {
-	console.log("ADD CONTACT");
+	//console.log("ADD CONTACT");
 	var newContact = {
 		"id":pointerContacts++,
 		"name":$("#nameContact").val(),
@@ -391,7 +392,7 @@ function addContact() {
         return false;
     }
 
-	console.log(JSON.stringify(newContact));
+	//console.log(JSON.stringify(newContact));
 	contacts.push({
 		"id":newContact.id,
 		"name":newContact.name,
@@ -404,7 +405,7 @@ function addContact() {
 }
 
 function addProductService() {
-	console.log("ADD PRODUCT SERVICE");
+	//console.log("ADD PRODUCT SERVICE");
 	var newProductService = {
 		"id":pointerProductsServices++,
 		"name":$("#nameProductService").val(),
@@ -419,7 +420,7 @@ function addProductService() {
 		return;
 	}
 	
-	console.log(JSON.stringify(newProductService));
+	//console.log(JSON.stringify(newProductService));
 	productsServices.push({
 		"id":newProductService.id,
 		"name":newProductService.name,
@@ -433,7 +434,7 @@ function addProductService() {
 
 //See
 function seeAddress(idAddress) {
-	console.log("SEE ADDRESS: "+idAddress);
+	//console.log("SEE ADDRESS: "+idAddress);
 	var thisAddress;
 	for (var i = 0; i < address.length; i++) {
 		if(idAddress == address[i].id){
@@ -441,7 +442,7 @@ function seeAddress(idAddress) {
 			break;
 		}	
 	}
-	console.log("\tAddress: "+JSON.stringify(thisAddress));
+	//console.log("\tAddress: "+JSON.stringify(thisAddress));
 	var data = '<div class="panel panel-info"><div class="panel-heading">'+thisAddress.address+'</div><div class="panel-body">';
 	data += '<strong>Pais: </strong>'+thisAddress.country+'<br>';
 	data += '<strong>Ciudad: </strong>'+thisAddress.city+'<br>';
@@ -451,7 +452,7 @@ function seeAddress(idAddress) {
 }
 
 function seeContact(idContact) {
-	console.log("SEE CONTACT: "+idContact);
+	//console.log("SEE CONTACT: "+idContact);
 	var thisContact;
 	for (var i = 0; i < contacts.length; i++) {
 		if(idContact == contacts[i].id){
@@ -459,7 +460,7 @@ function seeContact(idContact) {
 			break;
 		}	
 	}
-	console.log("\tContact: "+JSON.stringify(thisContact));
+	//console.log("\tContact: "+JSON.stringify(thisContact));
 	var data = '<div class="panel panel-info"><div class="panel-heading">'+thisContact.name+'</div><div class="panel-body">';
 	data += '<strong>Nombre: </strong>'+thisContact.name+'<br>';
 	data += '<strong>Correo electronico: </strong>'+thisContact.email+'<br>';
@@ -469,7 +470,7 @@ function seeContact(idContact) {
 }
 
 function seeProductService(idProductService) {
-	console.log("SEE PRODUCT SERVICE: "+idProductService);
+	//console.log("SEE PRODUCT SERVICE: "+idProductService);
 	var thisProductService;
 	for (var i = 0; i < productsServices.length; i++) {
 		if(idProductService == productsServices[i].id){
@@ -477,7 +478,7 @@ function seeProductService(idProductService) {
 			break;
 		}	
 	}
-	console.log("\tContact: "+JSON.stringify(thisProductService));
+	//console.log("\tContact: "+JSON.stringify(thisProductService));
 	var data = '<div class="panel panel-info"><div class="panel-heading">'+thisProductService.name+'</div><div class="panel-body">';
 	data += '<strong>Producto o servicio: </strong>'+thisProductService.name+'<br>';
 	data += '<strong>Descripcion: </strong>'+thisProductService.description+'<br>';
@@ -508,7 +509,7 @@ var formatNumber = {
 
 //Remove
 function removeAddress (idAddress) {
-	console.log("REMOVE ADDRESS: "+idAddress);
+	//console.log("REMOVE ADDRESS: "+idAddress);
 	for (var i = 0; i < address.length; i++) {
 		if(idAddress == address[i].id){
 			address.splice(i,1);
@@ -519,7 +520,7 @@ function removeAddress (idAddress) {
 }
 
 function removeContact (idContact) {
-	console.log("REMOVE CONTACT: "+idContact);
+	//console.log("REMOVE CONTACT: "+idContact);
 	for (var i = 0; i < contacts.length; i++) {
 		if(idContact == contacts[i].id){
 			contacts.splice(i,1);
@@ -530,7 +531,7 @@ function removeContact (idContact) {
 }
 
 function removeProductService (idProductService) {
-	console.log("REMOVE PRODUCT SERVICE: "+idProductService);
+	//console.log("REMOVE PRODUCT SERVICE: "+idProductService);
 	for (var i = 0; i < productsServices.length; i++) {
 		if(idProductService == productsServices[i].id){
 			productsServices.splice(i,1);
@@ -541,7 +542,7 @@ function removeProductService (idProductService) {
 }
 
 function closeModal() {
-	console.log("CLOSE MODAL");
+	//console.log("CLOSE MODAL");
 	$('#bodyModalSeeContact').html("");
 	$('#bodyModalSeeAddress').html("");
 	$("#cityList").val(0);
@@ -576,7 +577,7 @@ function createProvider(){
 		"address":address,
 		"productsServices":productsServices
 	};
-	console.log("CREATE PROVIDER: ",JSON.stringify(provider));
+	//console.log("CREATE PROVIDER: ",JSON.stringify(provider));
 
 	if(provider.address.length == 0){
 		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar almenos una direccion</div>');
@@ -658,7 +659,7 @@ function createProvider(){
 }
 
 function saveProviderInServer(nit, name, description){
-	console.log("SAVE PROVIDER IN SERVER");
+	//console.log("SAVE PROVIDER IN SERVER");
 	if(sessionStorage.username && sessionStorage.logincode){
 		var dataAndAccount = {
 			"username":sessionStorage.username,
@@ -689,7 +690,7 @@ function saveProviderInServer(nit, name, description){
 }
 
 function saveAddressInServer(address, idProvider, idCity, idCountry){
-	console.log("SAVE ADDRESS IN SERVER");
+	//console.log("SAVE ADDRESS IN SERVER");
 	if(sessionStorage.username && sessionStorage.logincode){
 		var dataAndAccount = {
 			"username":sessionStorage.username,
@@ -721,7 +722,7 @@ function saveAddressInServer(address, idProvider, idCity, idCountry){
 }
 
 function saveContactInServer(name, email, phoneNumber, idProvider){
-	console.log("SAVE CONTACT IN SERVER: "+name);
+	//console.log("SAVE CONTACT IN SERVER: "+name);
 	if(sessionStorage.username && sessionStorage.logincode){
 		var dataAndAccount = {
 			"username":sessionStorage.username,
@@ -753,7 +754,7 @@ function saveContactInServer(name, email, phoneNumber, idProvider){
 }
 
 function saveProductServiceInServer(name, description, price, idProvider){
-	console.log("SAVE PRODUCT SERVICE IN SERVER");
+	//console.log("SAVE PRODUCT SERVICE IN SERVER");
 	if(sessionStorage.username && sessionStorage.logincode){
 		var dataAndAccount = {
 			"username":sessionStorage.username,
@@ -785,7 +786,7 @@ function saveProductServiceInServer(name, description, price, idProvider){
 }
 
 function insertInServer(link, dataAndAccount, type) {
-	console.log("INSERT IN SERVER");
+	//console.log("INSERT IN SERVER");
 	validateAccount();
 	var returnData = false;
 	$.ajax({
@@ -795,7 +796,7 @@ function insertInServer(link, dataAndAccount, type) {
 		async : false,
 		dataTipe: 'JSON',
 		success: function (data) {
-			console.log("WebService "+type+": "+JSON.stringify(data));
+			//console.log("WebService "+type+": "+JSON.stringify(data));
 			returnData = data;
 		},
 		error: function(objXMLHttpRequest) {
