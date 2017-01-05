@@ -22,8 +22,6 @@ import vo.City;
 @Path("/AppCityCRUD")
 
 public class WebServiceCity {
-
-	private String[] urlAccess = ConectionData.getUrlAccess();
 	
 	@GET
 	@Path("/list")
@@ -35,7 +33,7 @@ public class WebServiceCity {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nLISTAR CIUDADES");
-		int verifyAccess = verifyAccess(referer);
+		int verifyAccess = ConectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject cities = new JSONObject();
@@ -44,17 +42,17 @@ public class WebServiceCity {
 			cities = LogicLoginAuthent.valLogin(request.getRemoteAddr(), cities);
 			if (cities.getString("validate").equals("true")) {
 				cities = LogicCity.getCitiesJSON();
-				return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando cities\n");
-				return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject cities = new JSONObject();
 			cities.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -70,7 +68,7 @@ public class WebServiceCity {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nCREAR CIUDADES");
-		int verifyAccess = verifyAccess(referer);
+		int verifyAccess = ConectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject cities = new JSONObject();
@@ -79,17 +77,17 @@ public class WebServiceCity {
 			cities = LogicLoginAuthent.valLogin(request.getRemoteAddr(), cities);
 			if (cities.getString("validate").equals("true")) {
 				City city = new City(0, name, Long.parseLong(idCountry));
-				return Response.ok(LogicCity.createCity(city).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicCity.createCity(city).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando cities\n");
-				return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject cities = new JSONObject();
 			cities.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(cities.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -104,7 +102,7 @@ public class WebServiceCity {
 		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\tBORRAR CIUDADES");
-		int verifyAccess = verifyAccess(referer);
+		int verifyAccess = ConectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
 			JSONObject city = new JSONObject();
@@ -112,17 +110,17 @@ public class WebServiceCity {
 			city.put("logincode", logincode);	
 			city = LogicLoginAuthent.valLogin(request.getRemoteAddr(), city);
 			if (city.getString("validate").equals("true")) {
-				return Response.ok(LogicCity.deleteCity(idCity).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicCity.deleteCity(idCity).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
-				return Response.ok(city.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(city.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject city = new JSONObject();
 			city.put("access", "false");
 			System.out.print(", Access denied\n");
-			return Response.ok(city.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(city.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -139,7 +137,7 @@ public class WebServiceCity {
 		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\tEn EDITAR CIUDADES");
-		int verifyAccess = verifyAccess(referer);
+		int verifyAccess = ConectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -148,27 +146,17 @@ public class WebServiceCity {
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				City city = new City(Long.parseLong(idCity), name, Long.parseLong(idCountry));
-				return Response.ok(LogicCity.updateCity(city).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicCity.updateCity(city).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("access", "false");
 			System.out.print(", Access denied\n");
-			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
     }	
-	
-	public int verifyAccess(String referer){
-		if(referer != null) {
-			for (int i = 0; i < urlAccess.length; i++) {
-				System.out.println(urlAccess[i]+" "+referer.indexOf(urlAccess[i]));
-				if(referer.indexOf(urlAccess[i])==0) return i;
-			}
-		}
-		return -1;
-	}
 }

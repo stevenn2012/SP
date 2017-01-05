@@ -20,9 +20,7 @@ import vo.Budget;
 @Path("/AppBudgetCRUD")
 
 public class WebServiceBudget {
-	
-private String[] urlAccess = ConectionData.getUrlAccess();
-	
+		
 	@GET
 	@Path("/list")
 	@Produces("application/json")
@@ -33,7 +31,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
 		System.out.println("\tEn listar budget\nEN LISTAR PRESUPUESTO");
-		int verifyAccess = verifyAccess(referer);
+		int verifyAccess = ConectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -43,17 +41,17 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 			if (account.getString("validate").equals("true")) {
 				account = LogicBudget.getBudgetJSON();
 				account.put("validate", "true");
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.print(", Error en validacion\n");
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("validate", "false");
 			System.out.print(", Access denied\n");
-			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -75,7 +73,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\tEn INSERTAR PRESUPUESTO");
-		int verifyAccess = verifyAccess(referer);
+		int verifyAccess = ConectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -84,17 +82,17 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				Budget budget = new Budget(0, observations, new java.sql.Date(new Date().getTime()), commercialTerms, new BigDecimal(bruteTotal), new BigDecimal(IVA), Integer.parseInt(months), new BigDecimal(activityTotal), Long.parseLong(idProject));
-				return Response.ok(LogicBudget.insertBudget(budget).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicBudget.insertBudget(budget).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("access", "false");
 			System.out.print(", Access denied\n");
-			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -109,7 +107,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\tBORRAR PRESUPUESTO");
-		int verifyAccess = verifyAccess(referer);
+		int verifyAccess = ConectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -118,17 +116,17 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				account = LogicBudget.deleteBudget(idBudget);
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("access", "false");
 			System.out.print(", Access denied\n");
-			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -150,7 +148,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\tEn EDITAR PRESUPUESTO");
-		int verifyAccess = verifyAccess(referer);
+		int verifyAccess = ConectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -159,28 +157,17 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				Budget budget = new Budget(Long.parseLong(idBudget), observations, new java.sql.Date(new Date().getTime()), commercialTerms, new BigDecimal(bruteTotal), new BigDecimal(IVA), Integer.parseInt(months), new BigDecimal(activityTotal), Long.parseLong(idProject));
-				return Response.ok(LogicBudget.updateBudget(budget).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicBudget.updateBudget(budget).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("access", "false");
 			System.out.print(", Access denied\n");
-			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
     }	
-	
-	public int verifyAccess(String referer){
-		if(referer != null) {
-			for (int i = 0; i < urlAccess.length; i++) {
-				System.out.println(urlAccess[i]+" "+referer.indexOf(urlAccess[i]));
-				if(referer.indexOf(urlAccess[i])==0) return i;
-			}
-		}
-		return -1;
-	}
-
 }

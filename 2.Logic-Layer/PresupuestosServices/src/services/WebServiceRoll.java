@@ -22,8 +22,6 @@ import logic.LogicRoll;
 @Path("/AppRollCRUD")
 
 public class WebServiceRoll {
-
-	private String[] urlAccess = ConectionData.getUrlAccess();
 	
 	@GET
 	@Path("/list")
@@ -35,7 +33,7 @@ public class WebServiceRoll {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nLISTAR ROLES");
-		int verifyAccess = verifyAccess(referer);
+		int verifyAccess = ConectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject roles = new JSONObject();
@@ -44,29 +42,17 @@ public class WebServiceRoll {
 			roles = LogicLoginAuthent.valLogin(request.getRemoteAddr(), roles);
 			if (roles.getString("validate").equals("true")) {
 				roles = LogicRoll.getRolesJSON();
-				return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando Roles\n");
-				return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject roles = new JSONObject();
 			roles.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
     }
-	
-	
-	
-	public int verifyAccess(String referer){
-		if(referer != null) {
-			for (int i = 0; i < urlAccess.length; i++) {
-				System.out.println(urlAccess[i]+" "+referer.indexOf(urlAccess[i]));
-				if(referer.indexOf(urlAccess[i])==0) return i;
-			}
-		}
-		return -1;
-	}
 }

@@ -20,6 +20,15 @@ public class ConectionData {
 	public static String getDataBasePass() {
 		return dataBasePass;
 	}
+	public static int verifyAccess(String referer){
+		if(referer != null) {
+			for (int i = 0; i < urlAccess.length; i++) {
+				System.out.println(urlAccess[i]+" "+referer.indexOf(urlAccess[i]));
+				if(referer.indexOf(urlAccess[i])==0) return i;
+			}
+		}
+		return -1;
+	}
 	
 	
 }
