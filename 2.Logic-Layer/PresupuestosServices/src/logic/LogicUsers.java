@@ -97,6 +97,9 @@ public class LogicUsers {
 		JSONObject obj = new JSONObject();
 		List<Project> proyectos = DAOProject.getProjects();
 		User usuario = DAOUser.getUserById(idUser);
+		obj.put("validate", "true");
+		obj.put("delete", "false");
+		obj.put("status", "Error en conexión a base de datos.");
 		if (proyectos!=null && usuario != null) {
 			if (username.toLowerCase().equals(usuario.getUserName().toLowerCase())) {
 				obj.put("validate", "true");
@@ -120,22 +123,22 @@ public class LogicUsers {
 					}
 				}
 			}
-		}
-		if (DAOUserRoll.deleteUserRoll(Long.parseLong(idUser))&&usuario!=null) {
-			if (DAOUser.deleteUser(Long.parseLong(idUser))) {
-				obj.put("validate", "true");
-				obj.put("delete", "true");
-				obj.put("usernameDeleted", usuario.getUserName());
-				obj.put("status", "Usuario Borrado correctamente");
+			if (DAOUserRoll.deleteUserRoll(Long.parseLong(idUser))&&usuario!=null) {
+				if (DAOUser.deleteUser(Long.parseLong(idUser))) {
+					obj.put("validate", "true");
+					obj.put("delete", "true");
+					obj.put("usernameDeleted", usuario.getUserName());
+					obj.put("status", "Usuario Borrado correctamente");
+				}else{
+					obj.put("validate", "true");
+					obj.put("delete", "false");
+					obj.put("status", "Error en el borrado del roll del usuario");
+				}
 			}else{
 				obj.put("validate", "true");
 				obj.put("delete", "false");
-				obj.put("status", "Error en el borrado del roll del usuario");
+				obj.put("status", "Error en el borrado del usuario");
 			}
-		}else{
-			obj.put("validate", "true");
-			obj.put("delete", "false");
-			obj.put("status", "Error en el borrado del usuario");
 		}
 		return obj;
 	}

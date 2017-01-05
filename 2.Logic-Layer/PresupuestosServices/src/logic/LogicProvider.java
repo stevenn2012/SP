@@ -160,7 +160,7 @@ public class LogicProvider {
 	}
 
 	public static JSONObject deleteProvider(String idProvider) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

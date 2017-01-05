@@ -11,7 +11,7 @@ public class DAOUser {
 	public static List<User> getUsers(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from user";
+			String query="select * from user where active = 1";
 			List<User> users = connection.createQuery(query)
 			        		 .executeAndFetch(User.class);
 			return users;

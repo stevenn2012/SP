@@ -12,7 +12,7 @@ public class DAOClient {
 	public static List<Client> getClient(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from client";
+			String query="select * from client where active = 1";
 			List<Client> client = connection.createQuery(query)
 			        		 .executeAndFetch(Client.class);
 			return client;
@@ -45,11 +45,13 @@ public class DAOClient {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="insert into client(NIT, name, description) values(:nit, :name, :desc)";
+			String query="insert into client(NIT, name, description, DV, active) values(:nit, :name, :desc, :dv, :active)";
 			connection.createQuery(query)
 					.addParameter("nit",client.getNIT())
 					.addParameter("name", client.getName())
 					.addParameter("desc", client.getDescription())
+					.addParameter("dv", client.getDV())
+					.addParameter("active", client.isActive())
 					.executeUpdate();
 			connection.commit();
 			return true;
@@ -81,12 +83,14 @@ public class DAOClient {
 	public static boolean updateClient(Client client) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="update client set NIT = :nit, name = :name, description = :desc where client.idClient = :id";
+			String query="update client set NIT = :nit, name = :name, description = :desc, DV = :DV, active = :active where client.idClient = :id";
 			connection.createQuery(query)
 					.addParameter("id",  client.getIdClient())
 					.addParameter("nit", client.getNIT())
 					.addParameter("name", client.getName())
 					.addParameter("desc", client.getDescription())
+					.addParameter("DV", client.getDV())
+					.addParameter("active", client.isActive())
 					.executeUpdate();
 			connection.commit();
 			return true;

@@ -78,7 +78,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				Project project = new Project(0, name, Long.parseLong(idClient), Long.parseLong(User_idUser));
+				Project project = new Project(0, name, Long.parseLong(idClient), Long.parseLong(User_idUser),true);
 				return Response.ok(LogicProject.insertProject(project).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
@@ -149,7 +149,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				Project project = new Project(Long.parseLong(idProject), name, Long.parseLong(idClient), Long.parseLong(User_idUser));
+				Project project = new Project(Long.parseLong(idProject), name, Long.parseLong(idClient), Long.parseLong(User_idUser),true);
 				return Response.ok(LogicProject.updateProject(project).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");

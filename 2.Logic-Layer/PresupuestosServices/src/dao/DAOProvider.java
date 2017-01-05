@@ -12,7 +12,7 @@ public class DAOProvider {
 	public static List<Provider> getProvider(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from provider";
+			String query="select * from provider where active = 1";
 			List<Provider> provider = connection.createQuery(query)
 			        		 .executeAndFetch(Provider.class);
 			return provider;
@@ -45,11 +45,12 @@ public class DAOProvider {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="insert into provider(NIT, name, description) values(:nit, :name, :desc)";
+			String query="insert into provider(NIT, name, description, active) values(:nit, :name, :desc, :active)";
 			connection.createQuery(query)
 					.addParameter("nit",provider.getNIT())
 					.addParameter("name", provider.getName())
 					.addParameter("desc", provider.getDescription())
+					.addParameter("active", provider.isActive())
 					.executeUpdate();
 			connection.commit();
 			return true;
@@ -81,12 +82,13 @@ public class DAOProvider {
 	public static boolean updateProvider(Provider provider) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="update provider set NIT = :nit, name = :name, description = :desc where provider.idProvider = :id";
+			String query="update provider set NIT = :nit, name = :name, description = :desc, active = :active where provider.idProvider = :id";
 			connection.createQuery(query)
 					.addParameter("id",  provider.getIdProvider())
 					.addParameter("nit", provider.getNIT())
 					.addParameter("name", provider.getName())
 					.addParameter("desc", provider.getDescription())
+					.addParameter("active", provider.isActive())
 					.executeUpdate();
 			connection.commit();
 			return true;

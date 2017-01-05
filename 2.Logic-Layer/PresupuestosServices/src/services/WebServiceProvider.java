@@ -80,7 +80,7 @@ public class WebServiceProvider {
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				Provider provider = new Provider(0,nit, name, description);
+				Provider provider = new Provider(0,nit, name, description, true);
 				return Response.ok(LogicProvider.insertProvider(provider).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
@@ -117,7 +117,7 @@ public class WebServiceProvider {
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				Provider provider = new Provider(Long.parseLong(idProvider), nit, username, description);
+				Provider provider = new Provider(Long.parseLong(idProvider), nit, username, description, true);
 				return Response.ok(LogicProvider.updateProvider(provider).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
