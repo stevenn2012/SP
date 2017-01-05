@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.json.JSONObject;
 import dao.DAOAddress;
+import dao.DAOContact;
 import vo.Address;
+import vo.Contact;
 
 public class LogicAddress {
 
@@ -71,17 +73,32 @@ public class LogicAddress {
 
 	public static Object deleteAddress(long address) {
 		JSONObject obj = new JSONObject();
-		if (DAOAddress.deleteAddress(address)) {
-			obj.put("validate", "true");
-			obj.put("delete", "true");
-			obj.put("status", "Se ha borrado la dirección correctamente.");
-			return obj;
-		}else{
-			obj.put("validate", "true");
-			obj.put("delete", "false");
-			obj.put("status", "Error en borrar la dirección");
-			return obj;
+		Address direccion = DAOAddress.getAddressById(address);
+		List<Address> direcciones = DAOAddress.getAddress();
+		if (direccion != null && direcciones != null) {
+			int cantidad = 0;
+			for (int i = 0; i < direcciones.size(); i++) {
+				if (direcciones.get(i).getIdProvider()==direccion.getIdProvider()) {
+					cantidad++;
+				}
+			}
+			if (cantidad<2) {
+				obj.put("validate", "true");
+				obj.put("delete", "false");
+				obj.put("status", "El proveedor debe tener minimo 1 dirección. No se puede borrar.");
+				return obj;
+			}
+			if (DAOContact.deleteContact(address)) {
+				obj.put("validate", "true");
+				obj.put("delete", "true");
+				obj.put("status", "Se ha borrado la dirección correctamente.");
+				return obj;
+			}
 		}
+		obj.put("validate", "true");
+		obj.put("delete", "false");
+		obj.put("status", "Error de conexion con la base de datos.");
+		return obj;
 	}
 
 }

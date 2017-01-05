@@ -71,17 +71,32 @@ public class LogicContact {
 
 	public static Object deleteContact(long contact) {
 		JSONObject obj = new JSONObject();
-		if (DAOContact.deleteContact(contact)) {
-			obj.put("validate", "true");
-			obj.put("delete", "true");
-			obj.put("status", "Se ha borrado el contacto correctamente.");
-			return obj;
-		}else{
-			obj.put("validate", "true");
-			obj.put("delete", "false");
-			obj.put("status", "Error al borrar el contacto.");
-			return obj;
+		Contact contacto = DAOContact.getContactById(contact);
+		List<Contact> contactos = DAOContact.getContact();
+		if (contacto != null && contactos != null) {
+			int cantidad = 0;
+			for (int i = 0; i < contactos.size(); i++) {
+				if (contactos.get(i).getIdProvider()==contacto.getIdProvider()) {
+					cantidad++;
+				}
+			}
+			if (cantidad<2) {
+				obj.put("validate", "true");
+				obj.put("delete", "false");
+				obj.put("status", "El proveedor debe tener minimo 1 Contacto. No se puede borrar.");
+				return obj;
+			}
+			if (DAOContact.deleteContact(contact)) {
+				obj.put("validate", "true");
+				obj.put("delete", "true");
+				obj.put("status", "Se ha borrado el contacto correctamente.");
+				return obj;
+			}
 		}
+		obj.put("validate", "true");
+		obj.put("delete", "false");
+		obj.put("status", "Error de conexion con la base de datos.");
+		return obj;
 	}
 
 
