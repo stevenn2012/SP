@@ -11,11 +11,12 @@ body{background-color: white;}
 
 #nameEmployed{
 	text-align: left;
-	width: 88%;
+	padding-top: 9px;
+	width: 85%;
 }
 
-.welcomeTitle:hover{
-	background-color: transparent;
+#welcomeTitle:hover{
+	cursor: pointer;
 }
 
 
@@ -31,7 +32,7 @@ div#createUserForm{
 }
 
 .homeIcon{
-	height: 40px;
+	height: 60px;
 
 }
 
