@@ -64,6 +64,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 			  @DefaultValue("null") @QueryParam("nit") String nit, 
 			  @DefaultValue("null") @QueryParam("name") String name,
 			  @DefaultValue("null") @QueryParam("description") String description,
+			  @DefaultValue("null") @QueryParam("DV") String dv,
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
 	          @DefaultValue("null") @QueryParam("username") String username
 	          ) {
@@ -78,7 +79,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				Client client = new Client(0,nit, name, description);
+				Client client = new Client(0,nit, name, description,Integer.parseInt(dv), true);
 				return Response.ok(LogicClient.insertClient(client).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
@@ -101,6 +102,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 			  @DefaultValue("null") @QueryParam("nit") String nit, 
 			  @DefaultValue("null") @QueryParam("name") String name,
 			  @DefaultValue("null") @QueryParam("description") String description,
+			  @DefaultValue("null") @QueryParam("DV") String dv,
 	          @DefaultValue("null") @QueryParam("logincode") String logincode,
 	          @DefaultValue("null") @QueryParam("username") String username
 	          ) {
@@ -115,7 +117,7 @@ private String[] urlAccess = ConectionData.getUrlAccess();
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				Client client = new Client(Long.parseLong(idClient), nit, username, description);
+				Client client = new Client(Long.parseLong(idClient), nit, username, description, Integer.parseInt(dv),true);
 				return Response.ok(LogicClient.updateClient(client).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");

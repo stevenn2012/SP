@@ -6,13 +6,24 @@ public class Project {
 	private String name;
 	private long idClient;
 	private long User_idUser;
-	
-	public Project(long idProject, String name, long idClient, long user_idUser) {
+	private boolean active;
+	public Project(long idProject, String name, long idClient, long user_idUser, boolean active) {
+		super();
 		this.idProject = idProject;
 		this.name = name;
 		this.idClient = idClient;
 		User_idUser = user_idUser;
+		this.active = active;
 	}
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	public long getIdProject() {
 		return idProject;
 	}
@@ -36,10 +47,5 @@ public class Project {
 	}
 	public void setUser_idUser(long user_idUser) {
 		User_idUser = user_idUser;
-	}
-	@Override
-	public String toString() {
-		return "Project [idProject=" + idProject + ", name=" + name + ", idClient=" + idClient + ", User_idUser="
-				+ User_idUser + "]";
 	}
 }

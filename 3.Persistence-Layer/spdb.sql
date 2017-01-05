@@ -88,6 +88,8 @@ CREATE TABLE IF NOT EXISTS `SPDB`.`Provider` (
   `NIT` VARCHAR(100) NOT NULL,
   `name` VARCHAR(100) NOT NULL,
   `description` TEXT NULL,
+  `active` TINYINT(1) NULL,
+  `DV` INT NULL,
   PRIMARY KEY (`idProvider`))
 ENGINE = InnoDB;
 
@@ -127,6 +129,8 @@ CREATE TABLE IF NOT EXISTS `SPDB`.`Client` (
   `NIT` VARCHAR(100) NULL,
   `name` VARCHAR(100) NOT NULL,
   `description` TEXT NULL,
+  `DV` INT NOT NULL,
+  `active` TINYINT(1) NULL,
   PRIMARY KEY (`idClient`))
 ENGINE = InnoDB;
 
@@ -168,7 +172,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `SPDB`.`Contact` (
   `idContact` BIGINT(255) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
-  `email` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(100) NULL,
   `phoneNumber` VARCHAR(100) NOT NULL,
   `idProvider` BIGINT(255) NULL,
   `idClient` BIGINT(255) NULL,
@@ -215,6 +219,7 @@ CREATE TABLE IF NOT EXISTS `SPDB`.`Project` (
   `name` VARCHAR(100) NOT NULL,
   `idClient` BIGINT(255) NOT NULL,
   `User_idUser` BIGINT(255) NOT NULL,
+  `active` TINYINT(1) NULL,
   PRIMARY KEY (`idProject`),
   INDEX `fk_Project_Client1_idx` (`idClient` ASC),
   INDEX `fk_Project_User1_idx` (`User_idUser` ASC),
@@ -244,6 +249,7 @@ CREATE TABLE IF NOT EXISTS `SPDB`.`Budget` (
   `months` INT NOT NULL,
   `activityTotal` DECIMAL(40,4) NOT NULL,
   `idProject` BIGINT(255) NOT NULL,
+  `active` TINYINT(1) NULL,
   PRIMARY KEY (`idBudget`),
   INDEX `fk_Budget_Project1_idx` (`idProject` ASC),
   CONSTRAINT `fk_Budget_Project1`

@@ -9,7 +9,7 @@ package logic;
 public class App {
 
 	public static void main(String[] args) throws InterruptedException {
-	//System.out.println(MD5Encryption.getMD5("1234"));
+	System.out.println(MD5Encryption.getMD5("1234"));
 	//System.out.println(LogicCity.createCity(new City(0, "Bogota", 1)));
 	Long startTime = System.currentTimeMillis();
 	Thread.sleep(15000);
