@@ -22,9 +22,7 @@ import vo.Area;
 @Path("/AppAreaCRUD")
 
 public class WebServiceArea {
-	
-	private String[] urlAccess = ConectionData.getUrlAccess();
-	
+		
 	@GET
 	@Path("/create")
 	@Produces("application/json")
@@ -36,7 +34,7 @@ public class WebServiceArea {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nCREAR AREA");
-		int verifyAccess = verifyAccess(referer);
+		int verifyAccess = ConectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject areas = new JSONObject();
@@ -45,17 +43,17 @@ public class WebServiceArea {
 			areas = LogicLoginAuthent.valLogin(request.getRemoteAddr(), areas);
 			if (areas.getString("validate").equals("true")) {
 				Area area = new Area(0, nombreArea);
-				return Response.ok(LogicArea.createArea(area).toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(LogicArea.createArea(area).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando areas\n");
-				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject areas = new JSONObject();
 			areas.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -69,7 +67,7 @@ public class WebServiceArea {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nLISTAR AREAS");
-		int verifyAccess = verifyAccess(referer);
+		int verifyAccess = ConectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject areas = new JSONObject();
@@ -78,25 +76,25 @@ public class WebServiceArea {
 			areas = LogicLoginAuthent.valLogin(request.getRemoteAddr(), areas);
 			if (areas.getString("validate").equals("true")) {
 				areas = LogicArea.getAreasJSON();
-				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[verifyAccess]).build();
+				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando areas\n");
-				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject areas = new JSONObject();
 			areas.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", urlAccess[0]).build();
+			return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
     }
 	
 	public int verifyAccess(String referer){
 		if(referer != null) {
-			for (int i = 0; i < urlAccess.length; i++) {
-				System.out.println(urlAccess[i]+" "+referer.indexOf(urlAccess[i]));
-				if(referer.indexOf(urlAccess[i])==0) return i;
+			for (int i = 0; i < ConectionData.getUrlAccess().length; i++) {
+				System.out.println(ConectionData.getUrlAccess()[i]+" "+referer.indexOf(ConectionData.getUrlAccess()[i]));
+				if(referer.indexOf(ConectionData.getUrlAccess()[i])==0) return i;
 			}
 		}
 		return -1;
