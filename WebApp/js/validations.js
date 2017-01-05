@@ -10,6 +10,20 @@ function nitValidation(nit) {
 	
 }
 
+function changeNameFirstUpperCase(name) {
+	var str = name.split(" ");
+	var n = '';
+	for (var i = 0; i < str.length; i++) {
+		n += str[i].charAt(0).toUpperCase()+str[i].substring(1).toLowerCase();
+		if(i < str.length-1) n+= ' ';	
+	}
+	return n;
+}
+
+function nameValidation(name) {
+	// body...
+}
+
 function documentValidation(number) {
 	if(notBlakSpaceValidation(number)==false) return false;
 	if(numberValidation(price, true, false) == false) return false;

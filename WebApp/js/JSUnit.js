@@ -31,6 +31,9 @@ function testValidations() {
 
 	//numberValidation
 	validationTest.CreateTest("numberValidation: [123, true, true]: ",numberValidation (123, true, true),true);
+
+	//upercase name
+	validationTest.CreateTest("changeNameFirstUpperCase: sTEVEN pUERTO",changeNameFirstUpperCase('steven puerto'),'Steven Puerto');	
 }
 
 //validationTest.resultTests();

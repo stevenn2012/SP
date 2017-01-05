@@ -13,13 +13,14 @@ $(document).ready(function(){
 	$('#infoPassword').css("display","none");
 	$('#pass').focus(function(){hiddeInfoPassword()});
 	$('#pass').blur(function(){hiddeInfoPassword()});
+	$('.filter').focus();
 });
 
 var areas = {};
 var rolls = {};
 var users = {};
 function getUsers() {
-	console.log("GET USERS:");
+	//console.log("GET USERS:");
 	if(sessionStorage.username && sessionStorage.logincode){
 		var accountLog = {
 			"username":sessionStorage.username,
@@ -32,7 +33,7 @@ function getUsers() {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("Crear: "+JSON.stringify(data));
+				//console.log("Crear: "+JSON.stringify(data));
 				if(data.validate == "true"){
 					users = sortByKey(data.users, 'name');
 				}else{
@@ -58,7 +59,7 @@ function sortByKey(array, key) {
 }
 
 function listUsers() {
-	console.log("LIST USERS...");
+	//console.log("LIST USERS...");
 	//console.log("Users: "+JSON.stringify(users));
 	var find = ($('.filter').val()).toUpperCase();
 	var content = '<table class="table table-bordered">';
@@ -92,7 +93,7 @@ function listUsers() {
 var idUserDelete = -1;
 function deleteUser(iduser) {
 	idUserDelete = iduser
-	console.log("DELETE USER: "+iduser);
+	//console.log("DELETE USER: "+iduser);
 	var user;
 	for (var i = 0; i < users.length; i++) {
 		if(users[i].iduser == iduser){
@@ -100,7 +101,7 @@ function deleteUser(iduser) {
 			break;
 		}
 	};
-	console.log(JSON.stringify(user));
+	//console.log(JSON.stringify(user));
 	var data = '<p>Está a punto de eliminar el usuario con los siguientes datos: </p>';
 	data += '<div class="panel panel-info"><div class="panel-heading">Usuario</div><div class="panel-body">';
 	data += '<strong>Cedula: </strong>'+user.document+"<br>";
@@ -115,7 +116,7 @@ function deleteUser(iduser) {
 }
 
 function deleteUserAjax(iduser) {
-	console.log("DELETE USER AJAX: "+iduser);
+	//console.log("DELETE USER AJAX: "+iduser);
 	validateAccount();
 	if(sessionStorage.username && sessionStorage.logincode){
 		var accountAndData = {
@@ -130,7 +131,7 @@ function deleteUserAjax(iduser) {
 			async : true,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("Delete user webservice: "+JSON.stringify(data));
+				//console.log("Delete user webservice: "+JSON.stringify(data));
 				if(data.validate == "true"){
 					if(data.delete == "true"){
 						idUserDelete = -1;
@@ -178,7 +179,7 @@ function deleteUserAjax(iduser) {
 }
 
 function editUser(iduser) {
-	console.log("EDIT USER: "+iduser);
+	//console.log("EDIT USER: "+iduser);
 	var user;
 	for (var i = 0; i < users.length; i++) {
 		if(users[i].iduser == iduser){
@@ -186,7 +187,7 @@ function editUser(iduser) {
 			break;
 		}
 	};
-	console.log(JSON.stringify(user));	
+	//console.log(JSON.stringify(user));	
 	$('#idUser').val(user.iduser);
 	$('#document').val(user.document);
 	$('#name').val(user.name);
@@ -206,11 +207,11 @@ function editUser(iduser) {
 			break;		
 		}
 	};
-	console.log("idUser: "+$('#idUser').val());
+	//console.log("idUser: "+$('#idUser').val());
 }
 
 function getAreas() {
-	console.log("GET AREAS:");
+	//console.log("GET AREAS:");
 	if(sessionStorage.username && sessionStorage.logincode){
 		var accountLogin = {
 			"username":sessionStorage.username,
@@ -223,7 +224,7 @@ function getAreas() {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("Areas: "+JSON.stringify(data));
+				//console.log("Areas: "+JSON.stringify(data));
 				if(data.list == "true"){
 					areas = data.areas;
 				}else{
@@ -242,7 +243,7 @@ function getAreas() {
 }
 
 function getRolls () {
-	console.log("GET ROLLS:");
+	//console.log("GET ROLLS:");
 	if(sessionStorage.username && sessionStorage.logincode){
 		var accountLogin = {
 			"username":sessionStorage.username,
@@ -255,7 +256,7 @@ function getRolls () {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("Rolls: "+JSON.stringify(data));
+				//console.log("Rolls: "+JSON.stringify(data));
 				if(data.accionListar == "true"){
 					rolls = data.roles;
 				}else{
@@ -274,7 +275,7 @@ function getRolls () {
 }
 
 function showAreas () {
-	console.log("SHOW AREAS...");
+	//console.log("SHOW AREAS...");
 	var data = '<option value="0">-- Seleccione la Area --</option>';
 	for (var i = 0; i < areas.length; i++) {
 		data += '<option value="'+areas[i].idArea+'">'+areas[i].name+'</option>';
@@ -283,7 +284,7 @@ function showAreas () {
 }
 
 function showRolls () {
-	console.log("SHOW ROLLS...");
+	//console.log("SHOW ROLLS...");
 	var data = '<option value="0">-- Seleccione el roll --</option>';
 	for (var i = 0; i < rolls.length; i++) {
 		data += '<option value="'+rolls[i].idRol+'">'+rolls[i].name+'</option>';
@@ -292,7 +293,7 @@ function showRolls () {
 }
 
 function areaButton() {
-	console.log("AREA BUTTON...");
+	//console.log("AREA BUTTON...");
 	var value = $('#areaButton').prop('checked');
 	if(value){
 		$('#areaList').val(0);
@@ -306,7 +307,7 @@ function areaButton() {
 }
 
 function limpiarForm() {
-	console.log("LIMPIAR FORM...");
+	//console.log("LIMPIAR FORM...");
 	$('#idUser').val("");
 	$('#document').val("");
 	$('#name').val("");
@@ -314,7 +315,7 @@ function limpiarForm() {
 	$('#pass').val("");
 	$('#email').val("");
 	$('#areaList').val(0);
-	console.log("Button: "+$("#areaButton").prop("checked"));
+	//console.log("Button: "+$("#areaButton").prop("checked"));
 	if($("#areaButton").prop("checked")){
 		$("#areaButton").click();	
 	}
@@ -324,7 +325,7 @@ function limpiarForm() {
 }
 
 function ScreenUp (id) {
-	console.log("SCREEN UP");
+	//console.log("SCREEN UP");
 	if(id == "msCreateUser"){
 		$('#modalEdit').scrollTop(0);
 	}else{
@@ -335,12 +336,12 @@ function ScreenUp (id) {
 }
 
 function cancel(){
-	console.log("CANCEL");
+	//console.log("CANCEL");
 	limpiarForm();
 }
 
 function validations() {
-	console.log("VALIDATIONS");
+	//console.log("VALIDATIONS");
 	if($('#document').val().indexOf("e")!=-1){
     	$('#msCreateUser').html('<div class="alert alert-warning" role="alert">La cedula introducida es incorrecta</div>');
 		ScreenUp("msCreateUser");
@@ -392,12 +393,12 @@ function validatePassword() {
 			return true;
 		}
 	}
-	console.log("upperCase: "+upperCase+", lowerCase: "+lowerCase+", charespecial: "+charespecial+", number: "+number);
+	//console.log("upperCase: "+upperCase+", lowerCase: "+lowerCase+", charespecial: "+charespecial+", number: "+number);
 	return false;
 }
 
 function hiddeInfoPassword() {
-	console.log("HIDDEN PASSWORD INFO: "+$('#infoPassword').css("display"));
+	//console.log("HIDDEN PASSWORD INFO: "+$('#infoPassword').css("display"));
 	if($('#infoPassword').css("display") == "none"){
 		$('#infoPassword').css("display","block");
 	}else{
@@ -406,7 +407,7 @@ function hiddeInfoPassword() {
 }
 
 function editUserAjax() {
-	console.log("EDIT USER AJAX:");
+	//console.log("EDIT USER AJAX:");
 	validateAccount();
 	var dataAndAccount = {
 		"idUser":$('#idUser').val(),
@@ -422,7 +423,7 @@ function editUserAjax() {
 	};
 
 	var validationFields = validations();
-	console.log("Validation Fields: "+validationFields);
+	//console.log("Validation Fields: "+validationFields);
 	if(validationFields == false){
 		return false;
 	}
@@ -436,7 +437,7 @@ function editUserAjax() {
 				"logincode":sessionStorage.logincode,
 				"nombreArea":$( "#area").val()
 			};
-			console.log("Crear Area: "+JSON.stringify(dataAndAccountArea));
+			//console.log("Crear Area: "+JSON.stringify(dataAndAccountArea));
 			$.ajax({
 				url: createAreaService,
 				type: 'GET',
@@ -444,7 +445,7 @@ function editUserAjax() {
 				async : false,
 				dataTipe: 'JSON',
 				success: function (data) {
-					console.log("WebService Crear Area: "+JSON.stringify(data));
+					//console.log("WebService Crear Area: "+JSON.stringify(data));
 					if(data.validate == "true"){
 						if(data.insert=="true"){
 							dataAndAccount.idarea = data.idArea;
@@ -477,8 +478,8 @@ function editUserAjax() {
 		validation = false;
 	}
 
-	console.log("Editar: "+JSON.stringify(dataAndAccount));
-	console.log("Validation: "+validation);
+	//console.log("Editar: "+JSON.stringify(dataAndAccount));
+	//console.log("Validation: "+validation);
 	if(validation == true){
 		$.ajax({
 			url: editUserService,
@@ -487,7 +488,7 @@ function editUserAjax() {
 			async : true,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("WebService Editar: "+JSON.stringify(data));
+				//console.log("WebService Editar: "+JSON.stringify(data));
 				if(data.validate == "true"){
 					if(data.update == "true"){
 						limpiarForm();
