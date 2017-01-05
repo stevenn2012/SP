@@ -39,7 +39,7 @@ function listProviders() {
 		  	data+='</tr>';
 		}
 	};
-	if(data == ""){ $('#msfind').html("No se encontraron usuarios");
+	if(data == ""){ $('#msfind').html("No se encontraron Proveedores");
 	}else{ $('#msfind').html(""); }
 	content += data+'</table>';
 	$('#lista').html(content);
@@ -428,6 +428,25 @@ function deleteProvider(idProvider) {
 
 function deleteAddress (idProvider, idAddress) {
 	console.log("deleteAddress: "+idProvider+", "+idAddress);
+	var provider =  Provider.getById(idProvider, 'idProvider', false, 'Proveedor a borrar Direccion');
+	var address = findElement(provider, 'idAddress', idAddress);
+
+	var data = '<p> Esta a punto de borrar la direccion con los siguientes datos: </p>';
+	
+	data += '<div class="panel panel-info"><div class="panel-heading">'+provider.name+'</div><div class="panel-body">';
+    data += '<Strong>NIT : </strong>'+provider.NIT+"<br>";
+    data += '<Strong>Nombre : </strong>'+provider.name+"<br>";
+    data += '<Strong>Descripcion : </strong>'+provider.description+"<br>";
+    
+    data += '<Strong>Direcciones : </strong>';
+    data += '<div id="seeAddressDelete"></div>';
+    data += '<Strong>Contactos : </strong>';
+    data += '<div id="seeContactsDelete"></div>';
+    data += '<Strong>Productos y servicios : </strong>';
+    data += '<div id="seeProductsServicesDelete"></div>';
+    data += '</div></div><p>está accion es irreversible, ¿desea continuar?</p>';
+	$('#bodyModalDeleteElementProvider').html(data);
+
 	//ApprovedDeleteAddress(idProvider, idAddress);
 	$('#'+modalPattern).modal('hide');
 }

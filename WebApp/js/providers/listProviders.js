@@ -63,7 +63,7 @@ function listProviders() {
 		}
 	};
 	if(data == ""){
-		$('#msfind').html("No se encontraron usuarios");
+		$('#msfind').html("No se encontraron proveedores");
 	}else{
 		$('#msfind').html("");
 	}
