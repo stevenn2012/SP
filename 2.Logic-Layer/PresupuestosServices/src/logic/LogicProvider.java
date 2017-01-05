@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
 import dao.DAOAddress;
+import dao.DAOBudgetPS;
 import dao.DAOCity;
 import dao.DAOContact;
 import dao.DAOCountry;
 import dao.DAOProductService;
 import dao.DAOProvider;
 import vo.Address;
+import vo.BudgetPS;
 import vo.City;
 import vo.Contact;
 import vo.Country;
@@ -40,7 +42,7 @@ public class LogicProvider {
 			obj.put("validate", "true");
 			obj.put("status", "listado de proveedores correcto");
 			for (int i = 0; i < proveedores.size(); i++) {
-				ProviderListJSON providerJson = new ProviderListJSON(proveedores.get(i).getIdProvider(),proveedores.get(i).getNIT() , proveedores.get(i).getName(), proveedores.get(i).getDescription());
+				ProviderListJSON providerJson = new ProviderListJSON(proveedores.get(i).getIdProvider(),proveedores.get(i).getNIT() , proveedores.get(i).getName(), proveedores.get(i).getDescription(), proveedores.get(i).getDV());
 				listaJson.add(providerJson);
 			}
 			for (int i = 0; i < listaJson.size(); i++) {
@@ -160,8 +162,73 @@ public class LogicProvider {
 	}
 
 	public static JSONObject deleteProvider(String idProvider) {
+		JSONObject obj = new JSONObject();
+		Provider proveedor = DAOProvider.getProviderById(Long.parseLong(idProvider));
+		List<BudgetPS> presupuestosPS = DAOBudgetPS.getBudgetPS();
+		List<ProductService> productServices = DAOProductService.getProductService();
+		List<Contact> contactos = DAOContact.getContact();
+		List<Address> direcciones = DAOAddress.getAddress();
 		
-		return null;
+		if (presupuestosPS!=null && contactos!=null && direcciones!=null && productServices!=null && proveedor!=null) {
+			for (int i = 0; i < presupuestosPS.size(); i++) {
+				for (int j = 0; j < productServices.size(); j++) {
+					if (Long.parseLong(idProvider)==productServices.get(i).getIdProvider()&&productServices.get(i).getIdProductService()==presupuestosPS.get(j).getIdProductService()) {
+						proveedor.setActive(false);
+						if (DAOProvider.updateProvider(proveedor)) {
+							obj.put("validate", "true");
+							obj.put("delete", "false");
+							obj.put("status", "El proveedor tiene productos en Presupuestos existentes. Cambio a no activo.");
+							return obj;
+						}else{
+							obj.put("validate", "true");
+							obj.put("delete", "false");
+							obj.put("status", "Error al acceder en la base de datos.");
+							return obj;
+						}
+					}
+				}
+			}
+			for (int i = 0; i < direcciones.size(); i++) {
+				if (direcciones.get(i).getIdProvider()==proveedor.getIdProvider()) {
+					if (!DAOAddress.deleteAddress(direcciones.get(i).getIdAddress())) {
+						obj.put("validate", "true");
+						obj.put("delete", "false");
+						obj.put("status", "Error al acceder en la base de datos.");
+						return obj;
+					}
+				}
+			}
+			for (int i = 0; i < contactos.size(); i++) {
+				if (contactos.get(i).getIdProvider()==proveedor.getIdProvider()) {
+					if (!DAOContact.deleteContact(contactos.get(i).getIdContact())) {
+						obj.put("validate", "true");
+						obj.put("delete", "false");
+						obj.put("status", "Error al acceder en la base de datos.");
+						return obj;
+					}
+				}			
+			}
+			for (int i = 0; i < productServices.size(); i++) {
+				if (productServices.get(i).getIdProvider()==proveedor.getIdProvider()) {
+					if (!DAOProductService.deleteProductService(productServices.get(i).getIdProductService())) {
+						obj.put("validate", "true");
+						obj.put("delete", "false");
+						obj.put("status", "Error al acceder en la base de datos.");
+						return obj;
+					}
+				}
+			}
+			if (DAOProvider.deleteProvider(proveedor.getIdProvider())) {
+				obj.put("validate", "true");
+				obj.put("delete", "true");
+				obj.put("status", "Provedor borrado correctamente.");
+				return obj;
+			}
+		}
+		obj.put("validate", "true");
+		obj.put("delete", "false");
+		obj.put("status", "Error al acceder a la base de datos.");
+		return obj;
 	}
 
 }

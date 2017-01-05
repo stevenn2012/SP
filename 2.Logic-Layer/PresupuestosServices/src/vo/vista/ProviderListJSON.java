@@ -11,11 +11,13 @@ public class ProviderListJSON {
 	private String NIT;
 	private String name;
 	private String description;
+	private int DV;
 	private List<ProductService> productServices;
 	private List<Contact> contacts;
 	private List<AddressListJSON> address;
 		
-	public ProviderListJSON(long idProvider, String nIT, String name, String description) {
+	public ProviderListJSON(long idProvider, String nIT, String name, String description, int dv) {
+		this.DV = dv;
 		this.idProvider  = idProvider;
 		NIT			     = nIT;
 		this.name 		 = name;
@@ -24,6 +26,14 @@ public class ProviderListJSON {
 		contacts 		 = new ArrayList<>();
 		address			 = new ArrayList<>();
 	}
+	
+	public int getDV() {
+		return DV;
+	}
+	public void setDV(int dV) {
+		DV = dV;
+	}
+
 	public long getIdProvider() {
 		return this.idProvider;
 	}
@@ -69,8 +79,8 @@ public class ProviderListJSON {
 	@Override
 	public String toString() {
 		return "ProviderListJSON [idProvider=" + idProvider + ", NIT=" + NIT + ", name=" + name + ", description="
-				+ description + ", productServices=" + productServices + ", contacts=" + contacts + ", address="
-				+ address + "]";
+				+ description + ", DV=" + DV + ", productServices=" + productServices + ", contacts=" + contacts
+				+ ", address=" + address + "]";
 	}
 	
 		
