@@ -2,7 +2,10 @@ package logic;
 
 import java.util.List;
 import org.json.JSONObject;
+
+import dao.DAOBudgetPS;
 import dao.DAOProductService;
+import vo.BudgetPS;
 import vo.ProductService;
 
 public class LogicProductService {
@@ -68,10 +71,42 @@ public class LogicProductService {
 		}
 	}
 
-	public static JSONObject deleteProductService(long parseLong) {
+	public static JSONObject deleteProductService(long idPS) {
 		JSONObject obj = new JSONObject();
-		//List<BudgetPS> enPresupuesto = DAO
-		obj.put("test", 0);
+		List<BudgetPS> presupuestoPS = DAOBudgetPS.getBudgetPS();
+		List<ProductService> productService = DAOProductService.getProductService();
+		ProductService ps = DAOProductService.getProductServiceById(idPS);
+		obj.put("validate", "true");
+		obj.put("delete", "false");
+		obj.put("status", "Error de conexion con la base de datos.");
+		if (presupuestoPS != null && productService!=null) {
+			for (int i = 0; i < presupuestoPS.size(); i++) {
+				if (presupuestoPS.get(i).getIdProductService()==idPS) {
+					obj.put("validate", "true");
+					obj.put("delete", "false");
+					obj.put("status", "El producto/servicio esta en un presupuesto. No se puede borrar.");
+					return obj;
+				}
+			}
+			int cantidad=0;
+			for (int i = 0; i < productService.size(); i++) {
+				if (productService.get(i).getIdProvider()==ps.getIdProvider()) {
+					cantidad++;
+				}
+			}
+			if (cantidad<2) {
+				obj.put("validate", "true");
+				obj.put("delete", "false");
+				obj.put("status", "El proveedor debe tener minimo 1 Producto o servicio. No se puede borrar.");
+				return obj;
+			}
+			if (DAOProductService.deleteProductService(idPS)) {
+				obj.put("validate", "true");
+				obj.put("delete", "true");
+				obj.put("status", "Se ha borrado correctamente el Producto o servicio.");
+				return obj;
+			}
+		}
 		return obj;
 	}
 }

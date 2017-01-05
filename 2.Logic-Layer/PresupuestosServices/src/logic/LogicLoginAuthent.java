@@ -20,17 +20,17 @@ public class LogicLoginAuthent {
 		String username = account.getString("user");
 		String password = account.getString("pass");
 		JSONObject obj = new JSONObject();
-		TimeControlAccountLogin attempt = attempts.get(ip+username);
+		TimeControlAccountLogin attempt = attempts.get(ip);
 		if (attempt==null) {
-			attempts.put(ip+username, new TimeControlAccountLogin(ip, 0, System.currentTimeMillis(), System.currentTimeMillis()));
+			attempts.put(ip, new TimeControlAccountLogin(ip, 0, System.currentTimeMillis(), System.currentTimeMillis()));
 		}
-		if (attempts.get(ip+username).getAttemptCount()>=5) {
-			attempts.get(ip+username).setStopTime(System.currentTimeMillis());
-			long elapsedTime = attempts.get(ip+username).getStopTime()-attempts.get(ip+username).getStartTime();
+		if (attempts.get(ip).getAttemptCount()>=5) {
+			attempts.get(ip).setStopTime(System.currentTimeMillis());
+			long elapsedTime = attempts.get(ip).getStopTime()-attempts.get(ip).getStartTime();
 			long time = 60000;
 			if (elapsedTime>time) {
-				attempts.remove(ip+username);
-				attempts.put(ip+username, new TimeControlAccountLogin(ip, 0, System.currentTimeMillis(), System.currentTimeMillis()));
+				attempts.remove(ip);
+				attempts.put(ip, new TimeControlAccountLogin(ip, 0, System.currentTimeMillis(), System.currentTimeMillis()));
 			}else{
 				System.out.println("Bloquedado: tiempo transcurrido "+elapsedTime/1000+" segundos, Wait: "+time/1000+ " segundos.");
 				obj.put("access", false);
@@ -62,16 +62,16 @@ public class LogicLoginAuthent {
 			obj.put("roll", roll);
 			loginAccounts.put(user.getUserName().toLowerCase(), 
 					new AccountLogin(user.getUserName(), obj.getString("logincode"), ip,roll));
-			attempts.remove(ip+username);
+			attempts.remove(ip);
 			return obj;
 		}else{
-			attempts.get(ip+username).setAttemptCount(attempts.get(ip+username).getAttemptCount()+1);
-			System.out.println("attempt "+attempts.get(ip+username).getAttemptCount());
-			if (attempts.get(ip+username).getAttemptCount()==5) {
-				attempts.get(ip+username).setStartTime(System.currentTimeMillis());
-				attempts.get(ip+username).setStopTime(System.currentTimeMillis());
+			attempts.get(ip).setAttemptCount(attempts.get(ip).getAttemptCount()+1);
+			System.out.println("attempt "+attempts.get(ip).getAttemptCount());
+			if (attempts.get(ip).getAttemptCount()==5) {
+				attempts.get(ip).setStartTime(System.currentTimeMillis());
+				attempts.get(ip).setStopTime(System.currentTimeMillis());
 			}
-			obj.put("status", "Intentos: "+attempts.get(ip+username).getAttemptCount());
+			obj.put("status", "Intentos: "+attempts.get(ip).getAttemptCount());
 			obj.put("access", false);
 			return obj;
 		}
