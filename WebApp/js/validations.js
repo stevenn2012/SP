@@ -5,11 +5,6 @@ function numberValidation (number, natural, decimal) {
 	return true;
 }
 
-//********terminar******************************
-function nitValidation(nit) {
-	
-}
-
 function changeNameFirstUpperCase(name) {
 	var str = name.split(" ");
 	var n = '';
@@ -18,10 +13,6 @@ function changeNameFirstUpperCase(name) {
 		if(i < str.length-1) n+= ' ';	
 	}
 	return n;
-}
-
-function nameValidation(name) {
-	// body...
 }
 
 function documentValidation(number) {
