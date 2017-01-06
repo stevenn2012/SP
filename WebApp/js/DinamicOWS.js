@@ -23,9 +23,9 @@ function newDinamicOWS(msNewObj){
 		add:function(path ,dataAndAccount, idData) {	//Create (C)
 			data = this.consumeService(path, dataAndAccount);
 			var dataReturn = [{'success': 'true','status':'success', 'data':[]}];
-			if(data.success){
-				if(data.data.validate){
-					if(data.data.insert){
+			if(data.success == 'true'){
+				if(data.data.validate == 'true'){
+					if(data.data.insert == 'true'){
 						if(idData == '') dataReturn.data = data.data;
 						else dataReturn.data = data.data[idData];
 					}else{ dataReturn.success = 'false'; dataReturn.status = data.data.status; }
@@ -42,9 +42,9 @@ function newDinamicOWS(msNewObj){
 		get: function(path ,dataAndAccount, sortBy, idData) { //Read (R)
 			data = this.consumeService(path, dataAndAccount);
 			var dataReturn = [{'success': 'true','status':'success'}];
-			if(data.success){
-				if(data.data.validate){
-					if(data.data.list){
+			if(data.success == 'true'){
+				if(data.data.validate == 'true'){
+					if(data.data.list == 'true'){
 						this.dataArray = this.sortByKey(data.data[idData], sortBy);
 					}else{ dataReturn.success = 'false'; dataReturn.status = data.data.status; }
 				}else{ dataReturn.success = 'false'; dataReturn.status = 'No tiene los permisos requeridos'; }
@@ -59,9 +59,9 @@ function newDinamicOWS(msNewObj){
 		set:function(path ,dataAndAccount, idData) { //Update (U)
 			data = this.consumeService(path, dataAndAccount);
 			var dataReturn = [{'success': 'true','status':'success', 'data':[]}];
-			if(data.success){
-				if(data.data.validate){
-					if(data.data.update){
+			if(data.success == 'true'){
+				if(data.data.validate == 'true'){
+					if(data.data.update == 'true'){
 						if(idData == '') dataReturn.data = data.data;
 						else dataReturn.data = data.data[idData];
 					}else{ dataReturn.success = 'false'; dataReturn.status = data.data.status; }
@@ -77,9 +77,9 @@ function newDinamicOWS(msNewObj){
 		remove: function(path ,dataAndAccount, idData) { //Delete (D)
 			data = this.consumeService(path, dataAndAccount);
 			var dataReturn = [{'success': 'true','status':'success', 'data':[]}];
-			if(data.success){
-				if(data.data.validate){
-					if(data.data.delete){
+			if(data.success == 'true'){
+				if(data.data.validate == 'true'){
+					if(data.data.delete == 'true'){
 						if(idData == '') dataReturn.data = data.data;
 						else dataReturn.data = data.data[idData];
 					}else{ dataReturn.success = 'false'; dataReturn.status = data.data.status; }

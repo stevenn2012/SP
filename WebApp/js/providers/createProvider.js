@@ -22,6 +22,18 @@ $(document).ready(function(){
 	$('#countryList').change(function(){listCitys($('#countryList').val())});
 	$('.modal').on('hidden.bs.modal', function(){closeModal()})
 	$('#NIT').focus();
+
+	$('#modalAddAddress').on('shown.bs.modal', function () {
+    	$('#countryList').focus();
+	});
+
+	$('#modalAddContact').on('shown.bs.modal', function () {
+    	$('#nameContact').focus();
+	});
+
+	$('#modalAddProductService').on('shown.bs.modal', function () {
+    	$('#nameProductService').focus();
+	});
 });
 
 function cancel() {
