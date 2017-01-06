@@ -19,7 +19,7 @@ function getProviders() {
 			async : false,
 			dataTipe: 'JSON',
 			success: function (data) {
-				console.log("GET PROVIDERS: "+JSON.stringify(data));
+				//console.log("GET PROVIDERS: "+JSON.stringify(data));
 				if(data.validate == "true"){
 					providers = sortByKey(data.providers, 'name');
 				}else{
@@ -47,16 +47,16 @@ function sortByKey(array, key) {
 function listProviders() {
 	var find = ($('.filter').val()).toUpperCase();
 	var content = '<table class="table table-bordered">';
-	content+='<tr><th>NIT</th><th>Nombre</th><th>Descripcion</th><th>Direcciones</th><th>Contactos</th><th>Productos y servicios</th></tr>';
+	content+='<tr><th>NIT</th><th>Nombre</th><th>Descripcion</th><th>Digito de<br>verificacion</th><th>Direcciones</th><th>Contactos</th><th>Productos y servicios</th></tr>';
 	var data = "";
 	for (var i = 0; i < providers.length; i++) {
 		var provider = (providers[i].NIT+providers[i].name+providers[i].description).toUpperCase();
 		if(find == "" || provider.indexOf(find)!=-1){
 			data+='<tr>';
-			//data+='<td>'+providers[i].idProvider+'</td>';
 			data+='<td>'+providers[i].NIT+'</td>';
 			data+='<td>'+providers[i].name+'</td>';
 			data+='<td>'+providers[i].description+'</td>';
+			data+='<td>'+providers[i].DV+'</td>';
 			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalAddress" onclick="seeAddress('+providers[i].idProvider+')">Ver Direcciones</button></td>'; 
 			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalContacts" onclick="seeContacts('+providers[i].idProvider+')">Ver Contactos</button></td>';
 			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalProductsServices" onclick="seeProductServices('+providers[i].idProvider+')">Ver Productos y servicios</button></td>';

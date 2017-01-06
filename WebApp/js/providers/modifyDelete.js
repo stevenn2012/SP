@@ -4,6 +4,7 @@ $(document).ready(function(){
 	initProviders();
 	$(".filter").keyup(function(){listProviders()});
 	$('.modalElement').on('hidden.bs.modal', function(){cancelEditElement()})
+	$(".filter").focus();
 });
 
 //see
@@ -22,7 +23,7 @@ function loadProviders() {
 function listProviders() {
 	var find = ($('.filter').val()).toUpperCase();
 	var content = '<table class="table table-bordered">';
-	content+='<tr><th>NIT</th><th>Nombre</th><th>Descripcion</th><th>Direcciones</th><th>Contactos</th><th>Productos y servicios</th><th>Editar</th><th>Borrar</th></tr>';
+	content+='<tr><th>NIT</th><th>Nombre</th><th>Descripcion</th><th>Digito de<br>verificacion</th><th>Direcciones</th><th>Contactos</th><th>Productos y servicios</th><th>Editar</th><th>Borrar</th></tr>';
 	var data = "";
 	for (var i = 0; i < Provider.dataArray.length; i++) {
 		var provider = (Provider.dataArray[i].NIT+Provider.dataArray[i].name+Provider.dataArray[i].description).toUpperCase();
@@ -31,6 +32,7 @@ function listProviders() {
 			data+='<td>'+Provider.dataArray[i].NIT+'</td>';
 			data+='<td>'+Provider.dataArray[i].name+'</td>';
 			data+='<td>'+Provider.dataArray[i].description+'</td>';
+			data+='<td>'+Provider.dataArray[i].DV+'</td>';
 			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSee" onclick="seeAddress(1, '+Provider.dataArray[i].idProvider+',true)">Direcciones</button></td>'; 
 			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSee" onclick="seeContacts(1, '+Provider.dataArray[i].idProvider+', true)">Contactos</button></td>';
 			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalSee" onclick="seeProductServices(1, '+Provider.dataArray[i].idProvider+', true)">Productos y servicios</button></td>';
@@ -48,7 +50,7 @@ function listProviders() {
 function modalSee (number, titleModal, titlePanel, info, message, idModal) {
 	if(idModal == 'bodyModalSee') modalPattern = 'modalSee'; else modalPattern = 'modalEditProvider';
 	$('#myModalSeeLabel').html(titleModal);
-	var data = '<div class="scroll panel panel-info"><div class="panel-heading">'+titlePanel+'</div><div class="panel-body">';
+	var data = '<div id="msElement"></div><div class="scroll panel panel-info"><div class="panel-heading">'+titlePanel+'</div><div class="panel-body">';
 	data += '<div id="msSee"></div>';
 	data += '<p>'+message+'</p>';
 	data += '<div id="accordion'+number+'" class="panel-group" role="tablist" aria-multiselectable="true">';
@@ -172,23 +174,29 @@ function editProvider(idProvider){
 	data += generateInput('NIT','input','text','nitEditProvider',true);
 	data += generateInput('Nombre','input','text','nameEditProvider',true);
 	data += generateInput('Descripcion','input','textarea','descriptionEditProvider',false);
+	data += '<div class="form-group"><label for="exampleInputPassword1">Digito de verificacion</label>';
+	data +=	'<select id="DVoption" class="form-control">';
+	data +=	'<option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>';
+	data += '<option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option>';
+	data +='</select></div>';
     data += '</div></div>';
     data += '<div class="panel panel-default">';
   	data += '<div class="panel-heading">Observacion de más informacion relacionada con el proveedor</div>';
   	data += '<div class="panel-body"><div class="alert alert-warning" role="alert">';
     data += '<p><strong>Nota: </strong>Esta seccion es solo para observacion. Para editar o eliminar las direcciones, contactos, productos o sercivios de este proveedor, seleccione la opcion en la tabla que permite ver estos datos, posterior a esto oprima click sobre el elemento a que desea cambiar o eliminar y seleccione la opcion que desea realizar.';
     data += '<br>(La edicion de estos datos <strong>NO</strong> se puede realizar desde esta ventana)</p>';
-	data += '</div><label for="exampleInputEmail1">Direcciones: </label>';
+	data += '</div>';
+	//data += '<label for="exampleInputEmail1">Direcciones: </label>';
     data += '<div id="editAddressDelete"></div>';
-    data += '<label for="exampleInputEmail1">Contactos: </label>';
+    //data += '<label for="exampleInputEmail1">Contactos: </label>';
     data += '<div id="editContactsDelete"></div>';
-    data += '<label for="exampleInputEmail1">Productos y/o servicios: </label>';
+    //data += '<label for="exampleInputEmail1">Productos y/o servicios: </label>';
     data += '<div id="editProductsServicesDelete"></div>';
     data += '</div></div>';
     data += '</div>';
     
     data += '<div class="modal-footer">';
-    data += '<button id="continueEdit" type="submit" class="btn btn-primary">Guardar Cambios</button>';
+    data += '<button type="submit" class="btn btn-primary">Guardar Cambios</button>';
   	data += '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
     data += '</div>';
     
@@ -198,11 +206,16 @@ function editProvider(idProvider){
     $('#idEditProvider').val(provider.idProvider);
  	$('#nitEditProvider').val(provider.NIT);
  	$('#nameEditProvider').val(provider.name);
- 	$('#descriptionEditProvider').val(provider.description); 
+ 	$('#descriptionEditProvider').val(provider.description); 	
+ 	$('#DVoption').val(provider.DV);
  	
  	seeAddress(2, idProvider, false,'editAddressDelete');
   	seeContacts(3, idProvider, false,'editContactsDelete');
   	seeProductServices(4, idProvider, false, 'editProductsServicesDelete');
+  	
+  	$('#modalEditProvider').on('shown.bs.modal', function () {
+    	$('#nitEditProvider').focus();
+	})
 }
 
 //************terminar**********************
@@ -341,11 +354,12 @@ function ApprovedDeleteAddress (idProvider, idAddress) {
 	var add = newDinamicOWS(true);
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode, "idAddress":idAddress};
 	var data = add.remove(deleteAddressService ,dataAndAccount, '');
-	if(data.success == 'false') add.showMessage('msSee', 'msSee', "No se pudo eliminar La direccion<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	if(data.success == 'false') add.showMessage('msDeleteLement', 'msDeleteLement', "No se pudo eliminar La direccion<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
 	else {
+		$('#modalDeleteElementProvider').modal('hide');
 		loadProviders();
 		seeAddress(1, idProvider, true);
-		add.showMessage('msSee', 'msSee', "Se elimino con exito la direccion!", 'success', 'modal', true);
+		add.showMessage('msElement', 'msElement', "Se elimino con exito la direccion!", 'success', 'modal', true);
 		cancelEditElement();
 	}
 }
@@ -355,11 +369,11 @@ function ApprovedDeleteContact (idProvider, idContact) {
 	var contact = newDinamicOWS(true);
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode, "idContact":idContact};
 	var data = contact.remove(deleteContactService ,dataAndAccount, '');
-	if(data.success == 'false') contact.showMessage('msSee', 'msSee', "No se pudo eliminar el contacto <br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	if(data.success == 'false') contact.showMessage('msDeleteLement', 'msDeleteLement', "No se pudo eliminar el contacto <br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
 	else {
 		loadProviders();
 		seeContacts(1, idProvider, true);
-		contact.showMessage('msSee', 'msSee', "Se elimino con exito el contacto!", 'success', 'modal', true);
+		contact.showMessage('msElement', 'msElement', "Se elimino con exito el contacto!", 'success', 'modal', true);
 		cancelEditElement();
 	}
 }
@@ -369,11 +383,11 @@ function ApprovedDeletePS (idProvider, idProductService) {
 	var proSer = newDinamicOWS(true);	
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode, "idProductService":idProductService};
 	var data = proSer.remove(deleteProductServiceService ,dataAndAccount, '');
-	if(data.success == 'false') proSer.showMessage('msSee', 'msSee', "No se pudo eliminar el Producto o servicio<br><strong>Motivo: </strong>"+data.status, 'warning', 'default', true);
+	if(data.success == 'false') proSer.showMessage('msDeleteLement', 'msDeleteLement', "No se pudo eliminar el Producto o servicio<br><strong>Motivo: </strong>"+data.status, 'warning', 'default', true);
 	else{
 		loadProviders();
 		seeProductServices(1, idProvider, true);
-		proSer.showMessage('msSee', 'msSee', "Se elimino con exito el producto o servicio!", 'success', 'modal', true);
+		proSer.showMessage('msElement', 'msElement', "Se elimino con exito el producto o servicio!", 'success', 'modal', true);
 		cancelEditElement();
 	} 
 }
@@ -381,7 +395,34 @@ function ApprovedDeletePS (idProvider, idProductService) {
 //approved edit
 function ApprovedEditProvider(){
 	console.log("ApprovedEditProvider");
-	loadProviders();
+	var dataAndAccount = {
+		"username":sessionStorage.username, 
+		"logincode":sessionStorage.logincode, 
+		"idProvider":$('#idEditProvider').val(),
+		"nit":$('#nitEditProvider').val(),
+		"name":$('#nameEditProvider').val(),
+		"description":$('#descriptionEditProvider').val(),
+		"DV":$('#DVoption option:selected').val()
+	};
+
+	if(notBlakSpaceValidation(dataAndAccount.nit) == false){
+		Provider.showMessage('messageEditProvider', 'modalEditProvider', "Ingrese un NIT", 'warning', 'modal', true);
+		return;
+	}
+
+	if(notBlakSpaceValidation(dataAndAccount.name) == false){
+		Provider.showMessage('messageEditProvider', 'modalEditProvider', "Ingrese el nombre del proveedor", 'warning', 'modal', true);
+		return;
+	}
+
+	console.log("Create: "+JSON.stringify(dataAndAccount));
+	var data = Provider.set(editProviderService ,dataAndAccount, '');
+	if(data.success == 'false') Provider.showMessage('messageEditProvider', 'modalEditProvider', "No se pudo Editar el proveedor<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	else{
+		loadProviders();
+		Provider.showMessage('msModifyDelete', 'nameEmployed', "Se edito con exito el Proveedor!", 'success', 'modal', true);
+		$('#modalEditProvider').modal('hide');
+	} 
 }
 
 function ApprovedEditAddress(){
@@ -431,7 +472,9 @@ function deleteAddress (idProvider, idAddress) {
 	var provider =  Provider.getById(idProvider, 'idProvider', false, 'Proveedor a borrar Direccion');
 	var address = findElement(provider.address, 'idAddress', idAddress);
 
-	var data = '<p> Esta a punto de borrar la direccion con los siguientes datos: </p>';
+	$('#labelModalDeleteElementProvider').html('Eliminar direccion');
+	var data = '<div id="msDeleteLement"></div>'; 
+	data += '<p> Esta a punto de borrar la direccion con los siguientes datos: </p>';
 	
 	data += '<div class="panel panel-info"><div class="panel-heading"> Direccion de '+provider.name+'</div><div class="panel-body">';
     data += '<Strong>Pais : </strong>'+address.pais+"<br>";
@@ -440,12 +483,11 @@ function deleteAddress (idProvider, idAddress) {
     
     data += '</div></div><p>está accion es irreversible, ¿desea continuar?</p>';
 	$('#bodyModalDeleteElementProvider').html(data);
-/*
-	var buttons = '<button id="continueDelete" type="button" class="btn btn-primary" onclick="ApprovedDeleteProvider('+idProvider+')">Continuar, Borrar el proveedor</button>';
-  	buttons += '<button id="closeDeleteProvider" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+
+	var buttons = '<button id="continueDelete" type="button" class="btn btn-primary" onclick="ApprovedDeleteAddress('+idProvider+','+idAddress+')">Continuar, Borrar la direccion</button>';
+  	buttons += '<button id="closeDeleteElement" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
   	$('#modalDeleteElementContinueButton').html(buttons);
-*/
-	//ApprovedDeleteAddress(idProvider, idAddress);
+
 	$('#'+modalPattern).modal('hide');
 }
 
