@@ -36,9 +36,7 @@ function login () {
 				if(data.status.indexOf('Intentos') != -1){
 					$('#loginValidation').html("Usuario y/o contraseña incorrectos");
 				}else{
-					var str = data.status;
-					var res = str.substring(11).replace('=',":");
-					$('#loginValidation').html('Ha intentado ingresar fallidamente varias veces<br>En consecuencia Se ha bloqueado el accesso por un determinado tiempo<br>'+res);
+					$('#loginValidation').html('<strong>Bloqueado! </strong>Supero los intentos de ingreso permitidos<br>Se le ha bloqueado el acceso temporalmente');
 				}
 				singOut();
 				$('#pass').val("");
