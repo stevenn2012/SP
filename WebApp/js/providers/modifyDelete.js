@@ -85,7 +85,7 @@ function seeAddress(number, idProvider, edit, idModal) {
 	    data += '</div></div></div>';	
 	}
 	if(edit) {
-		var buttons = '<button type="button" class="btn btn-primary">Agregar Direccion</button>';
+		var buttons = '<button type="button" class="btn btn-primary" onclick="addAddress('+provider.idProvider+')">Agregar Direccion</button>';
 		buttons += '<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>';
 		$('#buttonAdd').html(buttons);
 	}
@@ -119,7 +119,7 @@ function seeContacts(number, idProvider, edit, idModal) {
 	    data += '</div></div></div>';
 	}
 	if(edit) {
-		var buttons = '<button type="button" class="btn btn-primary">Agregar Contacto</button>';
+		var buttons = '<button type="button" class="btn btn-primary" onclick="addContact('+provider.idProvider+')">Agregar Contacto</button>';
 		buttons += '<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>';
 		$('#buttonAdd').html(buttons);
 	}
@@ -153,7 +153,7 @@ function seeProductServices(number, idProvider, edit, idModal) {
 	    data += '</div></div></div>';
 	}
 	if(edit) {
-		var buttons = '<button type="button" class="btn btn-primary">Agregar Producto o servicio</button>';
+		var buttons = '<button type="button" class="btn btn-primary" onclick="addProductService('+provider.idProvider+')">Agregar Producto o servicio</button>';
 		buttons += '<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>';
 		$('#buttonAdd').html(buttons);
 	}
@@ -418,8 +418,6 @@ function editAddress (idProvider, idAddress) {
 
     $('#idProviderEditAddress').val(provider.idProvider);
     $('#idEditAddress').val(address.idAddress);
- 	$('#countryEditAddress').val();
- 	$('#cityEditAddress').val();
  	$('#addressEditAddress').val(address.direccion); 
 
  	loadCountries();
@@ -449,7 +447,7 @@ function loadCountries(){
 }
 
 function getCitiesByIdCountry(idCountry, listName) {
-	console.log(":::::::::");
+	//console.log(":::::::::");
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode};
 	cities = newDinamicOWS(true);
 	var data = cities.get(citysListService ,dataAndAccount, 'name', 'cities');
@@ -466,13 +464,13 @@ function getCitiesByIdCountry(idCountry, listName) {
 				});
 			}
 		}
-		generateOptions(data2, 'idCity', 'name', 'listCitiesEditAddress', "Seleccione una ciudad");		
+		generateOptions(data2, 'idCity', 'name', listName, "Seleccione una ciudad");		
 	}
 }
 
 function generateOptions(list, nameAttrib1, nameAttrib2, listName, messageInitial) {
 	var data = '<option value="0">-- '+messageInitial+' --</option>';
-	console.log("..."+JSON.stringify(list));
+	//console.log("..."+JSON.stringify(list));
 	if(list != null){
 		for (var i = 0; i < list.length; i++) {
 			var d = list[i];
@@ -601,7 +599,6 @@ function ApprovedEditProvider(){
 	} 
 }
 
-//terminar****************************
 function ApprovedEditAddress(){
 	console.log("ApprovedEditAddress");
 	var dataAndAccount = {
@@ -617,8 +614,9 @@ function ApprovedEditAddress(){
 	var country = $('#countryEditAddress').val();
 	var city = $('#cityEditAddress').val();
 
+	var address = newDinamicOWS(true);
 	if(country == "" && idCountry == 0){
-		contact.showMessage('messageEditAddress', 'modalEditElementProvider', "Seleccione o ingrese un pais", 'warning', 'modal', true);
+		address.showMessage('messageEditAddress', 'modalEditElementProvider', "Seleccione o ingrese un pais", 'warning', 'modal', true);
 		return;
 	}else{
 		if(country != "" && idCountry == 0){
@@ -626,12 +624,12 @@ function ApprovedEditAddress(){
 			var countryObj = newDinamicOWS(true);
 			idCountry = countryObj.add(createCountryService ,account, '').data.idCountry;
 		}else if(country != "" && idCountry != 0){
-			contact.showMessage('messageEditAddress', 'modalEditElementProvider', "Error seleccionando pais", 'warning', 'modal', true);
+			address.showMessage('messageEditAddress', 'modalEditElementProvider', "Error seleccionando pais", 'warning', 'modal', true);
 			return;
 		}
 	}
 	if(city == "" && dataAndAccount.idCity == 0){
-		contact.showMessage('messageEditAddress', 'modalEditElementProvider', "Seleccione o Ingrese una ciudad", 'warning', 'modal', true);
+		address.showMessage('messageEditAddress', 'modalEditElementProvider', "Seleccione o Ingrese una ciudad", 'warning', 'modal', true);
 		return;
 	}else{
 		if(city!="" && dataAndAccount.idCity == 0){
@@ -639,18 +637,18 @@ function ApprovedEditAddress(){
 			var cityObj = newDinamicOWS(true);
 			dataAndAccount.idCity = cityObj.add(createCityService ,account, '').data.idCity;
 		}else if(city != "" && dataAndAccount.idCity != 0){
-			contact.showMessage('messageEditAddress', 'modalEditElementProvider', "Error seleccionando ciudad", 'warning', 'modal', true);
+			address.showMessage('messageEditAddress', 'modalEditElementProvider', "Error seleccionando ciudad", 'warning', 'modal', true);
 			return;
 		}
 	}
 
 	if(notBlakSpaceValidation(dataAndAccount.address)==false){
-		contact.showMessage('messageEditAddress', 'modalEditElementProvider', "Ingrese una direccion", 'warning', 'modal', true);
+		address.showMessage('messageEditAddress', 'modalEditElementProvider', "Ingrese una direccion", 'warning', 'modal', true);
 		return;
 	}
 
 	console.log(JSON.stringify(dataAndAccount));
-	var address = newDinamicOWS(true);
+	
 	var data = address.set(editAddressService ,dataAndAccount, '');
 	if(data.success == 'false') address.showMessage('messageEditAddress', 'modalEditElementProvider', "No se pudo editar la direccion<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
 	else{
@@ -712,54 +710,256 @@ function ApprovedEditPS(){
 		"idProvider":$('#idProviderEditPS').val()
 	};
 
-	var contact = newDinamicOWS(true);
+	var productService = newDinamicOWS(true);
 
 	if(notBlakSpaceValidation(dataAndAccount.name)==false){
-		contact.showMessage('messageEditPS', 'modalEditElementProvider', "Ingrese un nombre de producto o servicio", 'warning', 'modal', true);
+		productService.showMessage('messageEditPS', 'modalEditElementProvider', "Ingrese un nombre de producto o servicio", 'warning', 'modal', true);
 		return;
 	}
 
 	if(numberValidation(dataAndAccount.price, true, true) == false){
-		contact.showMessage('messageEditPS', 'modalEditElementProvider', "el precio ingresado no es valido", 'warning', 'modal', true);
+		productService.showMessage('messageEditPS', 'modalEditElementProvider', "el precio ingresado no es valido", 'warning', 'modal', true);
 		return;
 	}
 
 	console.log(dataAndAccount);
-	var data = contact.set(editProductServiceService ,dataAndAccount, '');
-	if(data.success == 'false') contact.showMessage('messageEditPS', 'modalEditElementProvider', "No se pudo editar el contacto<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	var data = productService.set(editProductServiceService ,dataAndAccount, '');
+	if(data.success == 'false') productService.showMessage('messageEditPS', 'modalEditElementProvider', "No se pudo editar el producto o servicio<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
 	else{
 		$('#modalEditElementProvider').modal('hide');
 		loadProviders();
 		seeProductServices(1, dataAndAccount.idProvider, true);
-		contact.showMessage('msElement', 'msElement', "Se edito con exito el contacto!", 'success', 'modal', true);
+		productService.showMessage('msElement', 'msElement', "Se edito con exito el producto o servicio!", 'success', 'modal', true);
 		cancelEditElement();
 	}
 }
 
 //add element
 function addAddress(idProvider) {
+	$('#'+modalPattern).modal('hide');
+	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a Agregar direccion');
 	
+	var data = '<form action="javascript:ApprovedAddAddress()"><div id="messageAddAddress"></div>';
+	data += '<div class="modal-body" >';
+	data += '<div class="panel scroll panel-info">';
+  	data += '<div class="panel-heading">Agregar Direccion al proveedor '+provider.name+'</div>';
+  	data += '<div class="panel-body">';
+	data += generateInput('idProvider','input','hidden','idProviderAddAddress',true);
+	data += generateInput('Direccion','input','text','addressAddAddress',true);
+
+	//country
+	data += '<div class="form-group"><label for="exampleInputPassword1">Lista de paises</label><select id="listCountriesAddAddress" class="form-control"></select></div>';
+	data += generateInput('Pais','input','text','countryAddAddress',false);
+
+	//city
+	data += '<div class="form-group"><label for="exampleInputPassword1">Lista de ciudades</label><select id="listCitiesAddAddress" class="form-control"></select></div>';
+	data += generateInput('Ciudad','input','text','cityAddAddress',false);
+	
+    data += '</div></div></div>';
+    
+    data += '<div class="modal-footer">';
+    data += '<button id="continueAdd" type="submit" class="btn btn-primary">Guardar</button>';
+  	data += '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+  	
+    data += '</div>';
+	data += '</form>';
+    $('#bodyModalAddElementProvider').html(data);
+    $('#labelModalAddElementProvider').html("Agregar Direccion");
+
+    $('#idProviderAddAddress').val(provider.idProvider);
+    
+ 	loadCountries();
+ 	generateOptions(countriesForList.dataArray, 'idCountry', 'name', 'listCountriesAddAddress', 'Seleccione un pais');
+ 	
+ 	getCitiesByIdCountry($('#listCountriesAddAddress').val(), 'listCitiesAddAddress');
+ 	
+ 	$('#listCountriesAddAddress').change(function(){getCitiesByIdCountry($('#listCountriesAddAddress').val(), 'listCitiesAddAddress')});
+	$('#modalAddElementProvider').modal('show');
 }
 
 function addContact(idProvider) {
+	$('#'+modalPattern).modal('hide');
+	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a Agregar contacto');
 	
+	var data = '<form action="javascript:ApprovedAddContact()"><div id="messageAddContact"></div>';
+	data += '<div class="modal-body" >';
+	data += '<div class="panel panel-info">';
+  	data += '<div class="panel-heading">Agregar Contacto al proveedor '+provider.name+'</div>';
+  	data += '<div class="panel-body">';
+	data += generateInput('idProvider','input','hidden','idProviderAddContact',true);
+	data += generateInput('Nombre','input','text','nameAddContact',true);
+	data += generateInput('Correo electronico','input','text','emailAddContact',true);
+	data += generateInput('Telefono','input','text','phoneAddContact',true);
+     data += '</div></div></div>';
+    
+    data += '<div class="modal-footer">';
+    data += '<button id="continueAdd" type="submit" class="btn btn-primary">Guardar</button>';
+  	data += '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+  	
+    data += '</div>';
+	data += '</form>';
+    $('#bodyModalAddElementProvider').html(data);
+    $('#labelModalAddElementProvider').html("Agregar Contacto");
+ 	$('#idProviderAddContact').val(provider.idProvider);
+	$('#modalAddElementProvider').modal('show');
 }
 
 function addProductService(idProvider) {
+	$('#'+modalPattern).modal('hide');
+	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a Agregar producto o servicio');
 	
+	var data = '<form action="javascript:ApprovedAddProductService()"><div id="messageAddPS"></div>';
+	data += '<div class="modal-body" >';
+	data += '<div class="panel panel-info">';
+  	data += '<div class="panel-heading">Agregar Producto o servicio al proveedor '+provider.name+'</div>';
+  	data += '<div class="panel-body">';
+	data += generateInput('idProvider','input','hidden','idProviderAddPS',true);
+	data += generateInput('Nombre del Producto o servicio','input','text','nameAddPS',true);
+	data += generateInput('Descripcion','input','textarea','descAddPS',false);
+	data += generateInput('Precio','input','number','priceAddPS',true);
+    data += '</div></div></div>';
+    
+    data += '<div class="modal-footer">';
+    data += '<button id="continueAdd" type="submit" class="btn btn-primary">Guardar</button>';
+  	data += '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+  	
+    data += '</div>';
+	data += '</form>';
+    $('#bodyModalAddElementProvider').html(data);
+    $('#labelModalAddElementProvider').html("Agregar Producto o servicio");
+ 
+ 	$('#idProviderAddPS').val(provider.idProvider);
+
+	$('#modalAddElementProvider').modal('show');
 }
 
 //approved add element
-function ApprovedAddAddress(idProvider) {
-	
+function ApprovedAddAddress() {
+	var dataAndAccount = {
+		"username":sessionStorage.username, 
+		"logincode":sessionStorage.logincode, 
+		"address":$('#addressAddAddress').val(),
+		"idCity":$('#listCitiesAddAddress').val(),
+		"idProvider":$('#idProviderAddAddress').val()
+	};
+
+	var idCountry = $("#listCountriesAddAddress").val();
+	var country = $('#countryAddAddress').val();
+	var city = $('#cityAddAddress').val();
+
+	var address = newDinamicOWS(true);
+	if(country == "" && idCountry == 0){
+		address.showMessage('messageAddAddress', 'modalAddElementProvider', "Seleccione o ingrese un pais", 'warning', 'modal', true);
+		return;
+	}else{
+		if(country != "" && idCountry == 0){
+			var account = {"username":sessionStorage.username,"logincode":sessionStorage.logincode, "cname":country};
+			var countryObj = newDinamicOWS(true);
+			idCountry = countryObj.add(createCountryService ,account, '').data.idCountry;
+		}else if(country != "" && idCountry != 0){
+			address.showMessage('messageAddAddress', 'modalAddElementProvider', "Error seleccionando pais", 'warning', 'modal', true);
+			return;
+		}
+	}
+	if(city == "" && dataAndAccount.idCity == 0){
+		address.showMessage('messageAddAddress', 'modalAddElementProvider', "Seleccione o Ingrese una ciudad", 'warning', 'modal', true);
+		return;
+	}else{
+		if(city!="" && dataAndAccount.idCity == 0){
+			var account = {"username":sessionStorage.username,"logincode":sessionStorage.logincode, "name":city, "idCountry":idCountry};
+			var cityObj = newDinamicOWS(true);
+			dataAndAccount.idCity = cityObj.add(createCityService ,account, '').data.idCity;
+		}else if(city != "" && dataAndAccount.idCity != 0){
+			address.showMessage('messageAddAddress', 'modalAddElementProvider', "Error seleccionando ciudad", 'warning', 'modal', true);
+			return;
+		}
+	}
+
+	if(notBlakSpaceValidation(dataAndAccount.address)==false){
+		address.showMessage('messageAddAddress', 'modalAddElementProvider', "Ingrese una direccion", 'warning', 'modal', true);
+		return;
+	}
+
+	console.log(JSON.stringify(dataAndAccount));
+	var data = address.add(createAddressService ,dataAndAccount, '');
+	if(data.success == 'false') address.showMessage('messageAddAddress', 'modalAddElementProvider', "No se pudo Agregar la direccion<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	else{
+		$('#modalAddElementProvider').modal('hide');
+		loadProviders();
+		seeAddress(1, dataAndAccount.idProvider, true);
+		address.showMessage('msElement', 'msElement', "Se Agrego con exito la direccion!", 'success', 'modal', true);
+		cancelEditElement();
+	}
 }
 
-function ApprovedAddContact(idProvider) {
-	
+function ApprovedAddContact() {
+	var dataAndAccount = {
+		"username":sessionStorage.username, 
+		"logincode":sessionStorage.logincode,
+		"name":changeNameFirstUpperCase($('#nameAddContact').val()),
+		"email":$('#emailAddContact').val(),
+		"phoneNumber":$('#phoneAddContact').val(),
+		"idProvider":$('#idProviderAddContact').val()
+	};
+
+	var contact = newDinamicOWS(true);
+
+	if(notBlakSpaceValidation(dataAndAccount.name)==false){
+		contact.showMessage('messageAddContact', 'modalAddElementProvider', "Ingrese un nombre de Contacto", 'warning', 'modal', true);
+		return;
+	}
+	if(emailValidation(dataAndAccount.email) == false){
+		contact.showMessage('messageAddContact', 'modalAddElementProvider', "el email ingresado no es valido", 'warning', 'modal', true);
+		return;
+	}
+	if(phoneNumberValidation(dataAndAccount.phoneNumber) == false){
+		contact.showMessage('messageAddContact', 'modalAddElementProvider', "el numero telefonico ingresado no es valido", 'warning', 'modal', true);
+		return;
+	}
+
+	var data = contact.add(createContactService ,dataAndAccount, '');
+	if(data.success == 'false') contact.showMessage('messageAddContact', 'modalAddElementProvider', "No se pudo Agregar el contacto<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	else{
+		$('#modalAddElementProvider').modal('hide');
+		loadProviders();
+		seeContacts(1, dataAndAccount.idProvider, true);
+		contact.showMessage('msElement', 'msElement', "Se Agrego con exito el contacto!", 'success', 'modal', true);
+		cancelEditElement();
+	}
 }
 
-function ApprovedAddProductService(idProvider) {
-	
+function ApprovedAddProductService() {
+	var dataAndAccount = {
+		"username":sessionStorage.username, 
+		"logincode":sessionStorage.logincode, 
+		"name":changeNameFirstUpperCase($('#nameAddPS').val()),
+		"description":$('#descAddPS').val(),
+		"price":$('#priceAddPS').val(),
+		"idProvider":$('#idProviderAddPS').val()
+	};
+
+	var productService = newDinamicOWS(true);
+
+	if(notBlakSpaceValidation(dataAndAccount.name)==false){
+		productService.showMessage('messageAddPS', 'modalAddElementProvider', "Ingrese un nombre de producto o servicio", 'warning', 'modal', true);
+		return;
+	}
+
+	if(numberValidation(dataAndAccount.price, true, true) == false){
+		productService.showMessage('messageAddPS', 'modalAddElementProvider', "el precio ingresado no es valido", 'warning', 'modal', true);
+		return;
+	}
+
+	console.log(dataAndAccount);
+	var data = productService.add(createProductServiceService ,dataAndAccount, '');
+	if(data.success == 'false') productService.showMessage('messageAddPS', 'modalAddElementProvider', "No se pudo Agregar el producto o servicio<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	else{
+		$('#modalAddElementProvider').modal('hide');
+		loadProviders();
+		seeProductServices(1, dataAndAccount.idProvider, true);
+		productService.showMessage('msElement', 'msElement', "Se Agrego con exito el Producto o servicio!", 'success', 'modal', true);
+		cancelEditElement();
+	}
 }
 
 //others
