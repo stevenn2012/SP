@@ -370,8 +370,9 @@ function ApprovedDeleteContact (idProvider, idContact) {
 	var contact = newDinamicOWS(true);
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode, "idContact":idContact};
 	var data = contact.remove(deleteContactService ,dataAndAccount, '');
-	if(data.success == 'false') contact.showMessage('msDeleteLement', 'msDeleteLement', "No se pudo eliminar el contacto <br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	if(data.success == 'false') contact.showMessage('msDeleteLement', 'msDeleteLement', "No se pudo eliminar el contacto<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
 	else {
+		$('#modalDeleteElementProvider').modal('hide');
 		loadProviders();
 		seeContacts(1, idProvider, true);
 		contact.showMessage('msElement', 'msElement', "Se elimino con exito el contacto!", 'success', 'modal', true);
@@ -386,6 +387,7 @@ function ApprovedDeletePS (idProvider, idProductService) {
 	var data = proSer.remove(deleteProductServiceService ,dataAndAccount, '');
 	if(data.success == 'false') proSer.showMessage('msDeleteLement', 'msDeleteLement', "No se pudo eliminar el Producto o servicio<br><strong>Motivo: </strong>"+data.status, 'warning', 'default', true);
 	else{
+		$('#modalDeleteElementProvider').modal('hide');
 		loadProviders();
 		seeProductServices(1, idProvider, true);
 		proSer.showMessage('msElement', 'msElement', "Se elimino con exito el producto o servicio!", 'success', 'modal', true);
@@ -469,7 +471,8 @@ function deleteProvider(idProvider) {
 }
 
 function deleteAddress (idProvider, idAddress) {
-	console.log("deleteAddress: "+idProvider+", "+idAddress);
+	$('#modalDeleteElementProvider').html();
+	//console.log("deleteAddress: "+idProvider+", "+idAddress);
 	var provider =  Provider.getById(idProvider, 'idProvider', false, 'Proveedor a borrar Direccion');
 	var address = findElement(provider.address, 'idAddress', idAddress);
 
@@ -494,13 +497,53 @@ function deleteAddress (idProvider, idAddress) {
 
 function deleteContact (idProvider, idContact) {
 	console.log("deleteAddress: "+idProvider+", "+idContact);
-	//ApprovedDeleteContact(idProvider, idContact);
+	$('#modalDeleteElementProvider').html();
+
+	var provider =  Provider.getById(idProvider, 'idProvider', false, 'Proveedor a borrar Direccion');
+	var contact = findElement(provider.contacts, 'idContact', idContact);
+	
+	$('#labelModalDeleteElementProvider').html('Eliminar Contacto');
+	var data = '<div id="msDeleteLement"></div>'; 
+	data += '<p> Esta a punto de borrar el contacto con los siguientes datos: </p>';
+	
+	data += '<div class="panel panel-info"><div class="panel-heading"> Contacto de '+provider.name+'</div><div class="panel-body">';
+    data += '<Strong>Nombre: </strong>'+contact.name+"<br>";
+    data += '<Strong>Correo electronico: </strong>'+contact.email+"<br>";
+    data += '<Strong>Telefono: </strong>'+contact.phoneNumber+"<br>";
+    
+    data += '</div></div><p>está accion es irreversible, ¿desea continuar?</p>';
+	$('#bodyModalDeleteElementProvider').html(data);
+
+	var buttons = '<button id="continueDelete" type="button" class="btn btn-primary" onclick="ApprovedDeleteContact('+idProvider+','+idContact+')">Continuar, Borrar el contacto</button>';
+  	buttons += '<button id="closeDeleteElement" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+  	$('#modalDeleteElementContinueButton').html(buttons);
+
 	$('#'+modalPattern).modal('hide');
 }
 
 function deletePS (idProvider, idProductService) {
 	console.log("deleteAddress: "+idProvider+", "+idProductService);
-	//ApprovedDeletePS(idProvider, idProductService);
+	$('#modalDeleteElementProvider').html();
+
+	var provider =  Provider.getById(idProvider, 'idProvider', false, 'Proveedor a borrar Direccion');
+	var ps = findElement(provider.productServices, 'idProductService', idProductService);
+	
+	$('#labelModalDeleteElementProvider').html('Eliminar Producto o servicio');
+	var data = '<div id="msDeleteLement"></div>'; 
+	data += '<p> Esta a punto de borrar el Producto o servicio con los siguientes datos: </p>';
+	
+	data += '<div class="panel panel-info"><div class="panel-heading"> Producto o servicio de '+provider.name+'</div><div class="panel-body">';
+    data += '<Strong>Nombre del producto o servicio: </strong>'+ps.name+"<br>";
+    data += '<Strong>Precio electronico: </strong>'+ps.price+"<br>";
+    data += '<Strong>Descripcion: </strong>'+ps.description+"<br>";
+    
+    data += '</div></div><p>está accion es irreversible, ¿desea continuar?</p>';
+	$('#bodyModalDeleteElementProvider').html(data);
+
+	var buttons = '<button id="continueDelete" type="button" class="btn btn-primary" onclick="ApprovedDeletePS('+idProvider+','+idProductService+')">Continuar, Borrar el Producto o servicio</button>';
+  	buttons += '<button id="closeDeleteElement" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>';
+  	$('#modalDeleteElementContinueButton').html(buttons);
+
 	$('#'+modalPattern).modal('hide');
 }
 
