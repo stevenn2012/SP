@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import logic.MD5Encryption;
 import logic.TextValidation;
 
 public class TestSP {
@@ -22,5 +23,9 @@ public class TestSP {
 	public void testTextValidation() {
 		assertEquals("bogota", TextValidation.cambiarTildes("Bogotá"));
 	}
-
+	
+	@Test
+	public void testPasswordpara1234() {
+		assertEquals("81dc9bdb52d04dc20036dbd8313ed055",MD5Encryption.getMD5("1234") );
+	}
 }
