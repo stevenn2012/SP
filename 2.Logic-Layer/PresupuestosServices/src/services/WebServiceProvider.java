@@ -117,7 +117,7 @@ public class WebServiceProvider {
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				Provider provider = new Provider(Long.parseLong(idProvider), nit, username, description, Integer.parseInt(dv), true);
+				Provider provider = new Provider(Long.parseLong(idProvider), nit, name, description, Integer.parseInt(dv), true);
 				return Response.ok(LogicProvider.updateProvider(provider).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
