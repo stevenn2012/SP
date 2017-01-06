@@ -57,9 +57,9 @@ function listProviders() {
 			data+='<td>'+providers[i].name+'</td>';
 			data+='<td>'+providers[i].description+'</td>';
 			data+='<td>'+providers[i].DV+'</td>';
-			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalAddress" onclick="seeAddress('+providers[i].idProvider+')">Ver Direcciones</button></td>'; 
-			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalContacts" onclick="seeContacts('+providers[i].idProvider+')">Ver Contactos</button></td>';
-			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalProductsServices" onclick="seeProductServices('+providers[i].idProvider+')">Ver Productos y servicios</button></td>';
+			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalAddress" onclick="seeAddress('+providers[i].idProvider+')">Direcciones</button></td>'; 
+			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalContacts" onclick="seeContacts('+providers[i].idProvider+')">Contactos</button></td>';
+			data+='<td><button class="btn btn-default" type="button" data-toggle="modal" data-target="#modalProductsServices" onclick="seeProductServices('+providers[i].idProvider+')">Productos y servicios</button></td>';
 		  	data+='</tr>';
 		}
 	};
