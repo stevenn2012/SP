@@ -325,9 +325,10 @@ function generateInput (title, typeTag, type, idInput, required) {
 	var data = '<div class="form-group">';
 	if(type.toLowerCase() != 'hidden') data +='<label for="exampleInputEmail1">'+title+'</label>';
 	data += '<'+typeTag+' id="'+idInput+'" type="'+type+'" name="comment" class="form-control" form="form" placeholder="'+title+'"'; 
-	if(required) data += 'required';
+	if(required) data += ' required';
 	if(type.toLowerCase() == 'textarea') data += 'style="max-width:100%;"></textarea';	
 	data += '></div>';
+	console.log(data);
 	return data;
 }
 

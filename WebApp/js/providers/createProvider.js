@@ -593,17 +593,17 @@ function createProvider(){
 	//console.log("CREATE PROVIDER: ",JSON.stringify(provider));
 
 	if(provider.address.length == 0){
-		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar almenos una direccion</div>');
+		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar al menos una direccion</div>');
 		ScreenUp("msCreateProvider", "msCreateProvider");
 		return;
 	}
 	if(provider.contacts.length == 0){
-		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar almenos un contacto</div>');
+		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar al menos un contacto</div>');
 		ScreenUp("msCreateProvider", "msCreateProvider");
 		return;
 	}
 	if(provider.productsServices.length == 0){
-		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar almenos un producto o servicio</div>');
+		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar al menos un producto o servicio</div>');
 		ScreenUp("msCreateProvider", "msCreateProvider");
 		return;
 	}
