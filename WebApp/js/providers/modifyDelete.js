@@ -380,6 +380,8 @@ function editProvider(idProvider){
 }
 
 //************terminar**********************
+var countriesForList = newDinamicOWS(true);
+var cities = [];
 function editAddress (idProvider, idAddress) {
 	$('#'+modalPattern).modal('hide');
 	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a editar direccion');
@@ -388,14 +390,22 @@ function editAddress (idProvider, idAddress) {
 
 	var data = '<form action="javascript:ApprovedEditAddress()"><div id="messageEditAddress"></div>';
 	data += '<div class="modal-body" >';
-	data += '<div class="panel panel-info">';
+	data += '<div class="panel scroll panel-info">';
   	data += '<div class="panel-heading">Direccion del proveedor '+provider.name+'</div>';
   	data += '<div class="panel-body">';
 	data += generateInput('id','input','hidden','idEditAddress',true);
-	data += generateInput('Pais','input','text','countryEditAddress',false);
-	data += generateInput('Ciudad electronico','input','text','cityEditAddress',false);
+	data += generateInput('idProvider','input','hidden','idProviderEditAddress',true);
 	data += generateInput('Direccion','input','text','addressEditAddress',true);
-     data += '</div></div></div>';
+
+	//country
+	data += '<div class="form-group"><label for="exampleInputPassword1">Lista de paises</label><select id="listCountriesEditAddress" class="form-control"></select></div>';
+	data += generateInput('Pais','input','text','countryEditAddress',false);
+
+	//city
+	data += '<div class="form-group"><label for="exampleInputPassword1">Lista de ciudades</label><select id="listCitiesEditAddress" class="form-control"></select></div>';
+	data += generateInput('Ciudad','input','text','cityEditAddress',false);
+	
+    data += '</div></div></div>';
     
     data += '<div class="modal-footer">';
     data += '<button id="continueEdit" type="submit" class="btn btn-primary">Guardar</button>';
@@ -406,12 +416,70 @@ function editAddress (idProvider, idAddress) {
     $('#bodyModalEditElementProvider').html(data);
     $('#labelModalEditElementProvider').html("Editar Direccion");
 
-    $('#idEditAddress').val(address.idContact);
- 	$('#countryEditAddress').val(address.pais);
- 	$('#cityEditAddress').val(address.ciudad);
+    $('#idProviderEditAddress').val(provider.idProvider);
+    $('#idEditAddress').val(address.idAddress);
+ 	$('#countryEditAddress').val();
+ 	$('#cityEditAddress').val();
  	$('#addressEditAddress').val(address.direccion); 
 
+ 	loadCountries();
+ 	generateOptions(countriesForList.dataArray, 'idCountry', 'name', 'listCountriesEditAddress', 'Seleccione un pais');
+ 	for (var i = 0; i <countriesForList.dataArray.length; i++) {
+ 		if(countriesForList.dataArray[i].name==address.pais){
+ 			$('#listCountriesEditAddress').val(countriesForList.dataArray[i].idCountry);
+ 		}
+ 	}
+ 	getCitiesByIdCountry($('#listCountriesEditAddress').val(), 'listCitiesEditAddress');
+ 	for (var i = 0; i <cities.length; i++) {
+ 		if(cities[i].name==address.ciudad){
+ 			$('#listCitiesEditAddress').val(cities[i].idCity);
+ 		}
+ 	}
+
+ 	$('#listCountriesEditAddress').change(function(){getCitiesByIdCountry($('#listCountriesEditAddress').val(), 'listCitiesEditAddress')});
 	$('#modalEditElementProvider').modal('show');
+}
+
+function loadCountries(){
+	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode};
+	var data = countriesForList.get(countryListService ,dataAndAccount, 'name', 'countries');
+	if(data.success == 'false'){ 
+		Provider.showMessage('messageEditAddress', 'modalEditElementProvider', "Error al cargar los paises: "+data.status, 'danger', 'modal', true);
+	}
+}
+
+function getCitiesByIdCountry(idCountry, listName) {
+	console.log(":::::::::");
+	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode};
+	cities = newDinamicOWS(true);
+	var data = cities.get(citysListService ,dataAndAccount, 'name', 'cities');
+	if(data.success == 'false'){ 
+		Provider.showMessage('messageEditAddress', 'modalEditElementProvider', "Error al cargar las ciudades: "+data.status, 'danger', 'modal', true);
+	}else{
+		cities = cities.dataArray;
+		var data2 = [];
+		for (var i = 0; i <cities.length; i++) {
+			if(cities[i].idCountry == idCountry){
+				data2.push({
+					idCity: cities[i].idCity,
+					name: cities[i].name
+				});
+			}
+		}
+		generateOptions(data2, 'idCity', 'name', 'listCitiesEditAddress', "Seleccione una ciudad");		
+	}
+}
+
+function generateOptions(list, nameAttrib1, nameAttrib2, listName, messageInitial) {
+	var data = '<option value="0">-- '+messageInitial+' --</option>';
+	console.log("..."+JSON.stringify(list));
+	if(list != null){
+		for (var i = 0; i < list.length; i++) {
+			var d = list[i];
+			data += '<option value="'+d[nameAttrib1]+'">'+d[nameAttrib2]+'</option>';
+		}		
+	}
+	$('#'+listName).html(data);					   	
 }
 
 function editContact (idProvider, idContact) {
@@ -536,8 +604,62 @@ function ApprovedEditProvider(){
 //terminar****************************
 function ApprovedEditAddress(){
 	console.log("ApprovedEditAddress");
+	var dataAndAccount = {
+		"username":sessionStorage.username, 
+		"logincode":sessionStorage.logincode, 
+		"idAddress":$('#idEditAddress').val(),
+		"address":$('#addressEditAddress').val(),
+		"idCity":$('#listCitiesEditAddress').val(),
+		"idProvider":$('#idProviderEditAddress').val()
+	};
 
-	cancelEditElement();
+	var idCountry = $("#listCountriesEditAddress").val();
+	var country = $('#countryEditAddress').val();
+	var city = $('#cityEditAddress').val();
+
+	if(country == "" && idCountry == 0){
+		contact.showMessage('messageEditAddress', 'modalEditElementProvider', "Seleccione o ingrese un pais", 'warning', 'modal', true);
+		return;
+	}else{
+		if(country != "" && idCountry == 0){
+			var account = {"username":sessionStorage.username,"logincode":sessionStorage.logincode, "cname":country};
+			var countryObj = newDinamicOWS(true);
+			idCountry = countryObj.add(createCountryService ,account, '').data.idCountry;
+		}else if(country != "" && idCountry != 0){
+			contact.showMessage('messageEditAddress', 'modalEditElementProvider', "Error seleccionando pais", 'warning', 'modal', true);
+			return;
+		}
+	}
+	if(city == "" && dataAndAccount.idCity == 0){
+		contact.showMessage('messageEditAddress', 'modalEditElementProvider', "Seleccione o Ingrese una ciudad", 'warning', 'modal', true);
+		return;
+	}else{
+		if(city!="" && dataAndAccount.idCity == 0){
+			var account = {"username":sessionStorage.username,"logincode":sessionStorage.logincode, "name":city, "idCountry":idCountry};
+			var cityObj = newDinamicOWS(true);
+			dataAndAccount.idCity = cityObj.add(createCityService ,account, '').data.idCity;
+		}else if(city != "" && dataAndAccount.idCity != 0){
+			contact.showMessage('messageEditAddress', 'modalEditElementProvider', "Error seleccionando ciudad", 'warning', 'modal', true);
+			return;
+		}
+	}
+
+	if(notBlakSpaceValidation(dataAndAccount.address)==false){
+		contact.showMessage('messageEditAddress', 'modalEditElementProvider', "Ingrese una direccion", 'warning', 'modal', true);
+		return;
+	}
+
+	console.log(JSON.stringify(dataAndAccount));
+	var address = newDinamicOWS(true);
+	var data = address.set(editAddressService ,dataAndAccount, '');
+	if(data.success == 'false') address.showMessage('messageEditAddress', 'modalEditElementProvider', "No se pudo editar la direccion<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	else{
+		$('#modalEditElementProvider').modal('hide');
+		loadProviders();
+		seeAddress(1, dataAndAccount.idProvider, true);
+		address.showMessage('msElement', 'msElement', "Se edito con exito la direccion!", 'success', 'modal', true);
+		cancelEditElement();
+	}
 }
 
 function ApprovedEditContact(){
