@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.json.JSONObject;
 import dao.DAOAddress;
-import dao.DAOContact;
 import vo.Address;
 
 public class LogicAddress {
@@ -85,7 +84,7 @@ public class LogicAddress {
 				obj.put("status", "El proveedor debe tener minimo 1 dirección. No se puede borrar.");
 				return obj;
 			}
-			if (DAOContact.deleteContact(address)) {
+			if (DAOAddress.deleteAddress(address)) {
 				obj.put("validate", "true");
 				obj.put("delete", "true");
 				obj.put("status", "Se ha borrado la dirección correctamente.");
