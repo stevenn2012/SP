@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import logic.TextValidation;
 
-public class TestClass {
+public class TestSP {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
