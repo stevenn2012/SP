@@ -8,7 +8,7 @@ $(document).ready(function(){
 });
 
 function buttonAddress(idButton, idlist, idInput) {
-	console.log("button");
+	//console.log("button");
 	var value = $('#'+idButton).prop('checked');
 	if(value){
 		$('#'+idlist).val(0);
@@ -228,7 +228,7 @@ function deleteAddress (idProvider, idAddress) {
 }
 
 function deleteContact (idProvider, idContact) {
-	console.log("deleteAddress: "+idProvider+", "+idContact);
+	//console.log("deleteAddress: "+idProvider+", "+idContact);
 	$('#modalDeleteElementProvider').html();
 
 	var provider =  Provider.getById(idProvider, 'idProvider', false, 'Proveedor a borrar Direccion');
@@ -254,7 +254,7 @@ function deleteContact (idProvider, idContact) {
 }
 
 function deletePS (idProvider, idProductService) {
-	console.log("deleteAddress: "+idProvider+", "+idProductService);
+	//console.log("deleteAddress: "+idProvider+", "+idProductService);
 	$('#modalDeleteElementProvider').html();
 
 	var provider =  Provider.getById(idProvider, 'idProvider', false, 'Proveedor a borrar Direccion');
@@ -292,8 +292,8 @@ function ApprovedDeleteProvider(idProvider) {
 }
 
 function ApprovedDeleteAddress (idProvider, idAddress) {
-	console.log("deleteAddress: "+idAddress);
-	var add = newDinamicOWS(true);
+	//console.log("deleteAddress: "+idAddress);
+	var add = newDinamicOWS(false);
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode, "idAddress":idAddress};
 	var data = add.remove(deleteAddressService ,dataAndAccount, '');
 	if(data.success == 'false') add.showMessage('msDeleteLement', 'msDeleteLement', "No se pudo eliminar La direccion<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
@@ -307,8 +307,8 @@ function ApprovedDeleteAddress (idProvider, idAddress) {
 }
 
 function ApprovedDeleteContact (idProvider, idContact) {
-	console.log("deleteAddress: "+idContact);
-	var contact = newDinamicOWS(true);
+	//console.log("deleteAddress: "+idContact);
+	var contact = newDinamicOWS(false);
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode, "idContact":idContact};
 	var data = contact.remove(deleteContactService ,dataAndAccount, '');
 	if(data.success == 'false') contact.showMessage('msDeleteLement', 'msDeleteLement', "No se pudo eliminar el contacto<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
@@ -322,8 +322,8 @@ function ApprovedDeleteContact (idProvider, idContact) {
 }
 
 function ApprovedDeletePS (idProvider, idProductService) {
-	console.log("deleteAddress: "+idProductService);
-	var proSer = newDinamicOWS(true);	
+	//console.log("deleteAddress: "+idProductService);
+	var proSer = newDinamicOWS(false);	
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode, "idProductService":idProductService};
 	var data = proSer.remove(deleteProductServiceService ,dataAndAccount, '');
 	if(data.success == 'false') proSer.showMessage('msDeleteLement', 'msDeleteLement', "No se pudo eliminar el Producto o servicio<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
@@ -393,14 +393,14 @@ function editProvider(idProvider){
 	})
 }
 
-//************terminar**********************
-var countriesForList = newDinamicOWS(true);
+
+var countriesForList = newDinamicOWS(false);
 var cities = [];
 function editAddress (idProvider, idAddress) {
 	$('#'+modalPattern).modal('hide');
 	var provider = Provider.getById(idProvider, 'idProvider', false, 'Proveedor a editar direccion');
 	var address = findElement(provider.address, 'idAddress', idAddress);
-	console.log(address);
+	//console.log(address);
 
 	var data = '<form action="javascript:ApprovedEditAddress()"><div id="messageEditAddress"></div>';
 	data += '<div class="modal-body" >';
@@ -478,7 +478,7 @@ function loadCountries(){
 function getCitiesByIdCountry(idCountry, listName) {
 	//console.log(":::::::::");
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode};
-	cities = newDinamicOWS(true);
+	cities = newDinamicOWS(false);
 	var data = cities.get(citysListService ,dataAndAccount, 'name', 'cities');
 	if(data.success == 'false'){ 
 		Provider.showMessage('messageEditAddress', 'modalEditElementProvider', "Error al cargar las ciudades: "+data.status, 'danger', 'modal', true);
@@ -597,7 +597,7 @@ function cancelEditElement() {
 
 //approved edit
 function ApprovedEditProvider(){
-	console.log("ApprovedEditProvider");
+	//console.log("ApprovedEditProvider");
 	var dataAndAccount = {
 		"username":sessionStorage.username, 
 		"logincode":sessionStorage.logincode, 
@@ -618,7 +618,7 @@ function ApprovedEditProvider(){
 		return;
 	}
 
-	console.log("Create: "+JSON.stringify(dataAndAccount));
+	//console.log("Create: "+JSON.stringify(dataAndAccount));
 	var data = Provider.set(editProviderService ,dataAndAccount, '');
 	if(data.success == 'false') Provider.showMessage('messageEditProvider', 'modalEditProvider', "No se pudo Editar el proveedor<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
 	else{
@@ -629,7 +629,7 @@ function ApprovedEditProvider(){
 }
 
 function ApprovedEditAddress(){
-	console.log("ApprovedEditAddress");
+	//console.log("ApprovedEditAddress");
 	var dataAndAccount = {
 		"username":sessionStorage.username, 
 		"logincode":sessionStorage.logincode, 
@@ -643,14 +643,14 @@ function ApprovedEditAddress(){
 	var country = $('#countryEditAddress').val();
 	var city = $('#cityEditAddress').val();
 
-	var address = newDinamicOWS(true);
+	var address = newDinamicOWS(false);
 	if(country == "" && idCountry == 0){
 		address.showMessage('messageEditAddress', 'modalEditElementProvider', "Seleccione o ingrese un pais", 'warning', 'modal', true);
 		return;
 	}else{
 		if(country != "" && idCountry == 0){
 			var account = {"username":sessionStorage.username,"logincode":sessionStorage.logincode, "cname":country};
-			var countryObj = newDinamicOWS(true);
+			var countryObj = newDinamicOWS(false);
 			idCountry = countryObj.add(createCountryService ,account, '').data.idCountry;
 		}else if(country != "" && idCountry != 0){
 			address.showMessage('messageEditAddress', 'modalEditElementProvider', "Error seleccionando pais", 'warning', 'modal', true);
@@ -663,7 +663,7 @@ function ApprovedEditAddress(){
 	}else{
 		if(city!="" && dataAndAccount.idCity == 0){
 			var account = {"username":sessionStorage.username,"logincode":sessionStorage.logincode, "name":city, "idCountry":idCountry};
-			var cityObj = newDinamicOWS(true);
+			var cityObj = newDinamicOWS(false);
 			dataAndAccount.idCity = cityObj.add(createCityService ,account, '').data.idCity;
 		}else if(city != "" && dataAndAccount.idCity != 0){
 			address.showMessage('messageEditAddress', 'modalEditElementProvider', "Error seleccionando ciudad", 'warning', 'modal', true);
@@ -676,7 +676,7 @@ function ApprovedEditAddress(){
 		return;
 	}
 
-	console.log(JSON.stringify(dataAndAccount));
+	//console.log(JSON.stringify(dataAndAccount));
 	
 	var data = address.set(editAddressService ,dataAndAccount, '');
 	if(data.success == 'false') address.showMessage('messageEditAddress', 'modalEditElementProvider', "No se pudo editar la direccion<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
@@ -701,7 +701,7 @@ function ApprovedEditContact(){
 		"idProvider":$('#idProviderEditContact').val()
 	};
 
-	var contact = newDinamicOWS(true);
+	var contact = newDinamicOWS(false);
 
 	if(notBlakSpaceValidation(dataAndAccount.name)==false){
 		contact.showMessage('messageEditContact', 'modalEditElementProvider', "Ingrese un nombre de Contacto", 'warning', 'modal', true);
@@ -728,7 +728,7 @@ function ApprovedEditContact(){
 }
 
 function ApprovedEditPS(){
-	console.log("ApprovedEditPS");
+	//console.log("ApprovedEditPS");
 	var dataAndAccount = {
 		"username":sessionStorage.username, 
 		"logincode":sessionStorage.logincode, 
@@ -739,7 +739,7 @@ function ApprovedEditPS(){
 		"idProvider":$('#idProviderEditPS').val()
 	};
 
-	var productService = newDinamicOWS(true);
+	var productService = newDinamicOWS(false);
 
 	if(notBlakSpaceValidation(dataAndAccount.name)==false){
 		productService.showMessage('messageEditPS', 'modalEditElementProvider', "Ingrese un nombre de producto o servicio", 'warning', 'modal', true);
@@ -751,7 +751,7 @@ function ApprovedEditPS(){
 		return;
 	}
 
-	console.log(dataAndAccount);
+	//console.log(dataAndAccount);
 	var data = productService.set(editProductServiceService ,dataAndAccount, '');
 	if(data.success == 'false') productService.showMessage('messageEditPS', 'modalEditElementProvider', "No se pudo editar el producto o servicio<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
 	else{
@@ -887,14 +887,14 @@ function ApprovedAddAddress() {
 	var country = $('#countryAddAddress').val();
 	var city = $('#cityAddAddress').val();
 
-	var address = newDinamicOWS(true);
+	var address = newDinamicOWS(false);
 	if(country == "" && idCountry == 0){
 		address.showMessage('messageAddAddress', 'modalAddElementProvider', "Seleccione o ingrese un pais", 'warning', 'modal', true);
 		return;
 	}else{
 		if(country != "" && idCountry == 0){
 			var account = {"username":sessionStorage.username,"logincode":sessionStorage.logincode, "cname":country};
-			var countryObj = newDinamicOWS(true);
+			var countryObj = newDinamicOWS(false);
 			idCountry = countryObj.add(createCountryService ,account, '').data.idCountry;
 		}else if(country != "" && idCountry != 0){
 			address.showMessage('messageAddAddress', 'modalAddElementProvider', "Error seleccionando pais", 'warning', 'modal', true);
@@ -907,7 +907,7 @@ function ApprovedAddAddress() {
 	}else{
 		if(city!="" && dataAndAccount.idCity == 0){
 			var account = {"username":sessionStorage.username,"logincode":sessionStorage.logincode, "name":city, "idCountry":idCountry};
-			var cityObj = newDinamicOWS(true);
+			var cityObj = newDinamicOWS(false);
 			dataAndAccount.idCity = cityObj.add(createCityService ,account, '').data.idCity;
 		}else if(city != "" && dataAndAccount.idCity != 0){
 			address.showMessage('messageAddAddress', 'modalAddElementProvider', "Error seleccionando ciudad", 'warning', 'modal', true);
@@ -920,7 +920,7 @@ function ApprovedAddAddress() {
 		return;
 	}
 
-	console.log(JSON.stringify(dataAndAccount));
+	//console.log(JSON.stringify(dataAndAccount));
 	var data = address.add(createAddressService ,dataAndAccount, '');
 	if(data.success == 'false') address.showMessage('messageAddAddress', 'modalAddElementProvider', "No se pudo Agregar la direccion<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
 	else{
@@ -942,7 +942,7 @@ function ApprovedAddContact() {
 		"idProvider":$('#idProviderAddContact').val()
 	};
 
-	var contact = newDinamicOWS(true);
+	var contact = newDinamicOWS(false);
 
 	if(notBlakSpaceValidation(dataAndAccount.name)==false){
 		contact.showMessage('messageAddContact', 'modalAddElementProvider', "Ingrese un nombre de Contacto", 'warning', 'modal', true);
@@ -978,7 +978,7 @@ function ApprovedAddProductService() {
 		"idProvider":$('#idProviderAddPS').val()
 	};
 
-	var productService = newDinamicOWS(true);
+	var productService = newDinamicOWS(false);
 
 	if(notBlakSpaceValidation(dataAndAccount.name)==false){
 		productService.showMessage('messageAddPS', 'modalAddElementProvider', "Ingrese un nombre de producto o servicio", 'warning', 'modal', true);
@@ -990,7 +990,7 @@ function ApprovedAddProductService() {
 		return;
 	}
 
-	console.log(dataAndAccount);
+	//console.log(dataAndAccount);
 	var data = productService.add(createProductServiceService ,dataAndAccount, '');
 	if(data.success == 'false') productService.showMessage('messageAddPS', 'modalAddElementProvider', "No se pudo Agregar el producto o servicio<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
 	else{
