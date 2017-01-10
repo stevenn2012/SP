@@ -4,7 +4,7 @@ var indexPage = "http://localhost/Proyects/SantaPublicidad/WebApp/";
 //roll de administrador
 var rollAdmin = 'Gerencia';
 //paginas permitidas a usuarios diferentes de gerencia
-var OperatorFoldersAllowed = [indexPage+'Proyect/'];
+var OperatorFoldersAllowed = [indexPage+'pages/Proyect/', indexPage+'pages/User/MyUser/'];
 //pagina webservices
 var page = "http://localhost:8080";
 //AppLoginAuthentication - webservices de login y autenticacion

@@ -7,6 +7,20 @@ $(document).ready(function(){
 	$(".filter").focus();
 });
 
+function buttonAddress(idButton, idlist, idInput) {
+	console.log("button");
+	var value = $('#'+idButton).prop('checked');
+	if(value){
+		$('#'+idlist).val(0);
+		$('#'+idlist).prop('disabled', true);
+		$('#'+idInput).prop('disabled', false);
+	}else{
+		$('#'+idlist).prop('disabled', false);
+		$('#'+idInput).prop('disabled', true);
+		$('#'+idInput).val("");
+	}
+}
+
 //see
 function initProviders() {
 	Provider = newDinamicOWS(false);
@@ -399,10 +413,20 @@ function editAddress (idProvider, idAddress) {
 
 	//country
 	data += '<div class="form-group"><label for="exampleInputPassword1">Lista de paises</label><select id="listCountriesEditAddress" class="form-control"></select></div>';
+	
+	data += '<div class="checkbox"><label><input id="countryButtonEdit" type="checkbox" value="">';
+	data += 'Crear un nuevo pais';
+	data += '</label></div>';
+
 	data += generateInput('Pais','input','text','countryEditAddress',false);
 
 	//city
 	data += '<div class="form-group"><label for="exampleInputPassword1">Lista de ciudades</label><select id="listCitiesEditAddress" class="form-control"></select></div>';
+
+	data += '<div class="checkbox"><label><input id="cityButtonEdit" type="checkbox" value="">';
+	data += 'Crear una nueva ciudad';
+	data += '</label></div>';
+	
 	data += generateInput('Ciudad','input','text','cityEditAddress',false);
 	
     data += '</div></div></div>';
@@ -433,6 +457,11 @@ function editAddress (idProvider, idAddress) {
  			$('#listCitiesEditAddress').val(cities[i].idCity);
  		}
  	}
+
+ 	buttonAddress('countryButtonEdit', 'listCountriesEditAddress', 'countryEditAddress');
+	buttonAddress('cityButtonEdit', 'listCitiesEditAddress', 'cityEditAddress');
+	$('#countryButtonEdit').click(function(){buttonAddress('countryButtonEdit', 'listCountriesEditAddress', 'countryEditAddress')});
+	$('#cityButtonEdit').click(function(){buttonAddress('cityButtonEdit', 'listCitiesEditAddress', 'cityEditAddress')});
 
  	$('#listCountriesEditAddress').change(function(){getCitiesByIdCountry($('#listCountriesEditAddress').val(), 'listCitiesEditAddress')});
 	$('#modalEditElementProvider').modal('show');
@@ -749,10 +778,16 @@ function addAddress(idProvider) {
 
 	//country
 	data += '<div class="form-group"><label for="exampleInputPassword1">Lista de paises</label><select id="listCountriesAddAddress" class="form-control"></select></div>';
+	data += '<div class="checkbox"><label><input id="countryButtonAdd" type="checkbox" value="">';
+	data += 'Crear un nuevo pais';
+	data += '</label></div>';
 	data += generateInput('Pais','input','text','countryAddAddress',false);
 
 	//city
 	data += '<div class="form-group"><label for="exampleInputPassword1">Lista de ciudades</label><select id="listCitiesAddAddress" class="form-control"></select></div>';
+	data += '<div class="checkbox"><label><input id="cityButtonAdd" type="checkbox" value="">';
+	data += 'Crear una nueva ciudad';
+	data += '</label></div>';
 	data += generateInput('Ciudad','input','text','cityAddAddress',false);
 	
     data += '</div></div></div>';
@@ -772,6 +807,11 @@ function addAddress(idProvider) {
  	generateOptions(countriesForList.dataArray, 'idCountry', 'name', 'listCountriesAddAddress', 'Seleccione un pais');
  	
  	getCitiesByIdCountry($('#listCountriesAddAddress').val(), 'listCitiesAddAddress');
+
+ 	buttonAddress('countryButtonAdd', 'listCountriesAddAddress', 'countryAddAddress');
+	buttonAddress('cityButtonAdd', 'listCitiesAddAddress', 'cityAddAddress');
+	$('#countryButtonAdd').click(function(){buttonAddress('countryButtonAdd', 'listCountriesAddAddress', 'countryAddAddress')});
+	$('#cityButtonAdd').click(function(){buttonAddress('cityButtonAdd', 'listCitiesAddAddress', 'cityAddAddress')});
  	
  	$('#listCountriesAddAddress').change(function(){getCitiesByIdCountry($('#listCountriesAddAddress').val(), 'listCitiesAddAddress')});
 	$('#modalAddElementProvider').modal('show');

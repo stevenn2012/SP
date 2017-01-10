@@ -85,6 +85,12 @@ footer{
 	width:500px; 
 }
 
+#myUserSee{
+	margin: auto;
+	margin-top: 50px;
+	width:500px;	
+}
+
 #msfind{
 	text-align: center;
 }
@@ -131,7 +137,6 @@ footer{
 	margin: 0;
 	padding: 0;
 }
-
 /******/
 
 

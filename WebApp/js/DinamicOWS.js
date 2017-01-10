@@ -44,7 +44,7 @@ function newDinamicOWS(msNewObj){
 			var dataReturn = [{'success': 'true','status':'success'}];
 			if(data.success == 'true'){
 				if(data.data.validate == 'true'){
-					if(data.data.list == 'true'){
+					if(data.data.list == 'true' || data.data.accionListar == 'true'){
 						this.dataArray = this.sortByKey(data.data[idData], sortBy);
 					}else{ dataReturn.success = 'false'; dataReturn.status = data.data.status; }
 				}else{ dataReturn.success = 'false'; dataReturn.status = 'No tiene los permisos requeridos'; }

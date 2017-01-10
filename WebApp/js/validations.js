@@ -1,7 +1,7 @@
 function numberValidation (number, natural, decimal) {
 	if(isNaN(parseFloat(number))) return false;
 	if(natural && (number < 0)) return false;
-	if(decimal == false && (number.indexOf(".")!=-1 || number.indexOf(",")!=-1)) return false;
+	if(decimal == false && ((number+"").indexOf(".")!=-1 || (number+"").indexOf(",")!=-1)) return false;
 	return true;
 }
 
@@ -17,7 +17,7 @@ function changeNameFirstUpperCase(name) {
 
 function documentValidation(number) {
 	if(notBlakSpaceValidation(number)==false) return false;
-	if(numberValidation(price, true, false) == false) return false;
+	if(numberValidation(number, true, false) == false) return false;
 	return true;
 }
 

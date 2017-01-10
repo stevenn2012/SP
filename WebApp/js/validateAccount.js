@@ -41,10 +41,12 @@ function validateAccount() {
 }
 
 function validarPermisos(roll) {
-	var link = window.location;	
+	var link = window.location+"";	
 	if(roll != rollAdmin){
 		for (var i = 0; i < OperatorFoldersAllowed.length ; i++) {
-			if(OperatorFoldersAllowed[i].indexOf(link) != -1){
+			//console.log("1: "+OperatorFoldersAllowed[i].indexOf(link)+"\n\t"+OperatorFoldersAllowed[i]+"\n\t"+link);
+			//console.log("2: "+link.indexOf(OperatorFoldersAllowed[i])+"\n\t"+OperatorFoldersAllowed[i]+"\n\t"+link);
+			if(link.indexOf(OperatorFoldersAllowed[i]) != -1){
 				return true;
 			}
 		}
