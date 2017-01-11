@@ -100,7 +100,7 @@ public class DAOAddress {
 						.addParameter("id",  address.getIdAddress())
 						.addParameter("address",address.getAddress())
 						.addParameter("idcy", address.getIdCity())
-						.addParameter("idct", address.getIdClient())
+						.addParameter("idc", address.getIdClient())
 						.executeUpdate();
 				connection.commit();
 				return true;
@@ -109,7 +109,7 @@ public class DAOAddress {
 				connection.createQuery(query)
 						.addParameter("id",  address.getIdAddress())
 						.addParameter("address",address.getAddress())
-						.addParameter("idP", address.getIdProvider())
+						.addParameter("idp", address.getIdProvider())
 						.addParameter("idcy", address.getIdCity())
 						.executeUpdate();
 				connection.commit();

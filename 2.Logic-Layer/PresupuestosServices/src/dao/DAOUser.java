@@ -4,7 +4,9 @@ import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import vo.Roll;
 import vo.User;
+import vo.UserRoll;
 
 public class DAOUser {
 		
@@ -30,6 +32,40 @@ public class DAOUser {
 					.addParameter("password", password)
 			        .executeAndFetch(User.class);
 			return users.get(0);
+		} catch (Exception e) {
+			if((e+"").equalsIgnoreCase("java.lang.IndexOutOfBoundsException: Index: 0, Size: 0")){
+				System.out.println(" -> The user was not found");
+			}else{
+				System.out.println(" -> Error DAOUser getuserbynameandpass");
+				System.out.println(e);
+			}
+			return null;
+		}
+	}
+	
+	public static String getRollByUsername(String username) {
+		initDriver();
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+			String query="select * from user where userName = :username";
+			List<User> users = connection.createQuery(query)
+					.addParameter("username", username)
+			        .executeAndFetch(User.class);
+			 
+			 long iduser = users.get(0).getIdUser();
+			 
+			 String query2="select * from user_role where idUser = :iduser";
+			 List<UserRoll> userRoll = connection.createQuery(query2)
+					.addParameter("iduser", iduser)
+			        .executeAndFetch(UserRoll.class);
+			
+			 long idRoll = userRoll.get(0).getIdRole();
+			
+			 String query3="select * from role where idRole = :id";
+			 List<Roll> roll = connection.createQuery(query3)
+					.addParameter("id", idRoll)
+			        .executeAndFetch(Roll.class);
+			 return roll.get(0).getName();
+			 
 		} catch (Exception e) {
 			if((e+"").equalsIgnoreCase("java.lang.IndexOutOfBoundsException: Index: 0, Size: 0")){
 				System.out.println(" -> The user was not found");

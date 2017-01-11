@@ -17,11 +17,34 @@ import vo.vista.UserListJSON;
 
 public class LogicUsers {
 
-	public static JSONObject getUsersJSON() {
+	public static JSONObject getUsersJSON(String username) {
 		List<User> usuarios = DAOUser.getUsers();
 		JSONObject obj = new JSONObject();
 		List<UserListJSON> listaUsuarios = new ArrayList<>();
 		UserListJSON usuario = new UserListJSON();
+		String rollUsername = DAOUser.getRollByUsername(username); 
+		
+		if (rollUsername!=null) {
+			if (!rollUsername.equals("Gerencia")) {
+				User usua = DAOUser.getUserByUsername(username);
+				if (usua!=null) {
+					obj.put("list", "true");
+					obj.put("validate", "true");
+					obj.putOnce("usuario", usua);
+					return obj;
+				}else{
+					obj.put("list", "false");
+					obj.put("validate", "true");
+					obj.put("status", "Error al listar el usuario.");
+					return obj;
+				}
+			}
+		}else{
+			obj.put("list", "false");
+			obj.put("validate", "true");
+			obj.put("status", "Error al validar el roll del usuario.");
+			return obj;
+		}
 		
 		if (usuarios == null) {
 			obj.put("list", "false");
@@ -50,9 +73,10 @@ public class LogicUsers {
 		}
 	}
 
-	public static JSONObject insertUser(User usuario, long rol) {
+	public static JSONObject insertUser(User usuario, long rol, String username) {
 		JSONObject obj = new JSONObject();
 		List<User> usuarios = DAOUser.getUsers();
+		
 		if (usuarios==null) {
 			obj.put("validate", "true");
 			obj.put("create", "false");
@@ -97,6 +121,7 @@ public class LogicUsers {
 		JSONObject obj = new JSONObject();
 		List<Project> proyectos = DAOProject.getProjects();
 		User usuario = DAOUser.getUserById(idUser);
+				
 		obj.put("validate", "true");
 		obj.put("delete", "false");
 		obj.put("status", "Error en conexión a base de datos.");
@@ -143,10 +168,12 @@ public class LogicUsers {
 		return obj;
 	}
 
-	public static Object updateUser(User usuario, long roll) {
+	public static Object updateUser(User usuario, long roll, String username) {
 		JSONObject obj = new JSONObject();
 		List<User> usuarios = DAOUser.getUsers();
 				
+		
+		
 		for (int i = 0; i < usuarios.size(); i++) {
 			if (usuarios.get(i).getIdUser()!=usuario.getIdUser()) {
 				if (usuario.getUserName().toLowerCase().equals(usuarios.get(i).getUserName().toLowerCase()) || usuario.getDocument().toLowerCase().equals(usuarios.get(i).getDocument())) {
