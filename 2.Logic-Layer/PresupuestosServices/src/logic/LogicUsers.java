@@ -76,6 +76,20 @@ public class LogicUsers {
 	public static JSONObject insertUser(User usuario, long rol, String username) {
 		JSONObject obj = new JSONObject();
 		List<User> usuarios = DAOUser.getUsers();
+		String rollUsername = DAOUser.getRollByUsername(username); 
+		if (rollUsername!=null) {
+			if (!rollUsername.equals("Gerencia")) {
+				obj.put("insert", "false");
+				obj.put("validate", "true");
+				obj.put("status", "roll del usuario invalido");
+				return obj;
+			}
+		}else{
+			obj.put("insert", "false");
+			obj.put("validate", "true");
+			obj.put("status", "Error al validar el roll del usuario.");
+			return obj;
+		}
 		
 		if (usuarios==null) {
 			obj.put("validate", "true");
@@ -121,6 +135,20 @@ public class LogicUsers {
 		JSONObject obj = new JSONObject();
 		List<Project> proyectos = DAOProject.getProjects();
 		User usuario = DAOUser.getUserById(idUser);
+		String rollUsername = DAOUser.getRollByUsername(username); 
+		if (rollUsername!=null) {
+			if (!rollUsername.equals("Gerencia")) {
+				obj.put("delete", "false");
+				obj.put("validate", "true");
+				obj.put("status", "roll del usuario invalido");
+				return obj;
+			}
+		}else{
+			obj.put("delete", "false");
+			obj.put("validate", "true");
+			obj.put("status", "Error al validar el roll del usuario.");
+			return obj;
+		}
 				
 		obj.put("validate", "true");
 		obj.put("delete", "false");
@@ -172,7 +200,27 @@ public class LogicUsers {
 		JSONObject obj = new JSONObject();
 		List<User> usuarios = DAOUser.getUsers();
 				
-		
+		String rollUsername = DAOUser.getRollByUsername(username); 
+		if (rollUsername!=null) {
+			if (!rollUsername.equals("Gerencia")) {
+				if (DAOUser.updateUserNoGerencia(usuario)) {
+					obj.put("update", "true");
+					obj.put("validate", "true");
+					obj.put("status", "Usuario actualizado");
+					return obj;
+				}else{
+					obj.put("update", "false");
+					obj.put("validate", "true");
+					obj.put("status", "Error al actualizar el usuario");
+					return obj;
+				}
+			}
+		}else{
+			obj.put("update", "false");
+			obj.put("validate", "true");
+			obj.put("status", "Error al validar el roll del usuario.");
+			return obj;
+		}
 		
 		for (int i = 0; i < usuarios.size(); i++) {
 			if (usuarios.get(i).getIdUser()!=usuario.getIdUser()) {

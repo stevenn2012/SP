@@ -180,6 +180,25 @@ public class DAOUser {
 		}
 	}
 	
+	public static boolean updateUserNoGerencia(User usuario) {
+		initDriver();
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+			String query="update user set password = :password, email = :email where user.idUser = :idUser";
+			connection.createQuery(query)
+					.addParameter("password", usuario.getPassword())
+					.addParameter("email",usuario.getEmail())
+					.addParameter("idUser",usuario.getIdUser())
+					.executeUpdate();
+			connection.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" -> Error");
+			System.out.println(e);
+			return false;
+		}
+	}
+	
 	public static boolean updateUserActive(String id) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
