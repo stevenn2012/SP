@@ -10,9 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-
 import org.json.JSONObject;
-
 import dao.ConectionData;
 import logic.LogicArea;
 import logic.LogicLoginAuthent;
@@ -90,13 +88,72 @@ public class WebServiceArea {
 		}
     }
 	
-	public int verifyAccess(String referer){
-		if(referer != null) {
-			for (int i = 0; i < ConectionData.getUrlAccess().length; i++) {
-				System.out.println(ConectionData.getUrlAccess()[i]+" "+referer.indexOf(ConectionData.getUrlAccess()[i]));
-				if(referer.indexOf(ConectionData.getUrlAccess()[i])==0) return i;
+	@GET
+	@Path("/update")
+	@Produces("application/json")
+	public Response updateArea(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	          @DefaultValue("null") @QueryParam("username") String username, 
+	          @DefaultValue("null") @QueryParam("logincode") String logincode,
+	          @DefaultValue("null") @QueryParam("idArea") String idArea,
+	          @DefaultValue("null") @QueryParam("name") String nameArea
+	          ) {
+		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print("\tAttempt to validate log in from : "+referer);
+		System.out.print("\nACTUALIZAR AREAS");
+		int verifyAccess = ConectionData.verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.println(", Access granted");  
+			JSONObject areas = new JSONObject();
+			areas.put("username", username);
+			areas.put("logincode", logincode);	
+			areas = LogicLoginAuthent.valLogin(request.getRemoteAddr(), areas);
+			if (areas.getString("validate").equals("true")) {
+				Area areaObj = new Area(Long.parseLong(idArea), nameArea);
+				return Response.ok(LogicArea.updateArea(areaObj).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+			}else{
+				System.out.println(", Error cargando areas\n");
+				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 			}
+			
+		}else{
+			JSONObject areas = new JSONObject();
+			areas.put("validate", "false");
+			System.out.println(", Access denied\n");
+			return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
 		}
-		return -1;
-	}
+    }
+	
+	@GET
+	@Path("/delete")
+	@Produces("application/json")
+	public Response deleteArea(@Context HttpServletRequest request, @HeaderParam("Referer") String referer,
+	          @DefaultValue("null") @QueryParam("username") String username, 
+	          @DefaultValue("null") @QueryParam("logincode") String logincode,
+	          @DefaultValue("null") @QueryParam("idArea") String idArea
+	          ) {
+		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
+		System.out.print("\tAttempt to validate log in from : "+referer);
+		System.out.print("\nBORRAR AREAS");
+		int verifyAccess = ConectionData.verifyAccess(referer);
+		if( verifyAccess != -1){
+			System.out.println(", Access granted");  
+			JSONObject areas = new JSONObject();
+			areas.put("username", username);
+			areas.put("logincode", logincode);	
+			areas = LogicLoginAuthent.valLogin(request.getRemoteAddr(), areas);
+			if (areas.getString("validate").equals("true")) {
+				return Response.ok(LogicArea.deleteArea(Long.parseLong(idArea)).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+			}else{
+				System.out.println(", Error cargando areas\n");
+				return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			}
+			
+		}else{
+			JSONObject areas = new JSONObject();
+			areas.put("validate", "false");
+			System.out.println(", Access denied\n");
+			return Response.ok(areas.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+		}
+    }
+	
 }
