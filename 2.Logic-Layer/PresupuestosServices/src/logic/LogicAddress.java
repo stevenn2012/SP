@@ -26,8 +26,7 @@ public class LogicAddress {
 
 	public static JSONObject createAddress(Address address) {
 		JSONObject obj = new JSONObject();
-		List<Address> addresses = DAOAddress.getAddress();
-				
+		List<Address> addresses;
 		if (DAOAddress.insertAddress(address)) {
 			obj.put("validate", "true");
 			obj.put("insert", "true");

@@ -59,4 +59,34 @@ public class LogicArea {
 		}
 	}
 
+	public static JSONObject updateArea(Area areaObj) {
+		JSONObject obj = new JSONObject();
+		if (DAOArea.updateArea(areaObj)) {
+			obj.put("validate", "true");
+			obj.put("update", "true");
+			obj.put("status", "Se actualizó el área correctamente");
+			return obj;
+		}else{
+			obj.put("validate", "true");
+			obj.put("update", "false");
+			obj.put("status", "No se actualizó el área correctamente");
+			return obj;
+		}
+	}
+
+	public static JSONObject deleteArea(long parseLong) {
+		JSONObject obj = new JSONObject();
+		if (DAOArea.deleteArea(parseLong)) {
+			obj.put("validate", "true");
+			obj.put("delete", "true");
+			obj.put("status", "Se borró el área correctamente");
+			return obj;
+		}else{
+			obj.put("validate", "true");
+			obj.put("delete", "false");
+			obj.put("status", "No se borró el área. Error de conexión");
+			return obj;
+		}
+	}
+
 }

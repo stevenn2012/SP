@@ -44,7 +44,7 @@ public class LogicContact {
 					obj.put("idContact", contacts.get(i).getIdContact());
 				}
 			}
-			obj.put("status", "Se ha insertado correctamente la direccion.");
+			obj.put("status", "Se ha insertado correctamente el contacto.");
 			return obj;
 		}else{
 			obj.put("validate", "true");

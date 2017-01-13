@@ -5,6 +5,7 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import vo.Area;
+import vo.Area;
 
 public class DAOArea {
 	
@@ -52,6 +53,42 @@ public class DAOArea {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" -> Error");
+			System.out.println(e);
+			return false;
+		}
+	}
+	
+	public static boolean deleteArea(long idArea) {
+		initDriver();
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+			String query="delete from area where area.idArea = :id";
+			connection.createQuery(query)
+					.addParameter("id", idArea)
+					.executeUpdate();
+			connection.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" -> Error delete area");
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+
+	public static boolean updateArea(Area area) {
+		initDriver();
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+			String query="update area set name = :name where area.idArea = :id";
+			connection.createQuery(query)
+					.addParameter("id",  area.getIdArea())
+					.addParameter("name",area.getName())
+					.executeUpdate();
+			connection.commit();
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" -> Error update area dao");
 			System.out.println(e);
 			return false;
 		}
