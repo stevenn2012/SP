@@ -15,6 +15,8 @@
 	<script type="text/javascript" src="../../../js/validateAccount.js"></script>
 	
 	<!---->	
+	<script type="text/javascript" src="../../../js/impScripts.js"></script>
+	<script type="text/javascript" src="../../../js/Other/countryImports.js"></script>
 	<link rel="stylesheet" type="text/css" href="../../../css/home.css">
 	<script type="text/javascript" src="../../../js/home.js"></script>
 </head>
@@ -36,7 +38,66 @@
 			</ul>
 		</head>
 		<section>
-			
+			<div id="msCRUDCountry"></div>
+			<div class="row">
+			  	<div class="col-md-6">
+			  		<p class="title1" style="margin-top: 50px;">Editar o Borrar Pais</p>
+			  		<div id="filtro" class="input-group" style="width:35%;">
+					  	<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+					  	<input type="text" class="filter form-control" placeholder="Buscar" aria-describedby="basic-addon1">
+					</div>
+					<div class="scroll table-responsive" id="lista"></div>
+					<div id="msfind"></div>
+			  	</div>
+			  	<div class="col-md-6">
+			  		<div id="form">
+			  			<p class="title1">Crear Pais</p>
+			  			<div id="form">
+			  				<form action="javascript:createCountry()">
+								<div class="form-group" id="inputCountry">
+								    <label for="inputForm">Nombre del pais</label>
+								    <input type="text" class="form-control" id="country" placeholder="Nombre del pais" required>
+				  				</div>
+							  	<div class="btn-group btn-group-justified" role="group" aria-label="...">
+								  	<div class="btn-group" role="group">
+								    	<button type="submit" class="btn btn-primary">Guardar</button>
+								  	</div>
+								</div>
+							</form>
+			  			</div>
+			  		</div>
+			  	</div>
+			</div>
+
+			<!-- Delete -->
+			<div id="myModalDelete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Eliminar Pais</h4>
+			      		</div>
+				      	<div id="bodyModalDelete">
+					      	
+				      	</div>
+			    	</div>
+			  	</div>
+			</div>
+
+			<!-- Edit -->
+			<div id="myModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Editar Pais</h4>
+			      		</div>
+				      	<div id="bodyModalEdit">
+					      	
+				      	</div>
+			    	</div>
+			  	</div>
+			</div>
 		</section>
 		<footer aligin="bottom">
 			<p class="footerText"><i>Page by <a href="https://www.facebook.com/andrexpi?fref=hovercard">Andres Rodriguez</a> and <a href="https://stevenn2012.github.io">Steven Puerto</a></i></p>

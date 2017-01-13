@@ -111,7 +111,7 @@ function deleteUser(iduser) {
 	data += '<strong>Area: </strong>'+user.area+"<br>";
 	data += '<strong>Roll: </strong>'+user.roll+"<br>";
 	data += '</div></div>';
-	data += '<p>está accion es irreversible, ¿desea continuar?</p>'
+	data += '<p>está accion es irreversible, ¿desea continuar?</p>';
 	$('#bodyModalDelete').html(data);
 }
 

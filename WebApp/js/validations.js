@@ -47,12 +47,6 @@ function passwordValidation(password) {
 	} return false;
 }
 
-//******************terminar***************************
-function phoneNumberValidation(phoneNumber) {
-	if(notBlakSpaceValidation(phoneNumber) == false) return false;
-	return true;
-}
-
 function notBlakSpaceValidation(data) {
 	try{
 		if(data == null) return false;

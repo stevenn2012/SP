@@ -1,44 +1,48 @@
+/*
 $(document).ready(function(){
-	loadAreas();
-	$(".filter").keyup(function(){listAreas()});
+	loadCitys();
+	$(".filter").keyup(function(){listCitys()});
 	$('.filter').focus();
 });
 
-var areas = {};
-function loadAreas() {
+var citys = {};
+function loadCitys() {
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode};
-	var areasObj = newDinamicOWS(false);
-	var data = areasObj.get(areaList ,dataAndAccount, 'name','areas');
+	var city = newDinamicOWS(false);
+	var data = city.get(citysListService ,dataAndAccount, 'name','cities');
 	if(data.success == 'false'){
-		areasObj.showMessage('msCRUDArea', 'nameEmployed', 'No se pudo cargar las areas<br><strong>Motivo: </strong>'+data.status, 'danger', 'default', true);	
+		city.showMessage('msCRUDCity', 'nameEmployed', 'No se pudo cargar las ciudades<br><strong>Motivo: </strong>'+data.status, 'danger', 'default', true);	
 	}else{
-		areas = areasObj.dataArray;
-		listAreas();	
+		citys = city.dataArray;
+		listCitys();	
 	}
 }
 
-function listAreas() {
+//**agregar pais
+function listCitys() {
 	var find = ($('.filter').val()).toUpperCase();
 	var content = '<table class="table table-bordered">';
-	content+='<tr><th>Area</th><th>Editar</th><th>Borrar</th></tr>';
+	content+='<tr><th>Ciudad</th><th>Editar</th><th>Borrar</th></tr>';
 	var data = "";
-	for (var i = 0; i < areas.length; i++) {
-		var area = (areas[i].name).toUpperCase();
-		if(find == "" || area.indexOf(find)!=-1){
+	for (var i = 0; i < citys.length; i++) {
+		var city = (citys[i].name).toUpperCase();
+		if(find == "" || city.indexOf(find)!=-1){
 			data+='<tr>';
-			data+='<td>'+areas[i].name+'</td>';
-			data+='<td onclick="editArea('+areas[i].idArea+')"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
-			data+='<td onclick="deleteArea('+areas[i].idArea+')"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
+			data+='<td>'+citys[i].name+'</td>';
+			data+='<td onclick="editCity('+citys[i].idCity+')"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
+			data+='<td onclick="deleteCity('+citys[i].idCity+')"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
 		  	data+='</tr>';
 		}
 	};
-	if(data == ""){ $('#msfind').html("No se encontraron areas");
+	if(data == ""){ $('#msfind').html("No se encontraron ciudades");
 	}else{ $('#msfind').html("");}
 	content += data+'</table>';
 	$('#lista').html(content);
 }
 
-function createArea(){
+
+//****terminar de aqui para abajo
+function createCity(){
 	var dataAndAccount = { "username":sessionStorage.username, "logincode":sessionStorage.logincode, "nombreArea": $('#area').val()};
 	var area = newDinamicOWS(false);
 	if(notBlakSpaceValidation(dataAndAccount.nombreArea)==false){
@@ -51,12 +55,12 @@ function createArea(){
 	}else{
 		area.showMessage('msCRUDArea', 'nameEmployed', 'Se creo el area con exito!', 'success', 'default', true);
 		$('#area').val("");
-		loadAreas();
+		loadCitys();
 	}
 }
 
 function editArea(idArea){
-	var area = findElement(areas, 'idArea', idArea);
+	var area = findElement(citys, 'idArea', idArea);
 	//console.log("Edit "+idArea+" - "+JSON.stringify(area));
 	data = '';
 	data += '<form action="javascript:approvedEditArea()">';
@@ -93,12 +97,12 @@ function approvedEditArea() {
 	}else{
 		area.showMessage('msCRUDArea', 'nameEmployed', 'Se Editó el area con exito!', 'success', 'default', true);
 		$('#myModalEdit').modal('hide');
-		loadAreas();
+		loadCitys();
 	}
 }
 
 function deleteArea(idArea) {
-	var area = findElement(areas, 'idArea', idArea);
+	var area = findElement(citys, 'idArea', idArea);
 	//console.log("delete "+idArea+" - "+JSON.stringify(area));
 	data = '';
 	data += '<div class="modal-body">';
@@ -126,10 +130,12 @@ function approvedDeleteArea(idArea) {
 	}else{
 		area.showMessage('msCRUDArea', 'nameEmployed', 'Se elimino el area con exito!', 'success', 'default', true);
 		$('#myModalDelete').modal('hide');
-		loadAreas();
+		loadCitys();
 	}
 }
 
 function findElement(obj, attrib, idCompare) {
 	for (var i = 0; i < obj.length; i++){ var element = obj[i]; if(idCompare == element[attrib]) return element;} return null;
 }
+
+*/

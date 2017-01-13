@@ -41,7 +41,7 @@
 			<div id="msCRUDArea"></div>
 			<div class="row">
 			  	<div class="col-md-6">
-			  		<p class="title1" style="margin-top: 50px;">Areas</p>
+			  		<p class="title1" style="margin-top: 50px;">Editar o Borrar Areas</p>
 			  		<div id="filtro" class="input-group" style="width:35%;">
 					  	<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
 					  	<input type="text" class="filter form-control" placeholder="Buscar" aria-describedby="basic-addon1">
@@ -55,8 +55,8 @@
 			  			<div id="form">
 			  				<form action="javascript:createArea()">
 								<div class="form-group" id="inputArea">
-								    <label for="inputForm">Area</label>
-								    <input type="text" class="form-control" id="area" placeholder="Area" required>
+								    <label for="inputForm">Nombre de la Area</label>
+								    <input type="text" class="form-control" id="area" placeholder="Nombre de la Area" required>
 				  				</div>
 							  	<div class="btn-group btn-group-justified" role="group" aria-label="...">
 								  	<div class="btn-group" role="group">
@@ -68,6 +68,37 @@
 			  		</div>
 			  	</div>
 			</div>
+
+			<!-- Delete -->
+			<div id="myModalDelete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Eliminar Area</h4>
+			      		</div>
+				      	<div id="bodyModalDelete">
+					      	
+				      	</div>
+			    	</div>
+			  	</div>
+			</div>
+
+			<!-- Edit -->
+			<div id="myModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="myModalLabel">Editar Area</h4>
+			      		</div>
+				      	<div id="bodyModalEdit">
+					      	
+				      	</div>
+			    	</div>
+			  	</div>
+			</div>
+
 		</section>
 		<footer aligin="bottom">
 			<p class="footerText"><i>Page by <a href="https://www.facebook.com/andrexpi?fref=hovercard">Andres Rodriguez</a> and <a href="https://stevenn2012.github.io">Steven Puerto</a></i></p>
