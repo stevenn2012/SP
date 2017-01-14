@@ -37,8 +37,7 @@
 			  	</li>
 			</ul>
 		</head>
-		<section>
-		<!--	
+		<section>	
 			<div id="msCRUDCity"></div>
 			<div class="row">
 			  	<div class="col-md-6">
@@ -55,9 +54,14 @@
 			  			<p class="title1">Crear Ciudad</p>
 			  			<div id="form">
 			  				<form action="javascript:createCity()">
+			  					<div class="form-group">
+							    	<label for="exampleInputPassword1">Pais</label>
+							    	<select id="countryList" class="form-control">
+									</select>
+							  	</div>
 								<div class="form-group" id="inputCity">
 								    <label for="inputForm">Nombre de la Ciudad</label>
-								    <input type="text" class="form-control" id="ciudad" placeholder="Nombre de la ciudad" required>
+								    <input type="text" class="form-control" id="cityCreate" placeholder="Nombre de la ciudad" required>
 				  				</div>
 							  	<div class="btn-group btn-group-justified" role="group" aria-label="...">
 								  	<div class="btn-group" role="group">
@@ -97,7 +101,6 @@
 			    	</div>
 			  	</div>
 			</div>
-		-->
 		</section>
 		<footer aligin="bottom">
 			<p class="footerText"><i>Page by <a href="https://www.facebook.com/andrexpi?fref=hovercard">Andres Rodriguez</a> and <a href="https://stevenn2012.github.io">Steven Puerto</a></i></p>

@@ -1,10 +1,10 @@
-/*
 $(document).ready(function(){
 	loadCitys();
 	$(".filter").keyup(function(){listCitys()});
 	$('.filter').focus();
 });
 
+var countrys = newDinamicOWS(false);
 var citys = {};
 function loadCitys() {
 	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode};
@@ -18,17 +18,36 @@ function loadCitys() {
 	}
 }
 
-//**agregar pais
+function loadCountrys() {
+	var dataAndAccount = {"username":sessionStorage.username, "logincode":sessionStorage.logincode};
+	var data = countrys.get(countryListService ,dataAndAccount, 'name','countries');
+	if(data.success == 'false'){
+		countrys.showMessage('msCRUDCity', 'nameEmployed', 'No se pudo cargar los paises<br><strong>Motivo: </strong>'+data.status, 'danger', 'default', true);	
+	}else{
+		listCountrys();	
+	}	
+}
+
+function listCountrys(){
+	var data = '<option value="0">-- Seleccione el Pais --</option>';
+	for (var i = 0; i < countrys.dataArray.length; i++) {
+		data += '<option value="'+countrys.dataArray[i].idCountry+'">'+countrys.dataArray[i].name+'</option>';
+	};
+	$('#countryList').html(data);
+}
+
 function listCitys() {
+	loadCountrys();
 	var find = ($('.filter').val()).toUpperCase();
 	var content = '<table class="table table-bordered">';
-	content+='<tr><th>Ciudad</th><th>Editar</th><th>Borrar</th></tr>';
+	content+='<tr><th>Ciudad</th><th>Pais</th><th>Editar</th><th>Borrar</th></tr>';
 	var data = "";
 	for (var i = 0; i < citys.length; i++) {
 		var city = (citys[i].name).toUpperCase();
 		if(find == "" || city.indexOf(find)!=-1){
 			data+='<tr>';
 			data+='<td>'+citys[i].name+'</td>';
+			data+='<td>'+countrys.getById(citys[i].idCountry, 'idCountry', false, 'encontrado').name+'</td>';
 			data+='<td onclick="editCity('+citys[i].idCity+')"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></td>';
 			data+='<td onclick="deleteCity('+citys[i].idCity+')"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>';
 		  	data+='</tr>';
@@ -40,36 +59,45 @@ function listCitys() {
 	$('#lista').html(content);
 }
 
-
-//****terminar de aqui para abajo
 function createCity(){
-	var dataAndAccount = { "username":sessionStorage.username, "logincode":sessionStorage.logincode, "nombreArea": $('#area').val()};
-	var area = newDinamicOWS(false);
-	if(notBlakSpaceValidation(dataAndAccount.nombreArea)==false){
-		area.showMessage('msCRUDArea', 'nameEmployed', 'Ingrese un nombre para el area', 'warning', 'modal', true);
+	var dataAndAccount = { "username":sessionStorage.username, "logincode":sessionStorage.logincode, "name": $('#cityCreate').val(), "idCountry": $('#countryList').val()};
+	var city = newDinamicOWS(false);
+	
+	if(dataAndAccount.idCountry==0){
+		city.showMessage('msCRUDCity', 'nameEmployed', 'Seleccione un pais', 'warning', 'default', true);
 		return;
 	}
-	var data = area.add(createAreaService ,dataAndAccount, '');
+
+	if(notBlakSpaceValidation(dataAndAccount.name)==false){
+		city.showMessage('msCRUDCity', 'nameEmployed', 'Ingrese un nombre para la ciudad', 'warning', 'default', true);
+		return;
+	}
+
+	var data = city.add(createCityService ,dataAndAccount, '');
 	if(data.success == 'false'){
-		area.showMessage('msCRUDArea', 'nameEmployed', 'No se pudo crear el area<br><strong>Motivo: </strong>'+data.status, 'warning', 'default', true);	
+		city.showMessage('msCRUDCity', 'nameEmployed', 'No se pudo crear la ciudad<br><strong>Motivo: </strong>'+data.status, 'warning', 'default', true);	
 	}else{
-		area.showMessage('msCRUDArea', 'nameEmployed', 'Se creo el area con exito!', 'success', 'default', true);
-		$('#area').val("");
+		city.showMessage('msCRUDCity', 'nameEmployed', 'Se creo la ciudad con exito!', 'success', 'default', true);
+		$('#cityCreate').val("");
+		$('#countryList').val(0);
 		loadCitys();
 	}
 }
 
-function editArea(idArea){
-	var area = findElement(citys, 'idArea', idArea);
-	//console.log("Edit "+idArea+" - "+JSON.stringify(area));
+function editCity(idCity){
+	var city = findElement(citys, 'idCity', idCity);
 	data = '';
-	data += '<form action="javascript:approvedEditArea()">';
+	data += '<form action="javascript:approvedEditCity()">';
 	data += '<div class="modal-body">';
 	data += '<div id="msModalEdit"></div>';
-	data += '<input type="hidden" class="form-control" id="idAdreaEdit" placeholder="idArea" required>';
-	data += '<div class="form-group" id="inputAreaEdit">';
+	data += '<input type="hidden" class="form-control" id="idCityEdit" placeholder="idCity" required>';
+
+	data += '<div class="form-group"><label for="exampleInputPassword1">Pais</label>';
+   	data += '<select id="countryListEdit" class="form-control"></select></div>';
+
+	data += '<div class="form-group" id="inputCityEdit">';
 	data += '<label for="inputForm">Area</label>';
-	data += '<input type="text" class="form-control" id="areaEdit" placeholder="Area" required>';
+	data += '<input type="text" class="form-control" id="cityEdit" placeholder="Area" required>';
 	data += '</div>';
 	data += '</div><div class="modal-footer">';
     data +=	'<button type="submit" class="btn btn-primary">Guardar</button>';
@@ -77,58 +105,72 @@ function editArea(idArea){
     data += '</div>';
 	data += '</form>';
    	$('#bodyModalEdit').html(data);
-   	$('#idAdreaEdit').val(area.idArea);
-   	$('#areaEdit').val(area.name);
+   	$('#idCityEdit').val(city.idCity);
+   	$('#cityEdit').val(city.name);
+
+   	var data2 = '<option value="0">-- Seleccione el Pais --</option>';
+	for (var i = 0; i < countrys.dataArray.length; i++) {
+		data2 += '<option value="'+countrys.dataArray[i].idCountry+'">'+countrys.dataArray[i].name+'</option>';
+	};
+	$('#countryListEdit').html(data2);
+	$('#countryListEdit').val(city.idCountry);
+
    	$('#myModalEdit').modal('show');
 }
 
-function approvedEditArea() {
-	var dataAndAccount = { "username":sessionStorage.username, "logincode":sessionStorage.logincode, "idArea": $('#idAdreaEdit').val(), "name": $('#areaEdit').val()};
-	var area = newDinamicOWS(false);
+function approvedEditCity() {
+	var dataAndAccount = { "username":sessionStorage.username, "logincode":sessionStorage.logincode, "idCity": $('#idCityEdit').val(), "name": $('#cityEdit').val(), "idCountry":$('#countryListEdit').val()};
+	var city = newDinamicOWS(false);
 
-	if(notBlakSpaceValidation(dataAndAccount.name)==false){
-		area.showMessage('msModalEdit', 'msModalEdit', 'Ingrese un nombre para el area', 'warning', 'modal', true);
+	if(dataAndAccount.idCountry==0){
+		city.showMessage('msModalEdit', 'msModalEdit', 'Seleccione un pais', 'warning', 'modal', true);
 		return;
 	}
 
-	var data = area.set(editAreaService ,dataAndAccount, '');
+	if(notBlakSpaceValidation(dataAndAccount.name)==false){
+		city.showMessage('msModalEdit', 'msModalEdit', 'Ingrese un nombre para la ciudad', 'warning', 'modal', true);
+		return;
+	}
+
+	var data = city.set(editCitysService ,dataAndAccount, '');
 	if(data.success == 'false'){
-		area.showMessage('msModalEdit', 'msModalEdit', 'No se pudo editar el area<br><strong>Motivo: </strong>'+data.status, 'warning', 'modal', true);	
+		city.showMessage('msModalEdit', 'msModalEdit', 'No se pudo editar la ciudad<br><strong>Motivo: </strong>'+data.status, 'warning', 'modal', true);	
 	}else{
-		area.showMessage('msCRUDArea', 'nameEmployed', 'Se Editó el area con exito!', 'success', 'default', true);
+		city.showMessage('msCRUDCity', 'nameEmployed', 'Se Editó la ciudad con exito!', 'success', 'default', true);
 		$('#myModalEdit').modal('hide');
 		loadCitys();
 	}
 }
 
-function deleteArea(idArea) {
-	var area = findElement(citys, 'idArea', idArea);
-	//console.log("delete "+idArea+" - "+JSON.stringify(area));
+function deleteCity(idCity) {
+	var city = findElement(citys, 'idCity', idCity);
+	//console.log("delete "+idCity+" - "+JSON.stringify(city));
 	data = '';
 	data += '<div class="modal-body">';
-	data += '<div id="msDeleteArea"></div>';
-	data += '<p>Está a punto de eliminar el area con los siguientes datos: </p>';
-	data += '<div class="panel panel-default"><div class="panel-heading">Area</div>';
+	data += '<div id="msDeleteCity"></div>';
+	data += '<p>Está a punto de eliminar la ciudad con los siguientes datos: </p>';
+	data += '<div class="panel panel-default"><div class="panel-heading">Ciudad</div>';
   	data += '<div class="panel-body">';
-    data += '<strong>Nombre de la area: </strong>'+area.name;
+    data += '<strong>Ciudad: </strong>'+city.name+"<br>";
+  	data += '<strong>Pais: </strong>'+countrys.getById(city.idCountry, 'idCountry', false, 'encontrado').name;
   	data += '</div></div>';
   	data += '<p>está accion es irreversible, ¿desea continuar?</p>';		     
 	data += '</div><div class="modal-footer">';
-	data +=	'<button type="button" class="btn btn-primary" onclick="approvedDeleteArea('+idArea+')">Continuar, Eliminar la area</button>';
+	data +=	'<button type="button" class="btn btn-primary" onclick="approvedDeleteCity('+idCity+')">Continuar, Eliminar la ciudad</button>';
     data +=	'<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>';
    	data += '</div>';
    	$('#bodyModalDelete').html(data);
    	$('#myModalDelete').modal('show');
 }
 
-function approvedDeleteArea(idArea) {
-	var dataAndAccount = { "username":sessionStorage.username, "logincode":sessionStorage.logincode, "idArea": idArea};
-	var area = newDinamicOWS(false);
-	var data = area.remove(deleteAreaService ,dataAndAccount, '');
+function approvedDeleteCity(idCity) {
+	var dataAndAccount = { "username":sessionStorage.username, "logincode":sessionStorage.logincode, "idCity": idCity};
+	var city = newDinamicOWS(false);
+	var data = city.remove(deleteCityService ,dataAndAccount, '');
 	if(data.success == 'false'){
-		area.showMessage('msDeleteArea', 'msDeleteArea', 'No se pudo eliminar el area<br><strong>Motivo: </strong>'+data.status, 'warning', 'modal', true);	
+		city.showMessage('msDeleteCity', 'msDeleteCity', 'No se pudo eliminar la ciudad<br><strong>Motivo: </strong>'+data.status, 'warning', 'modal', true);	
 	}else{
-		area.showMessage('msCRUDArea', 'nameEmployed', 'Se elimino el area con exito!', 'success', 'default', true);
+		city.showMessage('msCRUDCity', 'nameEmployed', 'Se elimino la ciudad con exito!', 'success', 'default', true);
 		$('#myModalDelete').modal('hide');
 		loadCitys();
 	}
@@ -137,5 +179,3 @@ function approvedDeleteArea(idArea) {
 function findElement(obj, attrib, idCompare) {
 	for (var i = 0; i < obj.length; i++){ var element = obj[i]; if(idCompare == element[attrib]) return element;} return null;
 }
-
-*/
