@@ -63,6 +63,7 @@ public class LogicProvider {
 								for (int k = 0; k < paises.size(); k++) {
 									if (ciudades.get(j2).getIdCountry()==paises.get(k).getIdCountry()) {
 										listaJson.get(i).addAddress(new AddressListJSON(direcciones.get(j).getIdAddress()
+																					, direcciones.get(j).getIdClient()
 																					, direcciones.get(j).getAddress()
 																					, ciudades.get(j2).getName()
 																					, paises.get(k).getName()));

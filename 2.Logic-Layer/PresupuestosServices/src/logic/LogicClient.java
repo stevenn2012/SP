@@ -76,6 +76,7 @@ public class LogicClient {
 				for (int j = 0; j < presupuestos.size(); j++) {
 					if (proyectVista.get(i).getIdProject()==presupuestos.get(j).getIdProject()) {
 						proyectVista.get(i).addPresupuestos(presupuestos.get(j));
+						break;
 					}
 				}
 			}
