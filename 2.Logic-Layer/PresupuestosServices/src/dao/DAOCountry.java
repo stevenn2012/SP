@@ -62,7 +62,7 @@ public class DAOCountry {
 	public static boolean deleteCountry(long country) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from Country where country.idCountry = :id";
+			String query="delete from Country where Country.idCountry = :id";
 			connection.createQuery(query)
 					.addParameter("id", country)
 					.executeUpdate();
@@ -79,7 +79,7 @@ public class DAOCountry {
 	public static boolean updateCountry(Country country) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update Country set name = :name where country.idCountry = :id";
+			String query="update Country set name = :name where Country.idCountry = :id";
 			connection.createQuery(query)
 					.addParameter("name", country.getName())
 					.addParameter("id", country.getIdCountry())

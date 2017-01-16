@@ -63,7 +63,7 @@ public class DAOCity {
 	public static boolean deleteCity(long idCity) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from City where city.idCity = :id";
+			String query="delete from City where City.idCity = :id";
 			connection.createQuery(query)
 					.addParameter("id", idCity)
 					.executeUpdate();
@@ -80,7 +80,7 @@ public class DAOCity {
 	public static boolean updateCity(City city) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update City set name = :name, idCountry = :idc where city.idCity = :id";
+			String query="update City set name = :name, idCountry = :idc where City.idCity = :id";
 			connection.createQuery(query)
 					.addParameter("name",city.getName())
 					.addParameter("idc", city.getIdCountry())

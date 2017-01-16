@@ -44,7 +44,7 @@ public class DAOClient {
 	public static Client getClientByNIT(String nit) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
-			String query="select * from Client where client.NIT = :nit";
+			String query="select * from Client where Client.NIT = :nit";
 			List<Client> client = connection.createQuery(query)
 					.addParameter("nit", nit)
 			        .executeAndFetch(Client.class);
@@ -85,7 +85,7 @@ public class DAOClient {
 	public static boolean deleteClient(long idClient) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from Client where client.idClient = :id";
+			String query="delete from Client where Client.idClient = :id";
 			connection.createQuery(query)
 					.addParameter("id", idClient)
 					.executeUpdate();
@@ -102,7 +102,7 @@ public class DAOClient {
 	public static boolean updateClient(Client client) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update Client set NIT = :nit, name = :name, description = :desc, DV = :DV, active = :active where client.idClient = :id";
+			String query="update Client set NIT = :nit, name = :name, description = :desc, DV = :DV, active = :active where Client.idClient = :id";
 			connection.createQuery(query)
 					.addParameter("id",  client.getIdClient())
 					.addParameter("nit", client.getNIT())

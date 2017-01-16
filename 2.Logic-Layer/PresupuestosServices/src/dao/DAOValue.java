@@ -63,7 +63,7 @@ public class DAOValue {
 	public static boolean deleteValue(long idValue) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from Value where value.idValue = :id";
+			String query="delete from Value where Value.idValue = :id";
 			connection.createQuery(query)
 					.addParameter("id", idValue)
 					.executeUpdate();
@@ -80,7 +80,7 @@ public class DAOValue {
 	public static boolean updateValue(Value valueV) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update Value set name = :name, value = :value where value.idValue = :id";
+			String query="update Value set name = :name, value = :value where Value.idValue = :id";
 			connection.createQuery(query)
 					.addParameter("id",  valueV.getIdValue())
 					.addParameter("name",valueV.getName())

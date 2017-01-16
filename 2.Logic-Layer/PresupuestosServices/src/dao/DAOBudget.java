@@ -69,7 +69,7 @@ public class DAOBudget {
 	public static boolean deleteBudget(long idBudget) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from Budget where budget.idBudget = :id";
+			String query="delete from Budget where Budget.idBudget = :id";
 			connection.createQuery(query)
 					.addParameter("id", idBudget)
 					.executeUpdate();
@@ -86,7 +86,7 @@ public class DAOBudget {
 	public static boolean updateBudget(Budget budget) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update Budget set observations = :observations, date = :date, commercialTerms = :commercialTerms, bruteTotal = :bruteTotal, IVA = :IVA, months = :months, activityTotal = :activityTotal, idProject = :idProject  where budget.idBudget = :id";
+			String query="update Budget set observations = :observations, date = :date, commercialTerms = :commercialTerms, bruteTotal = :bruteTotal, IVA = :IVA, months = :months, activityTotal = :activityTotal, idProject = :idProject  where Budget.idBudget = :id";
 			connection.createQuery(query)
 					.addParameter("id",  budget.getIdBudget())
 					.addParameter("observations",budget.getObservations())

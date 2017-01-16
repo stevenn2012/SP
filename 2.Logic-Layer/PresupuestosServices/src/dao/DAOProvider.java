@@ -66,7 +66,7 @@ public class DAOProvider {
 	public static boolean deleteProvider(long idProvider) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from Provider where provider.idProvider = :id";
+			String query="delete from Provider where Provider.idProvider = :id";
 			connection.createQuery(query)
 					.addParameter("id", idProvider)
 					.executeUpdate();
@@ -83,7 +83,7 @@ public class DAOProvider {
 	public static boolean updateProvider(Provider provider) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update Provider set NIT = :nit, name = :name, description = :desc, DV = :dv, active = :active where provider.idProvider = :id";
+			String query="update Provider set NIT = :nit, name = :name, description = :desc, DV = :dv, active = :active where Provider.idProvider = :id";
 			connection.createQuery(query)
 					.addParameter("id",  provider.getIdProvider())
 					.addParameter("nit", provider.getNIT())

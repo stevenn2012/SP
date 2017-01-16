@@ -142,7 +142,7 @@ public class DAOUser {
 	public static boolean deleteUser(long idUsuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from User where user.idUser = :idUser";
+			String query="delete from User where User.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idUser", idUsuario)
 					.executeUpdate();
@@ -159,7 +159,7 @@ public class DAOUser {
 	public static boolean updateUser(User usuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update User set document = :document, name = :name, userName = :username, password = :password, idArea = :idArea, email = :email, active = :active where user.idUser = :idUser";
+			String query="update User set document = :document, name = :name, userName = :username, password = :password, idArea = :idArea, email = :email, active = :active where User.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("document",usuario.getDocument())
 					.addParameter("name", usuario.getName())
@@ -183,7 +183,7 @@ public class DAOUser {
 	public static boolean updateUserNoGerencia(User usuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update User set password = :password, email = :email where user.idUser = :idUser";
+			String query="update User set password = :password, email = :email where User.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("password", usuario.getPassword())
 					.addParameter("email",usuario.getEmail())
@@ -202,7 +202,7 @@ public class DAOUser {
 	public static boolean updateUserActive(String id) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update User set  active = :active where user.idUser = :idUser";
+			String query="update User set  active = :active where User.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idUser",id)
 					.addParameter("active",false)

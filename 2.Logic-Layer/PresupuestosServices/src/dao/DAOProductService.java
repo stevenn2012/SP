@@ -65,7 +65,7 @@ public class DAOProductService {
 	public static boolean deleteProductService(long idProductService) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from ProductService where productservice.idProductService = :id";
+			String query="delete from ProductService where ProductService.idProductService = :id";
 			connection.createQuery(query)
 					.addParameter("id", idProductService)
 					.executeUpdate();
@@ -82,7 +82,7 @@ public class DAOProductService {
 	public static boolean updateProductService(ProductService productservice) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update ProductService set name = :name, description = :desc, price = :price, idProvider = :idprovider where productservice.idProductService = :id";
+			String query="update ProductService set name = :name, description = :desc, price = :price, idProvider = :idprovider where ProductService.idProductService = :id";
 			connection.createQuery(query)
 					.addParameter("id",productservice.getIdProductService())
 					.addParameter("name",productservice.getName())

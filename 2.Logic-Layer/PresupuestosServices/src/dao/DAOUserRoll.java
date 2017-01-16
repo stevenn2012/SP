@@ -44,7 +44,7 @@ public class DAOUserRoll {
 	public static boolean deleteUserRoll(long idUsuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from User_Role where user_role.idUser = :idUser";
+			String query="delete from User_Role where User_Role.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idUser", idUsuario)
 					.executeUpdate();
@@ -61,7 +61,7 @@ public class DAOUserRoll {
 	public static boolean updateUserRoll(UserRoll userrol) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update User_Role set idRole = :idRol where user_role.idUser = :idUser";
+			String query="update User_Role set idRole = :idRol where User_Role.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idRol", userrol.getIdRole())
 					.addParameter("idUser", userrol.getIdUser())

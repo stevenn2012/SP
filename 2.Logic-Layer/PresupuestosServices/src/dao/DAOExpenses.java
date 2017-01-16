@@ -64,7 +64,7 @@ public class DAOExpenses {
 	public static boolean deleteExpenses(long idExpenses) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from Expenses where expenses.idExpenses = :id";
+			String query="delete from Expenses where Expenses.idExpenses = :id";
 			connection.createQuery(query)
 					.addParameter("id", idExpenses)
 					.executeUpdate();
@@ -81,7 +81,7 @@ public class DAOExpenses {
 	public static boolean updateExpenses(Expenses expenses) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
-			String query="update Expenses set name = :name, description = :desc, value = :value, idBudgetPS = :idBudgetPS  where expenses.idExpenses = :id";
+			String query="update Expenses set name = :name, description = :desc, value = :value, idBudgetPS = :idBudgetPS  where Expenses.idExpenses = :id";
 			connection.createQuery(query)
 					.addParameter("id",  expenses.getIdExpenses())
 					.addParameter("name",expenses.getName())

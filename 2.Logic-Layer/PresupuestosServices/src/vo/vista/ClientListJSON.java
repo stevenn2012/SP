@@ -3,12 +3,13 @@ package vo.vista;
 import java.util.ArrayList;
 import java.util.List;
 import vo.Contact;
+import vo.Project;
 
 public class ClientListJSON {
 	
 	private List<Contact> contactos;
 	private List<AddressListJSON> direcciones;
-	private List<ProjectListJSON> proyectos;
+	private List<Project> proyectos;
 	private long idClient;
 	private String NIT;
 	private String name;
@@ -44,11 +45,11 @@ public class ClientListJSON {
 		this.direcciones.add(direccion);
 	}
 
-	public List<ProjectListJSON> getProyectos() {
+	public List<Project> getProyectos() {
 		return proyectos;
 	}
 
-	public void addProyectos(ProjectListJSON proyecto) {
+	public void addProyectos(Project proyecto) {
 		this.proyectos.add(proyecto);
 	}
 
