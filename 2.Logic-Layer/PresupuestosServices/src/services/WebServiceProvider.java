@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
-import dao.ConectionData;
+import dao.ConnectionData;
 import logic.LogicLoginAuthent;
 import logic.LogicProvider;
 import vo.Provider;
@@ -33,7 +33,7 @@ public class WebServiceProvider {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nEN LISTAR PROVEEDORES");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -43,17 +43,17 @@ public class WebServiceProvider {
 			if (account.getString("validate").equals("true")) {
 				account = LogicProvider.getProvidersJSON();
 				account.put("validate", "true");
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando Usuarios\n");
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -71,7 +71,7 @@ public class WebServiceProvider {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
 		System.out.print("\tEn CREAR PROVEEDOR");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -80,17 +80,17 @@ public class WebServiceProvider {
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				Provider provider = new Provider(0,nit, name, description,Integer.parseInt(dv), true);
-				return Response.ok(LogicProvider.insertProvider(provider).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(LogicProvider.insertProvider(provider).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("access", "false");
 			System.out.print(", Access denied\n");
-			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -109,7 +109,7 @@ public class WebServiceProvider {
 		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\tEn EDITAR PROVEEDOR");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -118,17 +118,17 @@ public class WebServiceProvider {
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				Provider provider = new Provider(Long.parseLong(idProvider), nit, name, description, Integer.parseInt(dv), true);
-				return Response.ok(LogicProvider.updateProvider(provider).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(LogicProvider.updateProvider(provider).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("access", "false");
 			System.out.print(", Access denied\n");
-			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }	
 	
@@ -143,7 +143,7 @@ public class WebServiceProvider {
 		System.out.print(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\tBORRAR PROVEEDOR");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.print(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -151,17 +151,17 @@ public class WebServiceProvider {
 			account.put("logincode", logincode);	
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
-				return Response.ok(LogicProvider.deleteProvider(idProvider).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(LogicProvider.deleteProvider(idProvider).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
-				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject account = new JSONObject();
 			account.put("access", "false");
 			System.out.print(", Access denied\n");
-			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }	
 }

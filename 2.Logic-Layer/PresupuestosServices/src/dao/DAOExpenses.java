@@ -10,7 +10,7 @@ public class DAOExpenses {
 	
 	public static List<Expenses> getExpenses(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from Expenses";
 			List<Expenses> expenses = connection.createQuery(query)
 			        		 .executeAndFetch(Expenses.class);
@@ -23,7 +23,7 @@ public class DAOExpenses {
 	
 	public static Expenses getExpensesById(long idExpenses) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from Expenses where idExpenses = :id";
 			List<Expenses> expenses = connection.createQuery(query)
 					.addParameter("id", idExpenses)
@@ -43,7 +43,7 @@ public class DAOExpenses {
 	public static boolean insertExpenses(Expenses expenses) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into Expenses(name, description,value,idBudgetPS) values(:name, :desc, :value, :idBudgetPS)";
 			connection.createQuery(query)
 					.addParameter("name",expenses.getName())
@@ -63,7 +63,7 @@ public class DAOExpenses {
 	
 	public static boolean deleteExpenses(long idExpenses) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from Expenses where expenses.idExpenses = :id";
 			connection.createQuery(query)
 					.addParameter("id", idExpenses)
@@ -80,7 +80,7 @@ public class DAOExpenses {
 
 	public static boolean updateExpenses(Expenses expenses) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="update Expenses set name = :name, description = :desc, value = :value, idBudgetPS = :idBudgetPS  where expenses.idExpenses = :id";
 			connection.createQuery(query)
 					.addParameter("id",  expenses.getIdExpenses())

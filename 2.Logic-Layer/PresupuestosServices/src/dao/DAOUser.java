@@ -12,7 +12,7 @@ public class DAOUser {
 		
 	public static List<User> getUsers(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from User where active = 1";
 			List<User> users = connection.createQuery(query)
 			        		 .executeAndFetch(User.class);
@@ -25,7 +25,7 @@ public class DAOUser {
 	
 	public static User getUserByUsernameAndPassword(String username, String password) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from User where userName = :username and password = :password";
 			List<User> users = connection.createQuery(query)
 					.addParameter("username", username)
@@ -45,7 +45,7 @@ public class DAOUser {
 	
 	public static String getRollByUsername(String username) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from User where userName = :username";
 			List<User> users = connection.createQuery(query)
 					.addParameter("username", username)
@@ -79,7 +79,7 @@ public class DAOUser {
 	
 	public static User getUserById(String id) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from User where idUser = :id";
 			List<User> users = connection.createQuery(query)
 					.addParameter("id", id)
@@ -98,7 +98,7 @@ public class DAOUser {
 	
 	public static User getUserByUsername(String username) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from User where userName = :username";
 			List<User> users = connection.createQuery(query)
 					.addParameter("username", username)
@@ -118,7 +118,7 @@ public class DAOUser {
 	public static boolean insertUser(User usuario) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into User(document, name, userName, password, idArea, email, active) values(:document, :name, :username, :password, :idArea, :email, :active)";
 			connection.createQuery(query)
 					.addParameter("document",usuario.getDocument())
@@ -141,7 +141,7 @@ public class DAOUser {
 	
 	public static boolean deleteUser(long idUsuario) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from User where user.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idUser", idUsuario)
@@ -158,7 +158,7 @@ public class DAOUser {
 
 	public static boolean updateUser(User usuario) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="update User set document = :document, name = :name, userName = :username, password = :password, idArea = :idArea, email = :email, active = :active where user.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("document",usuario.getDocument())
@@ -182,7 +182,7 @@ public class DAOUser {
 	
 	public static boolean updateUserNoGerencia(User usuario) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="update User set password = :password, email = :email where user.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("password", usuario.getPassword())
@@ -201,7 +201,7 @@ public class DAOUser {
 	
 	public static boolean updateUserActive(String id) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="update User set  active = :active where user.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idUser",id)

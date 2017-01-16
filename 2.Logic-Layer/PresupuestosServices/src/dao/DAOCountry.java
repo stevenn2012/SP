@@ -11,7 +11,7 @@ public class DAOCountry {
 
 	public static List<Country> getCountry(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from Country";
 			List<Country> paises = connection.createQuery(query)
 			        		 .executeAndFetch(Country.class);
@@ -24,7 +24,7 @@ public class DAOCountry {
 	
 	public static Country getCountryById(long cname) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from Country where idCountry = :cname";
 			List<Country> country = connection.createQuery(query)
 					.addParameter("cname", cname)
@@ -44,7 +44,7 @@ public class DAOCountry {
 	public static boolean insertCountry(Country country) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into Country(name) values(:name)";
 			connection.createQuery(query)
 					.addParameter("name", country.getName())
@@ -61,7 +61,7 @@ public class DAOCountry {
 	
 	public static boolean deleteCountry(long country) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from Country where country.idCountry = :id";
 			connection.createQuery(query)
 					.addParameter("id", country)
@@ -78,7 +78,7 @@ public class DAOCountry {
 
 	public static boolean updateCountry(Country country) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="update Country set name = :name where country.idCountry = :id";
 			connection.createQuery(query)
 					.addParameter("name", country.getName())

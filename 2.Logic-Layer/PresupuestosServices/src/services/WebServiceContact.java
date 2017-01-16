@@ -11,7 +11,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import org.json.JSONObject;
-import dao.ConectionData;
+import dao.ConnectionData;
 import logic.LogicContact;
 import logic.LogicLoginAuthent;
 import vo.Contact;
@@ -29,7 +29,7 @@ public class WebServiceContact {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nLISTAR CONTACTOS");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject contacts = new JSONObject();
@@ -38,17 +38,17 @@ public class WebServiceContact {
 			contacts = LogicLoginAuthent.valLogin(request.getRemoteAddr(), contacts);
 			if (contacts.getString("validate").equals("true")) {
 				contacts = LogicContact.getContactsJSON();
-				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando contacts\n");
-				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject contacts = new JSONObject();
 			contacts.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -67,7 +67,7 @@ public class WebServiceContact {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nCREAR CONTACTOS");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject contacts = new JSONObject();
@@ -77,25 +77,25 @@ public class WebServiceContact {
 			if (contacts.getString("validate").equals("true")) {
 				if (idClient.equals("null")) {
 					Contact contact = new Contact(0, name, email, phoneNumber, Long.parseLong(idProvider), 0);
-					return Response.ok(LogicContact.createContact(contact).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+					return Response.ok(LogicContact.createContact(contact).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 				}				
 				if (idProvider.equals("null")) {
 					Contact contact = new Contact(0, name, email, phoneNumber, 0,Long.parseLong(idClient));
-					return Response.ok(LogicContact.createContact(contact).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+					return Response.ok(LogicContact.createContact(contact).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 				}
 				contacts.put("create", "false");
 				contacts.put("status", "id provedor o id cliente erroneos");
-				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando contacts\n");
-				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject contacts = new JSONObject();
 			contacts.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -115,7 +115,7 @@ public class WebServiceContact {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nACTUALIZAR CONTACTOS");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject contacts = new JSONObject();
@@ -125,25 +125,25 @@ public class WebServiceContact {
 			if (contacts.getString("validate").equals("true")) {
 				if (idClient.equals("null")) {
 					Contact contact = new Contact(Long.parseLong(idContact), name, email, phoneNumber, Long.parseLong(idProvider), 0);
-					return Response.ok(LogicContact.updateContact(contact).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+					return Response.ok(LogicContact.updateContact(contact).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 				}				
 				if (idProvider.equals("null")) {
 					Contact contact = new Contact(Long.parseLong(idContact), name, email, phoneNumber, 0,Long.parseLong(idClient));
-					return Response.ok(LogicContact.updateContact(contact).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+					return Response.ok(LogicContact.updateContact(contact).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 				}
 				contacts.put("update", "false");
 				contacts.put("status", "id provedor o id cliente erroneos");
-				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando contacts\n");
-				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject contacts = new JSONObject();
 			contacts.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -158,7 +158,7 @@ public class WebServiceContact {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nBORRAR CONTACTOS");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject contacts = new JSONObject();
@@ -166,17 +166,17 @@ public class WebServiceContact {
 			contacts.put("logincode", logincode);	
 			contacts = LogicLoginAuthent.valLogin(request.getRemoteAddr(), contacts);
 			if (contacts.getString("validate").equals("true")) {
-				return Response.ok(LogicContact.deleteContact(Long.parseLong(idContact)).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(LogicContact.deleteContact(Long.parseLong(idContact)).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando contacts\n");
-				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject contacts = new JSONObject();
 			contacts.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(contacts.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 }

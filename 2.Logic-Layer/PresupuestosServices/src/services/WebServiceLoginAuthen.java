@@ -13,7 +13,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
-import dao.ConectionData;
+import dao.ConnectionData;
 import logic.LogicLoginAuthent;
 
 @Path("/AppLoginAuthentication")
@@ -30,16 +30,16 @@ public class WebServiceLoginAuthen {
 		System.out.print("\tAttempt to log in from : "+referer);
 		System.out.println("\nUser "+user+ " pass "+pass);
 		
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject account = new JSONObject();
 			account.put("user", user);
 			account.put("pass", pass);
-			return Response.ok(LogicLoginAuthent.login(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+			return Response.ok(LogicLoginAuthent.login(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 		}else{
 			System.out.println(", Access denied\n");
-			return Response.ok().header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok().header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}	
 	}
 	
@@ -53,7 +53,7 @@ public class WebServiceLoginAuthen {
 		System.out.println("\nVALIDACION USUARIO");
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject account = new JSONObject();
@@ -64,10 +64,10 @@ public class WebServiceLoginAuthen {
 			System.out.println(logincode);
 			System.out.println(username);
 			
-			return Response.ok(LogicLoginAuthent.valLogin(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+			return Response.ok(LogicLoginAuthent.valLogin(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 		}else{
 			System.out.println(", Access denied\n");
-			return Response.ok().header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok().header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -81,16 +81,16 @@ public class WebServiceLoginAuthen {
 		System.out.println("\nLOG OUT USUARIO");
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to log out from : "+referer);
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject account = new JSONObject();
 			account.put("username", user);
 			account.put("logincode", loginCode);
-			return Response.ok(LogicLoginAuthent.logOut(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+			return Response.ok(LogicLoginAuthent.logOut(request.getRemoteAddr(), account).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 		}else{
 			System.out.println(", Access denied\n");
-			return Response.ok().header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok().header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 }

@@ -11,7 +11,7 @@ public class DAOProject {
 
 	public static List<Project> getProjects(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from Project where active = 1";
 			List<Project> projects = connection.createQuery(query)
 			        		 .executeAndFetch(Project.class);

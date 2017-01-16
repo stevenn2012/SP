@@ -11,7 +11,7 @@ public class DAOBudget {
 	
 	public static List<Budget> getBudget(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from Budget";
 			List<Budget> budget = connection.createQuery(query)
 			        		 .executeAndFetch(Budget.class);
@@ -24,7 +24,7 @@ public class DAOBudget {
 	
 	public static Budget getBudgetById(long idBudget) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from Budget where idBudget = :id";
 			List<Budget> budget = connection.createQuery(query)
 					.addParameter("id", idBudget)
@@ -44,7 +44,7 @@ public class DAOBudget {
 	public static boolean insertBudget(Budget budget) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into Budget(observations, date, commercialTerms, bruteTotal, IVA, months, activityTotal, idProject) values(:observations, :date, :commercialTerms, :bruteTotal, :IVA, :months, :activityTotal, :idProject)";
 			connection.createQuery(query)
 					.addParameter("observations",budget.getObservations())
@@ -68,7 +68,7 @@ public class DAOBudget {
 	
 	public static boolean deleteBudget(long idBudget) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from Budget where budget.idBudget = :id";
 			connection.createQuery(query)
 					.addParameter("id", idBudget)
@@ -85,7 +85,7 @@ public class DAOBudget {
 
 	public static boolean updateBudget(Budget budget) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="update Budget set observations = :observations, date = :date, commercialTerms = :commercialTerms, bruteTotal = :bruteTotal, IVA = :IVA, months = :months, activityTotal = :activityTotal, idProject = :idProject  where budget.idBudget = :id";
 			connection.createQuery(query)
 					.addParameter("id",  budget.getIdBudget())

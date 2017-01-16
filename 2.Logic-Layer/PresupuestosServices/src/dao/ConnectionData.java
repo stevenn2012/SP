@@ -1,6 +1,6 @@
 package dao;
 
-public class ConectionData {
+public class ConnectionData {
 
 	private static String dataBase = "jdbc:mysql://localhost:3306/SPDB";
 	//private static String dataBase = "jdbc:mysql://www.santapublicidad.com:3306/santa8zy_spdb";

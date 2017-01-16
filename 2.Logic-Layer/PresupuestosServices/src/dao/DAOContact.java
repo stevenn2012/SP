@@ -11,7 +11,7 @@ public class DAOContact {
 
 	public static List<Contact> getContact(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from Contact";
 			List<Contact> contact = connection.createQuery(query)
 			        		 .executeAndFetch(Contact.class);
@@ -24,7 +24,7 @@ public class DAOContact {
 	
 	public static Contact getContactById(long idContact) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from Contact where idContact = :id";
 			List<Contact> contact = connection.createQuery(query)
 					.addParameter("id", idContact)
@@ -44,7 +44,7 @@ public class DAOContact {
 	public static boolean insertContact(Contact contact) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			if (contact.getIdProvider()==0) {
 				String query="insert into Contact(name,email,phoneNumber,idClient) values(:name, :email, :phonenumber, :idclient)";
 				connection.createQuery(query)
@@ -79,7 +79,7 @@ public class DAOContact {
 	
 	public static boolean deleteContact(long idContact) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from Contact where contact.idContact = :id";
 			connection.createQuery(query)
 					.addParameter("id", idContact)
@@ -96,7 +96,7 @@ public class DAOContact {
 
 	public static boolean updateContact(Contact contact) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			if (contact.getIdClient()==0) {
 				String query="update Contact set name = :name, email = :email, phoneNumber = :phonenumber, idProvider = :idprovider where contact.idContact = :id";
 				connection.createQuery(query)

@@ -11,7 +11,7 @@ public class DAOBudgetPS {
 	
 	public static List<BudgetPS> getBudgetPS(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from BudgetPS";
 			List<BudgetPS> budgetPS = connection.createQuery(query)
 			        		 .executeAndFetch(BudgetPS.class);
@@ -24,7 +24,7 @@ public class DAOBudgetPS {
 	
 	public static BudgetPS getBudgetPSById(long idBudgetPS) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from BudgetPS where idBudgetPS = :id";
 			List<BudgetPS> budgetPS = connection.createQuery(query)
 					.addParameter("id", idBudgetPS)
@@ -44,7 +44,7 @@ public class DAOBudgetPS {
 	public static boolean insertBudgetPS(BudgetPS budgetPS) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into BudgetPS(margin, amount, days, unitValue, idProductService, idBudget) values(:margin, :amount, :days, :unitValue, :idProductService, :idBudget)";
 			connection.createQuery(query)
 					.addParameter("margin",budgetPS.getMargin())
@@ -66,7 +66,7 @@ public class DAOBudgetPS {
 	
 	public static boolean deleteBudgetPS(long idBudgetPS) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from BudgetPS where budgetps.idBudgetPS = :id";
 			connection.createQuery(query)
 					.addParameter("id", idBudgetPS)
@@ -83,7 +83,7 @@ public class DAOBudgetPS {
 
 	public static boolean updateBudgetPS(BudgetPS budgetPS) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="update BudgetPS set margin = :margin, amount = :amount, days = :days, unitValue = :unitValue, idProductService = :idProductService, idBudget = :idBudget  where budgetps.idBudgetPS = :id";
 			connection.createQuery(query)
 					.addParameter("id",  budgetPS.getIdBudgetPS())

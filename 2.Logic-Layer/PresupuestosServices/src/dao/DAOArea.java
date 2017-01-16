@@ -9,7 +9,7 @@ public class DAOArea {
 	
 	public static List<Area> getAreas(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from Area";
 			List<Area> areas = connection.createQuery(query)
 			        		 .executeAndFetch(Area.class);
@@ -22,7 +22,7 @@ public class DAOArea {
 	
 	public static Area getAreaByIdArea(long areaId) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from Area where idArea = :idArea";
 			List<Area> area = connection.createQuery(query)
 					.addParameter("idArea", areaId)
@@ -41,7 +41,7 @@ public class DAOArea {
 	
 	public static boolean insertArea(String name) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into Area(name) values(:name)";
 			connection.createQuery(query)
 					.addParameter("name", name)
@@ -58,7 +58,7 @@ public class DAOArea {
 	
 	public static boolean deleteArea(long idArea) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from Area where area.idArea = :id";
 			connection.createQuery(query)
 					.addParameter("id", idArea)
@@ -75,7 +75,7 @@ public class DAOArea {
 
 	public static boolean updateArea(Area area) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="update Area set name = :name where area.idArea = :id";
 			connection.createQuery(query)
 					.addParameter("id",  area.getIdArea())

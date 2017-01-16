@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
-import dao.ConectionData;
+import dao.ConnectionData;
 import logic.LogicLoginAuthent;
 import logic.LogicRoll;
 
@@ -33,7 +33,7 @@ public class WebServiceRoll {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.print("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nLISTAR ROLES");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject roles = new JSONObject();
@@ -42,17 +42,17 @@ public class WebServiceRoll {
 			roles = LogicLoginAuthent.valLogin(request.getRemoteAddr(), roles);
 			if (roles.getString("validate").equals("true")) {
 				roles = LogicRoll.getRolesJSON();
-				return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando Roles\n");
-				return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject roles = new JSONObject();
 			roles.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(roles.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 }

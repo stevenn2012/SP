@@ -11,7 +11,7 @@ public class DAOCity {
 	
 	public static List<City> getCities(){
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from City";
 			List<City> ciudades = connection.createQuery(query)
 			        		 .executeAndFetch(City.class);
@@ -24,7 +24,7 @@ public class DAOCity {
 	
 	public static City getCityById(long cname) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).open()){
 			String query="select * from City where idCity = :cname";
 			List<City> city = connection.createQuery(query)
 					.addParameter("cname", cname)
@@ -44,7 +44,7 @@ public class DAOCity {
 	public static boolean insertCity(City city) {
 		initDriver();
 		
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="insert into City(name, idCountry) values(:name, :idc)";
 			connection.createQuery(query)
 					.addParameter("name",city.getName())
@@ -62,7 +62,7 @@ public class DAOCity {
 	
 	public static boolean deleteCity(long idCity) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="delete from City where city.idCity = :id";
 			connection.createQuery(query)
 					.addParameter("id", idCity)
@@ -79,7 +79,7 @@ public class DAOCity {
 
 	public static boolean updateCity(City city) {
 		initDriver();
-		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
 			String query="update City set name = :name, idCountry = :idc where city.idCity = :id";
 			connection.createQuery(query)
 					.addParameter("name",city.getName())

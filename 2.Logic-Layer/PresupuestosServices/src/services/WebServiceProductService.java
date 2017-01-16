@@ -13,7 +13,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import org.json.JSONObject;
-import dao.ConectionData;
+import dao.ConnectionData;
 import logic.LogicProductService;
 import logic.LogicLoginAuthent;
 import vo.ProductService;
@@ -32,7 +32,7 @@ public class WebServiceProductService {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nLISTAR PRODUCTSERVICE");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject productservices = new JSONObject();
@@ -41,17 +41,17 @@ public class WebServiceProductService {
 			productservices = LogicLoginAuthent.valLogin(request.getRemoteAddr(), productservices);
 			if (productservices.getString("validate").equals("true")) {
 				productservices = LogicProductService.getProductServicesJSON();
-				return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando productservices\n");
-				return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject productservices = new JSONObject();
 			productservices.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -69,7 +69,7 @@ public class WebServiceProductService {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nCREAR PRODUCTOSERVICIO");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject productservices = new JSONObject();
@@ -78,17 +78,17 @@ public class WebServiceProductService {
 			productservices = LogicLoginAuthent.valLogin(request.getRemoteAddr(), productservices);
 			if (productservices.getString("validate").equals("true")) {			
 				ProductService productservice = new ProductService(0, name, description, new BigDecimal(price), Long.parseLong(idProvider));
-				return Response.ok(LogicProductService.createProductService(productservice).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(LogicProductService.createProductService(productservice).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando productservices\n");
-				return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject productservices = new JSONObject();
 			productservices.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -107,7 +107,7 @@ public class WebServiceProductService {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nACTUALIZAR PRODUCTOSERVICIO");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject productservices = new JSONObject();
@@ -116,17 +116,17 @@ public class WebServiceProductService {
 			productservices = LogicLoginAuthent.valLogin(request.getRemoteAddr(), productservices);
 			if (productservices.getString("validate").equals("true")) {			
 				ProductService productservice = new ProductService(Long.parseLong(idProductService), name, description, new BigDecimal(price), Long.parseLong(idProvider));
-				return Response.ok(LogicProductService.updateProductService(productservice).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(LogicProductService.updateProductService(productservice).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando productservices\n");
-				return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject productservices = new JSONObject();
 			productservices.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 	
@@ -141,7 +141,7 @@ public class WebServiceProductService {
 		System.out.println(new Date()+":\n\tRemote Address: "+request.getRemoteAddr()+", Local Address: "+request.getLocalAddr());
 		System.out.println("\tAttempt to validate log in from : "+referer);
 		System.out.print("\nBORRAR PRODUCTOSERVICIO");
-		int verifyAccess = ConectionData.verifyAccess(referer);
+		int verifyAccess = ConnectionData.verifyAccess(referer);
 		if( verifyAccess != -1){
 			System.out.println(", Access granted");  
 			JSONObject productservices = new JSONObject();
@@ -149,17 +149,17 @@ public class WebServiceProductService {
 			productservices.put("logincode", logincode);	
 			productservices = LogicLoginAuthent.valLogin(request.getRemoteAddr(), productservices);
 			if (productservices.getString("validate").equals("true")) {			
-				return Response.ok(LogicProductService.deleteProductService(Long.parseLong(idProductService)).toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(LogicProductService.deleteProductService(Long.parseLong(idProductService)).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.println(", Error cargando productservices\n");
-				return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+				return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 			}
 			
 		}else{
 			JSONObject productservices = new JSONObject();
 			productservices.put("validate", "false");
 			System.out.println(", Access denied\n");
-			return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConectionData.getUrlAccess()[0]).build();
+			return Response.ok(productservices.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();
 		}
     }
 }
