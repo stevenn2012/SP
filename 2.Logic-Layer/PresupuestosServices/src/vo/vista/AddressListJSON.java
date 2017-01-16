@@ -5,13 +5,22 @@ public class AddressListJSON {
 	private String direccion;
 	private String ciudad;
 	private String pais;
+	private long idClient;
 	
-	public AddressListJSON(long idAddress, String direccion, String ciudad, String pais) {
-		super();
+	public AddressListJSON() {}
+	public AddressListJSON(long idAddress, long idClient, String direccion, String ciudad, String pais) {
 		this.idAddress = idAddress;
 		this.direccion = direccion;
 		this.ciudad = ciudad;
 		this.pais = pais;
+		this.idClient = idClient;
+	}
+	
+	public long getIdClient() {
+		return idClient;
+	}
+	public void setIdClient(long idClient) {
+		this.idClient = idClient;
 	}
 	public long getIdAddress() {
 		return idAddress;
@@ -39,6 +48,8 @@ public class AddressListJSON {
 	}
 	@Override
 	public String toString() {
-		return "AddressListJSON [direccion=" + direccion + ", ciudad=" + ciudad + ", pais=" + pais + "]";
+		return "AddressListJSON [idAddress=" + idAddress + ", direccion=" + direccion + ", ciudad=" + ciudad + ", pais="
+				+ pais + ", idClient=" + idClient + "]";
 	}
+
 }
