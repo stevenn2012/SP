@@ -3,8 +3,6 @@ package dao;
 import java.util.List;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-
-import vo.Area;
 import vo.Area;
 
 public class DAOArea {

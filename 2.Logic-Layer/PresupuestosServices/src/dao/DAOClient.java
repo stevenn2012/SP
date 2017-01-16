@@ -41,6 +41,25 @@ public class DAOClient {
 		}
 	}
 	
+	public static Client getClientByNIT(String nit) {
+		initDriver();
+		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
+			String query="select * from client where client.NIT = :nit";
+			List<Client> client = connection.createQuery(query)
+					.addParameter("nit", nit)
+			        .executeAndFetch(Client.class);
+			return client.get(0);
+		} catch (Exception e) {
+			if((e+"").equalsIgnoreCase("java.lang.IndexOutOfBoundsException: Index: 0, Size: 0")){
+				System.out.println(" -> The client was not found");
+			}else{
+				System.out.println(" -> Error DAOClient getClientByNIT");
+				System.out.println(e);
+			}
+			return null;
+		}
+	}
+	
 	public static boolean insertClient(Client client) {
 		initDriver();
 		

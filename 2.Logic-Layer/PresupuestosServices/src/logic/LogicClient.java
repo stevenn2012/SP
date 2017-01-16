@@ -117,20 +117,67 @@ public class LogicClient {
 		}else{
 			obj.put("list", "false");
 			obj.put("validate", "true");
-			obj.put("status", "error al listar los proveedores. Error en base de datos");
+			obj.put("status", "error al listar los Clientes. Error en base de datos");
 			return obj;
 		}
 			
 	}
 
 	public static JSONObject insertClient(Client client) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject obj = new JSONObject();
+		List<Client> clientes = DAOClient.getClient();
+		if (clientes!=null) {
+			for (int i = 0; i < clientes.size(); i++) {
+				if (clientes.get(i).getNIT().toLowerCase().equals(client.getNIT().toLowerCase())) {
+					obj.put("insert", "false");
+					obj.put("validate", "true");
+					obj.put("status", "Error al insertar. Ya existe un cliente con el nit "+client.getNIT());
+					return obj;
+				}
+			}
+		}else{
+			obj.put("insert", "false");
+			obj.put("validate", "true");
+			obj.put("status", "Error al insertar el cliente en la base de datos.");
+			return obj;
+		}
+		
+		if (DAOClient.insertClient(client)) {
+			Client c = DAOClient.getClientByNIT(client.getNIT());
+			if (c!=null) {
+				obj.put("insert", "true");
+				obj.put("validate", "true");
+				obj.put("idClient", c.getIdClient());
+				obj.put("status", "Se insertó correctamente.");
+				return obj;
+			}else{
+				obj.put("insert", "true");
+				obj.put("validate", "true");
+				obj.put("status", "Se insertó correctamente. Error al obtener el id del cliente.");
+				return obj;
+			}
+		}else{
+			obj.put("insert", "false");
+			obj.put("validate", "true");
+			obj.put("status", "Error al insertar el cliente en la base de datos.");
+			return obj;
+		}
+		
 	}
 
 	public static JSONObject updateClient(Client client) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject obj = new JSONObject();
+		if (DAOClient.updateClient(client)) {
+			obj.put("update", "true");
+			obj.put("validate", "true");
+			obj.put("status", "Cliente actualizado correctamente.");
+			return obj;
+		}else{
+			obj.put("update", "false");
+			obj.put("validate", "true");
+			obj.put("status", "Error actualizar el cliente en la base de datos.");
+			return obj;
+		}
 	}
 
 	public static JSONObject deleteClient(String idClient) {
