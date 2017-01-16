@@ -12,7 +12,7 @@ public class DAOAddress {
 	public static List<Address> getAddress(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from address";
+			String query="select * from Address";
 			List<Address> address = connection.createQuery(query)
 			        		 .executeAndFetch(Address.class);
 			return address;
@@ -25,7 +25,7 @@ public class DAOAddress {
 	public static Address getAddressById(long idAddress) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from address where idAddress = :id";
+			String query="select * from Address where idAddress = :id";
 			List<Address> address = connection.createQuery(query)
 					.addParameter("id", idAddress)
 			        .executeAndFetch(Address.class);
@@ -45,7 +45,7 @@ public class DAOAddress {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			if (address.getIdProvider()==0) {
-				String query="insert into address(address, idCity, idClient) values(:address, :idcy, :idct)";
+				String query="insert into Address(address, idCity, idClient) values(:address, :idcy, :idct)";
 				connection.createQuery(query)
 						.addParameter("address",address.getAddress())
 						.addParameter("idcy", address.getIdCity())
@@ -54,7 +54,7 @@ public class DAOAddress {
 				connection.commit();
 				return true;
 			}else if(address.getIdClient()==0){
-				String query="insert into address(address, idProvider, idCity) values(:address, :idP, :idcy)";
+				String query="insert into Address(address, idProvider, idCity) values(:address, :idP, :idcy)";
 				connection.createQuery(query)
 						.addParameter("address",address.getAddress())
 						.addParameter("idP", address.getIdProvider())
@@ -77,7 +77,7 @@ public class DAOAddress {
 	public static boolean deleteAddress(long idAddress) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from address where address.idAddress = :id";
+			String query="delete from Address where address.idAddress = :id";
 			connection.createQuery(query)
 					.addParameter("id", idAddress)
 					.executeUpdate();
@@ -95,7 +95,7 @@ public class DAOAddress {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
 			if (address.getIdProvider()==0){
-				String query="update address set address = :address, idCity = :idcy, idClient = :idc where address.idAddress = :id";
+				String query="update Address set address = :address, idCity = :idcy, idClient = :idc where address.idAddress = :id";
 				connection.createQuery(query)
 						.addParameter("id",  address.getIdAddress())
 						.addParameter("address",address.getAddress())
@@ -105,7 +105,7 @@ public class DAOAddress {
 				connection.commit();
 				return true;
 			}else  if(address.getIdClient()==0){
-				String query="update address set address = :address, idProvider = :idp, idCity = :idcy where address.idAddress = :id";
+				String query="update Address set address = :address, idProvider = :idp, idCity = :idcy where address.idAddress = :id";
 				connection.createQuery(query)
 						.addParameter("id",  address.getIdAddress())
 						.addParameter("address",address.getAddress())

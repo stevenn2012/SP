@@ -3,8 +3,11 @@ package dao;
 public class ConectionData {
 
 	private static String dataBase = "jdbc:mysql://localhost:3306/SPDB";
+	//private static String dataBase = "jdbc:mysql://www.santapublicidad.com:3306/santa8zy_spdb";
 	private static String dataBaseUser = "root";
+	//private static String dataBaseUser = "santa8zy_appspdb";
 	private static String dataBasePass = "";
+	//private static String dataBasePass = "rC(RikRG#C$2";
 	private static String[] urlAccess = {"http://localhost"};
 	
 	

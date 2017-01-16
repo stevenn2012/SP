@@ -13,7 +13,7 @@ public class DAORoll {
 	public static List<Roll> getRoll(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from role";
+			String query="select * from Role";
 			List<Roll> role = connection.createQuery(query)
 			        		 .executeAndFetch(Roll.class);
 			return role;
@@ -38,7 +38,7 @@ public class DAORoll {
 				throw new IllegalArgumentException("Roll Incorrecto");
 			}
 			
-			String query="select * from role where idRole = :idroll";
+			String query="select * from Role where idRole = :idroll";
 			List<Roll> role = connection.createQuery(query)
 					.addParameter("idroll", idrole)
 			        .executeAndFetch(Roll.class);

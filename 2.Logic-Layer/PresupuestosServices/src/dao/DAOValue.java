@@ -12,7 +12,7 @@ public class DAOValue {
 	public static List<Value> getCities(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from value";
+			String query="select * from Value";
 			List<Value> ciudades = connection.createQuery(query)
 			        		 .executeAndFetch(Value.class);
 			return ciudades;
@@ -25,7 +25,7 @@ public class DAOValue {
 	public static Value getValueById(long cname) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from value where idValue = :cname";
+			String query="select * from Value where idValue = :cname";
 			List<Value> valueV = connection.createQuery(query)
 					.addParameter("cname", cname)
 			        .executeAndFetch(Value.class);
@@ -45,7 +45,7 @@ public class DAOValue {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="insert into value(name, value) values(:name, :value)";
+			String query="insert into Value(name, value) values(:name, :value)";
 			connection.createQuery(query)
 					.addParameter("name",valueV.getName())
 					.addParameter("value", valueV.getValue())
@@ -63,7 +63,7 @@ public class DAOValue {
 	public static boolean deleteValue(long idValue) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from value where value.idValue = :id";
+			String query="delete from Value where value.idValue = :id";
 			connection.createQuery(query)
 					.addParameter("id", idValue)
 					.executeUpdate();
@@ -80,7 +80,7 @@ public class DAOValue {
 	public static boolean updateValue(Value valueV) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="update value set name = :name, value = :value where value.idValue = :id";
+			String query="update Value set name = :name, value = :value where value.idValue = :id";
 			connection.createQuery(query)
 					.addParameter("id",  valueV.getIdValue())
 					.addParameter("name",valueV.getName())

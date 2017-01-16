@@ -12,7 +12,7 @@ public class DAOProvider {
 	public static List<Provider> getProvider(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from provider where active = 1";
+			String query="select * from Provider where active = 1";
 			List<Provider> provider = connection.createQuery(query)
 			        		 .executeAndFetch(Provider.class);
 			return provider;
@@ -25,7 +25,7 @@ public class DAOProvider {
 	public static Provider getProviderById(long idProvider) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from provider where idProvider = :id";
+			String query="select * from Provider where idProvider = :id";
 			List<Provider> provider = connection.createQuery(query)
 					.addParameter("id", idProvider)
 			        .executeAndFetch(Provider.class);
@@ -45,7 +45,7 @@ public class DAOProvider {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="insert into provider(NIT, name, description,DV, active) values(:nit, :name, :desc, :dv,:active)";
+			String query="insert into Provider(NIT, name, description,DV, active) values(:nit, :name, :desc, :dv,:active)";
 			connection.createQuery(query)
 					.addParameter("nit",provider.getNIT())
 					.addParameter("name", provider.getName())
@@ -66,7 +66,7 @@ public class DAOProvider {
 	public static boolean deleteProvider(long idProvider) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from provider where provider.idProvider = :id";
+			String query="delete from Provider where provider.idProvider = :id";
 			connection.createQuery(query)
 					.addParameter("id", idProvider)
 					.executeUpdate();
@@ -83,7 +83,7 @@ public class DAOProvider {
 	public static boolean updateProvider(Provider provider) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="update provider set NIT = :nit, name = :name, description = :desc, DV = :dv, active = :active where provider.idProvider = :id";
+			String query="update Provider set NIT = :nit, name = :name, description = :desc, DV = :dv, active = :active where provider.idProvider = :id";
 			connection.createQuery(query)
 					.addParameter("id",  provider.getIdProvider())
 					.addParameter("nit", provider.getNIT())

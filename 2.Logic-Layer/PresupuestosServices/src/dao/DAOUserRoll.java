@@ -12,7 +12,7 @@ public class DAOUserRoll {
 	public static List<UserRoll> getUserRoll(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from user_role";
+			String query="select * from User_Role";
 			List<UserRoll> usersrolls = connection.createQuery(query)
 			        		 .executeAndFetch(UserRoll.class);
 			return usersrolls;
@@ -26,7 +26,7 @@ public class DAOUserRoll {
 		initDriver();
 		
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="insert into user_role(idUser, idRole) values(:idUser, :idRol)";
+			String query="insert into User_Role(idUser, idRole) values(:idUser, :idRol)";
 			connection.createQuery(query)
 					.addParameter("idUser",idUser)
 					.addParameter("idRol", rol)
@@ -44,7 +44,7 @@ public class DAOUserRoll {
 	public static boolean deleteUserRoll(long idUsuario) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from user_role where user_role.idUser = :idUser";
+			String query="delete from User_Role where user_role.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idUser", idUsuario)
 					.executeUpdate();
@@ -61,7 +61,7 @@ public class DAOUserRoll {
 	public static boolean updateUserRoll(UserRoll userrol) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="update user_role set idRole = :idRol where user_role.idUser = :idUser";
+			String query="update User_Role set idRole = :idRol where user_role.idUser = :idUser";
 			connection.createQuery(query)
 					.addParameter("idRol", userrol.getIdRole())
 					.addParameter("idUser", userrol.getIdUser())

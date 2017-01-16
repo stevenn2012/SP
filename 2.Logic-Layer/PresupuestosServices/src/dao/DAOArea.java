@@ -10,7 +10,7 @@ public class DAOArea {
 	public static List<Area> getAreas(){
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from area";
+			String query="select * from Area";
 			List<Area> areas = connection.createQuery(query)
 			        		 .executeAndFetch(Area.class);
 			return areas;
@@ -23,7 +23,7 @@ public class DAOArea {
 	public static Area getAreaByIdArea(long areaId) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).open()){
-			String query="select * from area where idArea = :idArea";
+			String query="select * from Area where idArea = :idArea";
 			List<Area> area = connection.createQuery(query)
 					.addParameter("idArea", areaId)
 			        .executeAndFetch(Area.class);
@@ -59,7 +59,7 @@ public class DAOArea {
 	public static boolean deleteArea(long idArea) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="delete from area where area.idArea = :id";
+			String query="delete from Area where area.idArea = :id";
 			connection.createQuery(query)
 					.addParameter("id", idArea)
 					.executeUpdate();
@@ -76,7 +76,7 @@ public class DAOArea {
 	public static boolean updateArea(Area area) {
 		initDriver();
 		try (Connection connection = new Sql2o(ConectionData.getDataBase(),ConectionData.getDataBaseUser(),ConectionData.getDataBasePass()).beginTransaction()){
-			String query="update area set name = :name where area.idArea = :id";
+			String query="update Area set name = :name where area.idArea = :id";
 			connection.createQuery(query)
 					.addParameter("id",  area.getIdArea())
 					.addParameter("name",area.getName())

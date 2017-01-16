@@ -21,11 +21,16 @@ public class TestSP {
 
 	@Test
 	public void testTextValidation() {
-		assertEquals("bogota", TextValidation.cambiarTildes("Bogot√°"));
+		assertEquals("bogota", TextValidation.cambiarTildes("Bogot·"));
 	}
 	
 	@Test
 	public void testPasswordpara1234() {
 		assertEquals("81dc9bdb52d04dc20036dbd8313ed055",MD5Encryption.getMD5("1234") );
+	}
+	
+	@Test
+	public void testPasswordparaAbcd() {
+		assertEquals("08e4fd9c30d6a2c12865399588d79091",MD5Encryption.getMD5("AbcD@1234:") );
 	}
 }
