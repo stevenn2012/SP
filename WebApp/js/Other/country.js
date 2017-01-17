@@ -32,7 +32,7 @@ function listCountrys() {
 		  	data+='</tr>';
 		}
 	};
-	if(data == ""){ $('#msfind').html("No se encontraron areas");
+	if(data == ""){ $('#msfind').html("No se encontraron paises");
 	}else{ $('#msfind').html("");}
 	content += data+'</table>';
 	$('#lista').html(content);

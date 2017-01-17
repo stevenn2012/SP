@@ -54,4 +54,7 @@ var listProductServiceService = page+'/WebServicesPresupuestos/AppProductService
 var editProductServiceService = page+'/WebServicesPresupuestos/AppProductServiceCRUD/update';
 var deleteProductServiceService = page+'/WebServicesPresupuestos/AppProductServiceCRUD/delete';
 //CRUD de clientes
-var clientList = page+"/WebServicesPresupuestos/"; //falta
+var createclientService = page+"/WebServicesPresupuestos/AppClientCRUD/create";
+var listClientService = page+"/WebServicesPresupuestos/AppClientCRUD/list";
+var editClientService = page+"/WebServicesPresupuestos/AppClientCRUD/update";
+var deleteClientService = page+"/WebServicesPresupuestos/AppClientCRUD/delete";
