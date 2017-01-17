@@ -206,7 +206,7 @@ public class LogicUsers {
 				if (DAOUser.updateUserNoGerencia(usuario)) {
 					obj.put("update", "true");
 					obj.put("validate", "true");
-					obj.put("status", "Usuario actualizado");
+					obj.put("status", "Usuario actualizado a campos limitados por rol");
 					return obj;
 				}else{
 					obj.put("update", "false");

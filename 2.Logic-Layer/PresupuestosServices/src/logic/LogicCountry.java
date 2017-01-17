@@ -75,20 +75,17 @@ public class LogicCountry {
 				if (ciudades.get(i).getIdCountry()==Long.parseLong(idCountry)) {
 					for (int j = 0; j < direcciones.size(); j++) {
 						if (direcciones.get(j).getIdCity()==ciudades.get(i).getIdCity()) {
-							if (!DAOAddress.deleteAddress(direcciones.get(j).getIdAddress())) {
-								obj.put("validate", "true");
-								obj.put("delete", "false");
-								obj.put("status", "Error al borrar direccion dentro del pais. Error al acceder a la base de datos");
-								return obj;
-							}
+							obj.put("validate", "true");
+							obj.put("delete", "false");
+							obj.put("status", "No se puede borrar el pais. Hay direcciones asociadas.");
+							return obj;
 						}
 					}
-					if (!DAOCity.deleteCity(ciudades.get(i).getIdCity())) {
-						obj.put("validate", "true");
-						obj.put("delete", "false");
-						obj.put("status", "Error al borrar ciudad dentro del pais. Error al acceder a la base de datos");
-						return obj;
-					}	
+					obj.put("validate", "true");
+					obj.put("delete", "false");
+					obj.put("status", "No se puede borrar el pais. Hay ciudades asociadas.");
+					return obj;
+			
 				}
 			}
 			if (DAOCountry.deleteCountry(Long.parseLong(idCountry))) {
@@ -110,7 +107,7 @@ public class LogicCountry {
 		}
 	}
 
-	public static JSONObject updateCountry(Country country, long parseLong) {
+	public static JSONObject updateCountry(Country country) {
 		JSONObject obj = new JSONObject();
 		if (DAOCountry.updateCountry(country)) {
 			obj.put("validate", "true");

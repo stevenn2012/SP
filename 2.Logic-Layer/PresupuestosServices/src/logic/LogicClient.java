@@ -9,12 +9,14 @@ import dao.DAOCity;
 import dao.DAOClient;
 import dao.DAOContact;
 import dao.DAOCountry;
+import dao.DAOProject;
 import vo.Address;
 import vo.Budget;
 import vo.City;
 import vo.Client;
 import vo.Contact;
 import vo.Country;
+import vo.Project;
 import vo.vista.AddressListJSON;
 import vo.vista.ClientListJSON;
 
@@ -25,13 +27,12 @@ public class LogicClient {
 		List<Client>		 clientes     = DAOClient.getClient();
 		List<Address>		 direcciones  = DAOAddress.getAddress();
 		List<Contact> 		 contactos    = DAOContact.getContact();
-		List<Budget>         presupuestos = DAOBudget.getBudget();
 		List<City>           ciudades     = DAOCity.getCities();
 		List<Country>        paises       = DAOCountry.getCountry();
 		List<ClientListJSON> clienteVista = new ArrayList<>();
 		List<AddressListJSON>addressVista = new ArrayList<>();
 		
-		if (clientes!=null && direcciones !=null && contactos!=null && presupuestos!=null && paises!=null && ciudades!=null) {
+		if (clientes!=null && direcciones !=null && contactos!=null && paises!=null && ciudades!=null) {
 			
 			//Cargar clientes en los clientes que se envian a la vista
 			for (int i = 0; i < clientes.size(); i++) {
@@ -117,12 +118,12 @@ public class LogicClient {
 				obj.put("insert", "true");
 				obj.put("validate", "true");
 				obj.put("idClient", c.getIdClient());
-				obj.put("status", "Se insertó correctamente.");
+				obj.put("status", "Se insertÃ³ correctamente.");
 				return obj;
 			}else{
 				obj.put("insert", "true");
 				obj.put("validate", "true");
-				obj.put("status", "Se insertó correctamente. Error al obtener el id del cliente.");
+				obj.put("status", "Se insertÃ³ correctamente. Error al obtener el id del cliente.");
 				return obj;
 			}
 		}else{
@@ -150,8 +151,42 @@ public class LogicClient {
 	}
 
 	public static JSONObject deleteClient(String idClient) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject obj = new JSONObject();
+		Client        cliente   = DAOClient.getClientById(Long.parseLong(idClient));
+		List<Project> proyectos = DAOProject.getProjects();
+		if (cliente!= null && proyectos != null) {
+			for (int i = 0; i < proyectos.size(); i++) {
+				if (proyectos.get(i).getIdClient()==cliente.getIdClient()) {
+					if (DAOClient.updateClientActive(idClient)) {
+						obj.put("delete", "true");
+						obj.put("validate", "true");
+						obj.put("status", "Cliente tiene Proyectos asociados. Cambio de estado activo = false.");
+						return obj;
+					}else{
+						obj.put("delete", "false");
+						obj.put("validate", "true");
+						obj.put("status", "Error de conexión. Intentar nuevamente.");
+						return obj;
+					}
+				}
+			}
+			if (DAOClient.deleteClient(Long.parseLong(idClient))) {
+				obj.put("delete", "true");
+				obj.put("validate", "true");
+				obj.put("status", "Cliente borrado correctamente.");
+				return obj;
+			}else{
+				obj.put("delete", "false");
+				obj.put("validate", "true");
+				obj.put("status", "Error de conexión en la base de datos.");
+				return obj;
+			}
+		}else{
+			obj.put("delete", "false");
+			obj.put("validate", "true");
+			obj.put("status", "Error al acceder a la base de datos.");
+			return obj;
+		}
 	}
 
 }

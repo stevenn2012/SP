@@ -79,12 +79,10 @@ public class LogicCity {
 		if (direcciones!=null && ciudades != null) {
 			for (int i = 0; i < direcciones.size(); i++) {
 				if (direcciones.get(i).getIdCity()==idcity) {
-					if (!DAOAddress.deleteAddress(direcciones.get(i).getIdAddress())) {
-						obj.put("validate", "true");
-						obj.put("delete", "false");
-						obj.put("status", "Error al borrar las direcciones asociadas.");
-						return obj;
-					}
+					obj.put("validate", "true");
+					obj.put("delete", "false");
+					obj.put("status", "Error al borrar la ciudad. Hay direcciones asociadas.");
+					return obj;
 				}
 			}
 			if (DAOCity.deleteCity(idcity)) {

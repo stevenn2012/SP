@@ -143,7 +143,7 @@ public class WebServiceCountry {
 			account = LogicLoginAuthent.valLogin(request.getRemoteAddr(), account);
 			if (account.getString("validate").equals("true")) {
 				Country country = new Country(Long.parseLong(idcountry), name);
-				return Response.ok(LogicCountry.updateCountry(country,Long.parseLong(idcountry)).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
+				return Response.ok(LogicCountry.updateCountry(country).toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[verifyAccess]).build();
 			}else{
 				System.out.print(", Error cargando Usuarios\n");
 				return Response.ok(account.toString()).header("Access-Control-Allow-Origin", ConnectionData.getUrlAccess()[0]).build();

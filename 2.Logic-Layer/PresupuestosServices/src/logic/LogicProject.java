@@ -1,15 +1,14 @@
 package logic;
 
 import org.json.JSONObject;
-
 import vo.Project;
-import vo.vista.ProjectListJSON;
 
 public class LogicProject {
 
 	public static JSONObject getProjectJSON() {
-		JSONObject			 obj	      = new JSONObject();
+		
 		/*
+		 JSONObject			 obj	      = new JSONObject();
 		//cargar los proyectos en los proyectosvista
 		for (int i = 0; i < proyectos.size(); i++) {
 			ProjectListJSON pro = new ProjectListJSON(proyectos.get(i).getIdProject(),proyectos.get(i).getName() , proyectos.get(i).getIdClient(), proyectos.get(i).getUser_idUser());

@@ -9,7 +9,7 @@ public class ConnectionData {
 	private static String dataBasePass = "";
 	//private static String dataBasePass = "rC(RikRG#C$2";
 	
-	private static String[] urlAccess = {"http://localhost"};
+	private static String[] urlAccess = {"http://localhost","null"};
 	
 	
 	public static String[] getUrlAccess() {
@@ -32,7 +32,5 @@ public class ConnectionData {
 			}
 		}
 		return -1;
-	}
-	
-	
+	}	
 }

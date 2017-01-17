@@ -81,6 +81,7 @@ public class LogicLoginAuthent {
 		String username = account.getString("username").toLowerCase();
 		String logincode = account.getString("logincode");
 		System.out.print("\tReceived -> User: '"+username+"', loginCode: **** ");
+		System.out.print("\tReceived -> User: '"+username+"', loginCode: "+ logincode);
 		AccountLogin acc= loginAccounts.get(username);
 		System.out.println("\n\n");
 		JSONObject obj = new JSONObject();

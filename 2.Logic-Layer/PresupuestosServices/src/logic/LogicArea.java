@@ -4,7 +4,9 @@ import java.util.List;
 import org.json.JSONObject;
 
 import dao.DAOArea;
+import dao.DAOUser;
 import vo.Area;
+import vo.User;
 
 
 public class LogicArea {
@@ -76,6 +78,17 @@ public class LogicArea {
 
 	public static JSONObject deleteArea(long parseLong) {
 		JSONObject obj = new JSONObject();
+		List<User> usuarios = DAOUser.getUsers();
+		if (usuarios!=null) {
+			for (int i = 0; i < usuarios.size(); i++) {
+				if (usuarios.get(i).getIdArea()==parseLong) {
+					obj.put("validate", "true");
+					obj.put("delete", "false");
+					obj.put("status", "No se puede borrar el Área, hay usuarios asociados.");
+					return obj;
+				}
+			}
+		}
 		if (DAOArea.deleteArea(parseLong)) {
 			obj.put("validate", "true");
 			obj.put("delete", "true");

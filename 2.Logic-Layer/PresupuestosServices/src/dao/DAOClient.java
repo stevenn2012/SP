@@ -121,6 +121,24 @@ public class DAOClient {
 		}
 	}
 	
+	public static boolean updateClientActive(String id) {
+		initDriver();
+		try (Connection connection = new Sql2o(ConnectionData.getDataBase(),ConnectionData.getDataBaseUser(),ConnectionData.getDataBasePass()).beginTransaction()){
+			String query="update Client set  active = :active where Client.idClient = :id";
+			connection.createQuery(query)
+					.addParameter("id",id)
+					.addParameter("active",false)
+					.executeUpdate();
+			connection.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(" -> Error");
+			System.out.println(e);
+			return false;
+		}
+	}
+	
 	public static void initDriver(){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
