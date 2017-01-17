@@ -12,6 +12,10 @@ function login () {
 		"user":$('#user').val(),
 		"pass":calcMD5($('#pass').val())
 	};
+
+	$('#loginValidation').html("Validando usuario y contraseña");
+	$('#user').prop("disabled",true);
+	$('#pass').prop("disabled",true);
 	$.ajax({
 		url: loginService,
 		type: 'GET',
@@ -29,10 +33,14 @@ function login () {
 				    sessionStorage.setItem("roll", data.roll);
 				    window.location.assign('pages/');
 				} else {
+					$('#user').prop("disabled",false);
+					$('#pass').prop("disabled",false);
 					$('#pass').val("");
 					$('#loginValidation').html("Lo sentimos! tu buscador no soporta Web Storages");
 				}	
 			}else{
+				$('#user').prop("disabled",false);
+				$('#pass').prop("disabled",false);
 				if(data.status.indexOf('Intentos') != -1){
 					$('#loginValidation').html("Usuario y/o contraseña incorrectos");
 				}else{
@@ -48,6 +56,8 @@ function login () {
         	$('#pass').val("");
         	$('#loginValidation').html("Error de conexión");
 			console.log("error",objXMLHttpRequest);
+			$('#user').prop("disabled",false);
+			$('#pass').prop("disabled",false);
 		}
 	});
 }
