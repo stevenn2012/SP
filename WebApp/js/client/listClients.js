@@ -12,7 +12,7 @@ function loadClients() {
 		clientsObj.showMessage('msList', 'nameEmployed', 'No se pudo cargar los clientes<br><strong>Motivo: </strong>'+data.status, 'danger', 'default', true);	
 	}else{
 		clients = clientsObj.dataArray;
-		console.log(JSON.stringify(clients));
+		//console.log(JSON.stringify(clients));
 		listClients();	
 	}
 }
