@@ -620,7 +620,7 @@ function createProvider(){
 	var validation = true;
 	for (var i = 0; i < provider.address.length; i++) {
 		if(provider.address[i].inDB != true){
-			provider.address[i].inDB = saveAddressInServer(provider.address[i].address, idProvider, provider.address[i].idCity, provider.address[i].idCountry);	
+			provider.address[i].inDB = saveAddressInServer(provider.address[i].address, idProvider, provider.address[i].idCity);	
 		}
 		if(provider.address[i].inDB != true){
 			validation = false;
@@ -658,6 +658,7 @@ function createProvider(){
 		$('#NIT').val("");
 		$('#name').val("");
 		$('#description').val("");
+		$( "#DV" ).val(0);
 	}else{
 		$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">Error al insertar datos del proveedor</div>');
 		ScreenUp("msCreateProvider", "msCreateProvider");
@@ -687,13 +688,13 @@ function saveProviderInServer(nit, name, description, DV){
 			if(data.insert=="true"){
 				return data;
 			}else{
-				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear el proveedor '+data.status+'</div>');		
-				ScreenUp("msCreateUser","msCreateUser");
+				$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">No se pudo crear el proveedor '+data.status+'</div>');		
+				ScreenUp("msCreateProvider","msCreateProvider");
 				return data;
 			}
 		}else{
-			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear proveedores</div>');
-			ScreenUp("msCreateUser","msCreateUser");
+			$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear proveedores</div>');
+			ScreenUp("msCreateProvider","msCreateProvider");
 			return data;
 		}
 	}else{
@@ -703,7 +704,7 @@ function saveProviderInServer(nit, name, description, DV){
 	}
 }
 
-function saveAddressInServer(address, idProvider, idCity, idCountry){
+function saveAddressInServer(address, idProvider, idCity){
 	//console.log("SAVE ADDRESS IN SERVER");
 	if(sessionStorage.username && sessionStorage.logincode){
 		var dataAndAccount = {
@@ -711,21 +712,20 @@ function saveAddressInServer(address, idProvider, idCity, idCountry){
 			"logincode":sessionStorage.logincode,
 			"address":address,
 			"idProvider":idProvider,
-			"idCity":idCity,
-			"idCountry":idCountry
+			"idCity":idCity
 		};
 		var data = insertInServer(createAddressService, dataAndAccount, "Create address");
 		if(data.validate == "true"){
 			if(data.insert=="true"){
 				return true;
 			}else{
-				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear la direccion '+data.status+'</div>');		
-				ScreenUp("msCreateUser","msCreateUser");
+				$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">No se pudo crear la direccion '+data.status+'</div>');		
+				ScreenUp("msCreateProvider","msCreateProvider");
 				return false;
 			}
 		}else{
-			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear Direcciones</div>');
-			ScreenUp("msCreateUser","msCreateUser");
+			$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear Direcciones</div>');
+			ScreenUp("msCreateProvider","msCreateProvider");
 			return false;
 		}
 	}else{
@@ -751,13 +751,13 @@ function saveContactInServer(name, email, phoneNumber, idProvider){
 			if(data.insert=="true"){
 				return true;
 			}else{
-				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear el contacto '+data.status+'</div>');		
-				ScreenUp("msCreateUser","msCreateUser");
+				$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">No se pudo crear el contacto '+data.status+'</div>');		
+				ScreenUp("msCreateProvider","msCreateProvider");
 				return false;
 			}
 		}else{
-			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear contactos</div>');
-			ScreenUp("msCreateUser","msCreateUser");
+			$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear contactos</div>');
+			ScreenUp("msCreateProvider","msCreateProvider");
 			return false;
 		}
 	}else{
@@ -783,13 +783,13 @@ function saveProductServiceInServer(name, description, price, idProvider){
 			if(data.insert=="true"){
 				return true;
 			}else{
-				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear el producto o servicio'+data.status+'</div>');		
-				ScreenUp("msCreateUser","msCreateUser");
+				$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">No se pudo crear el producto o servicio'+data.status+'</div>');		
+				ScreenUp("msCreateProvider","msCreateProvider");
 				return false;
 			}
 		}else{
-			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear Productos o servicios</div>');
-			ScreenUp("msCreateUser","msCreateUser");
+			$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear Productos o servicios</div>');
+			ScreenUp("msCreateProvider","msCreateProvider");
 			return false;
 		}
 	}else{

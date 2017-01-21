@@ -1,10 +1,11 @@
 var contacts = [];
+
 var address = [];
 var countrys = [];
 var citys = [];
+
 var pointerAddress = 0;
 var pointerContacts = 0;
-var pointerProductsServices = 0;
 
 $(document).ready(function(){
 	listAddress();
@@ -120,6 +121,11 @@ function addAddress() {
 
 	if(newAddres.idCountry!=0 || newAddres.country!=""){
 		if($('#countryButton').prop('checked') == true && newAddres.idCountry==0){
+			if(notBlakSpaceValidation(newAddres.country)==false){
+				$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Seleccione un pais</div>');
+				ScreenUp("modalAddAddress", "msAddAddress");
+				return;
+			}
 			newAddres.idCountry = createCountry(newAddres.country);
 		}else{
 			if($('#countryButton').prop('checked') != false && newAddres.idCountry != 0){
@@ -140,6 +146,11 @@ function addAddress() {
 
 	if(newAddres.idCity!=0 || newAddres.city!=""){
 		if($('#cityButton').prop('checked') == true && newAddres.idCity==0){
+			if(notBlakSpaceValidation(newAddres.city)==false){
+				$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Seleccione una ciudad</div>');
+				ScreenUp("modalAddAddress", "msAddAddress");
+				return;
+			}
 			newAddres.idCity = createCity(newAddres.idCountry, newAddres.city);
 		}else{
 			if($('#cityButton').prop('checked') != false && newAddres.idCity != 0){
@@ -162,6 +173,12 @@ function addAddress() {
 		$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Error seleccionando pais o ciudad en el servidor</div>');
 		ScreenUp("modalAddAddress", "msAddAddress");
 		return;	
+	}
+
+	if(notBlakSpaceValidation(newAddres.address)==false){
+		$('#msAddAddress').html('<div class="alert alert-warning" role="alert">Ingrese una direccion</div>');
+		ScreenUp("modalAddAddress", "msAddAddress");
+		return;
 	}
 
 	//console.log(JSON.stringify(newAddres));
@@ -341,7 +358,7 @@ function createCity(idCountry, cityName){
 
 function ScreenUp (id, idMs) {
 	//console.log("SCREEN UP "+id);
-	if(id != "msCreateProvider"){
+	if(id != "msCreateClient"){
 		$('#'+id).scrollTop(0);
 	}else{
 		$('htmls,body').animate({
@@ -361,6 +378,18 @@ function addContact() {
 		"email":$("#emailContact").val(),
 		"phoneNumber":$('#phoneNumberContact').val()
 	};
+
+	if(notBlakSpaceValidation(newContact.name)==false){
+		$('#msContact').html('<div class="alert alert-warning" role="alert">Debe ingresar un nombre para el contacto</div>');
+		ScreenUp("modalAddContact", "msContact");
+		return;
+	}
+
+	if(notBlakSpaceValidation(newContact.phoneNumber)==false){
+		$('#msContact').html('<div class="alert alert-warning" role="alert">Debe ingresar un telefono para el contacto</div>');
+		ScreenUp("modalAddContact", "msContact");
+		return;
+	}
 
 	var valEmail = true;
 	if(newContact.email.indexOf('@', 0) == -1) {
@@ -438,90 +467,84 @@ function closeModal() {
 }
 
 //**********Guardar***********
-function createProvider(){
-	var provider = {
+function createClient(){
+	var client = {
 		"nit":$('#NIT').val(),
 		"name":$('#name').val(),
 		"description":$('#description').val(),
 		"DV":$( "#DV option:selected" ).val(),
 		"contacts":contacts,
-		"address":address,
-		"productsServices":productsServices
+		"address":address
 	};
-	//console.log("CREATE PROVIDER: ",JSON.stringify(provider));
-
-	if(provider.address.length == 0){
-		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar al menos una direccion</div>');
-		ScreenUp("msCreateProvider", "msCreateProvider");
-		return;
-	}
-	if(provider.contacts.length == 0){
-		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar al menos un contacto</div>');
-		ScreenUp("msCreateProvider", "msCreateProvider");
-		return;
-	}
-	if(provider.productsServices.length == 0){
-		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Debe ingresar al menos un producto o servicio</div>');
-		ScreenUp("msCreateProvider", "msCreateProvider");
+	//console.log("CREATE PROVIDER: ",JSON.stringify(client));
+	if(notBlakSpaceValidation(client.nit)==false){
+		$('#msCreateClient').html('<div class="alert alert-warning" role="alert">Debe ingresar un NIT para el cliente</div>');
+		ScreenUp("msCreateClient", "msCreateClient");
 		return;
 	}
 
-	var dataProvider = saveProviderInServer(provider.nit, provider.name, provider.description, provider.DV);
-	var idProvider = dataProvider.idProvider;
+	if(notBlakSpaceValidation(client.name)==false){
+		$('#msCreateClient').html('<div class="alert alert-warning" role="alert">Debe ingresar un nombre para el cliente</div>');
+		ScreenUp("msCreateClient", "msCreateClient");
+		return;
+	}
+
+	if(client.address.length == 0){
+		$('#msCreateClient').html('<div class="alert alert-warning" role="alert">Debe ingresar al menos una direccion</div>');
+		ScreenUp("msCreateClient", "msCreateClient");
+		return;
+	}
+	if(client.contacts.length == 0){
+		$('#msCreateClient').html('<div class="alert alert-warning" role="alert">Debe ingresar al menos un contacto</div>');
+		ScreenUp("msCreateClient", "msCreateClient");
+		return;
+	}
+
+	var dataClient = saveClientInServer(client.nit, client.name, client.description, client.DV);
+	var idClient = dataClient.idClient;
 	
-	if(isNaN(parseInt(idProvider)) || idProvider <= 0){
-		$('#msCreateProvider').html('<div class="alert alert-warning" role="alert">Error al crear el proveedor '+dataProvider.status+'</div>');
-		ScreenUp("msCreateProvider", "msCreateProvider");
+	if(isNaN(parseInt(idClient)) || idClient <= 0){
+		$('#msCreateClient').html('<div class="alert alert-warning" role="alert">Error al crear el proveedor '+dataClient.status+'</div>');
+		ScreenUp("msCreateClient", "msCreateClient");
 		return;
 	}
 
 	var validation = true;
-	for (var i = 0; i < provider.address.length; i++) {
-		if(provider.address[i].inDB != true){
-			provider.address[i].inDB = saveAddressInServer(provider.address[i].address, idProvider, provider.address[i].idCity, provider.address[i].idCountry);	
+	for (var i = 0; i < client.address.length; i++) {
+		if(client.address[i].inDB != true){
+			client.address[i].inDB = saveAddressInServer(client.address[i].address, idClient, client.address[i].idCity);	
 		}
-		if(provider.address[i].inDB != true){
+		if(client.address[i].inDB != true){
 			validation = false;
 		}
 	};
 
-	for (var i = 0; i < provider.contacts.length; i++) {
-		if(provider.contacts[i].inDB != true){
-			provider.contacts[i].inDB = saveContactInServer(provider.contacts[i].name, provider.contacts[i].email, provider.contacts[i].phoneNumber, idProvider);	
+	for (var i = 0; i < client.contacts.length; i++) {
+		if(client.contacts[i].inDB != true){
+			client.contacts[i].inDB = saveContactInServer(client.contacts[i].name, client.contacts[i].email, client.contacts[i].phoneNumber, idClient);	
 		}
-		if(provider.contacts[i].inDB != true){
-			validation = false;
-		}
-	};
-
-	for (var i = 0; i < provider.productsServices.length; i++) {
-		if(provider.productsServices[i].inDB != true){
-			provider.productsServices[i].inDB = saveProductServiceInServer(provider.productsServices[i].name, provider.productsServices[i].description, provider.productsServices[i].price, idProvider);	
-		}
-		if(provider.productsServices[i].inDB != true){
+		if(client.contacts[i].inDB != true){
 			validation = false;
 		}
 	};
 
 	if(validation){
-		$('#msCreateProvider').html('<div class="alert alert-success" role="alert">Se creo el proveedor con exito!</div>');
-		ScreenUp("msCreateProvider", "msCreateProvider");
+		$('#msCreateClient').html('<div class="alert alert-success" role="alert">Se creo el cliente con exito!</div>');
+		ScreenUp("msCreateClient", "msCreateClient");
 		closeModal();
 		contacts = [];
 		address = [];
-		productsServices = [];
 		listAddress();
 		listContacts();
-		listProductsServices();
 		$('#NIT').val("");
 		$('#name').val("");
 		$('#description').val("");
+		$( "#DV" ).val(0);
 	}else{
-		$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">Error al insertar datos del proveedor</div>');
-		ScreenUp("msCreateProvider", "msCreateProvider");
-		contacts = provider.contacts;
-		address = provider.address;
-		productsServices = provider.productsServices;
+		$('#msCreateClient').html('<div class="alert alert-danger" role="alert">Error al insertar datos del cliente</div>');
+		ScreenUp("msCreateClient", "msCreateClient");
+		contacts = client.contacts;
+		address = client.address;
 		listAddress();
 		listContacts();
 		listProductsServices();
@@ -529,7 +552,7 @@ function createProvider(){
 	}
 }
 
-function saveProviderInServer(nit, name, description, DV){
+function saveClientInServer(nit, name, description, DV){
 	//console.log("SAVE PROVIDER IN SERVER");
 	if(sessionStorage.username && sessionStorage.logincode){
 		var dataAndAccount = {
@@ -540,18 +563,18 @@ function saveProviderInServer(nit, name, description, DV){
 			"description":description,
 			"DV":DV
 		};
-		var data = insertInServer(createProviderService, dataAndAccount, "Create provider");
+		var data = insertInServer(createclientService, dataAndAccount, "Create client");
 		if(data.validate == "true"){
 			if(data.insert=="true"){
 				return data;
 			}else{
-				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear el proveedor '+data.status+'</div>');		
-				ScreenUp("msCreateUser","msCreateUser");
+				$('#msCreateClient').html('<div class="alert alert-danger" role="alert">No se pudo crear el cliente '+data.status+'</div>');		
+				ScreenUp("msCreateClient","msCreateClient");
 				return data;
 			}
 		}else{
-			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear proveedores</div>');
-			ScreenUp("msCreateUser","msCreateUser");
+			$('#msCreateClient').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear clientes</div>');
+			ScreenUp("msCreateClient","msCreateClient");
 			return data;
 		}
 	}else{
@@ -561,29 +584,28 @@ function saveProviderInServer(nit, name, description, DV){
 	}
 }
 
-function saveAddressInServer(address, idProvider, idCity, idCountry){
+function saveAddressInServer(address, idClient, idCity){
 	//console.log("SAVE ADDRESS IN SERVER");
 	if(sessionStorage.username && sessionStorage.logincode){
 		var dataAndAccount = {
 			"username":sessionStorage.username,
 			"logincode":sessionStorage.logincode,
 			"address":address,
-			"idProvider":idProvider,
-			"idCity":idCity,
-			"idCountry":idCountry
+			"idClient":idClient,
+			"idCity":idCity
 		};
 		var data = insertInServer(createAddressService, dataAndAccount, "Create address");
 		if(data.validate == "true"){
 			if(data.insert=="true"){
 				return true;
 			}else{
-				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear la direccion '+data.status+'</div>');		
-				ScreenUp("msCreateUser","msCreateUser");
+				$('#msCreateClient').html('<div class="alert alert-danger" role="alert">No se pudo crear la direccion '+data.status+'</div>');		
+				ScreenUp("msCreateClient","msCreateClient");
 				return false;
 			}
 		}else{
-			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear Direcciones</div>');
-			ScreenUp("msCreateUser","msCreateUser");
+			$('#msCreateClient').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear Direcciones</div>');
+			ScreenUp("msCreateClient","msCreateClient");
 			return false;
 		}
 	}else{
@@ -593,7 +615,7 @@ function saveAddressInServer(address, idProvider, idCity, idCountry){
 	}
 }
 
-function saveContactInServer(name, email, phoneNumber, idProvider){
+function saveContactInServer(name, email, phoneNumber, idClient){
 	//console.log("SAVE CONTACT IN SERVER: "+name);
 	if(sessionStorage.username && sessionStorage.logincode){
 		var dataAndAccount = {
@@ -602,52 +624,20 @@ function saveContactInServer(name, email, phoneNumber, idProvider){
 			"name":name,
 			"email":email,
 			"phoneNumber":phoneNumber,
-			"idProvider":idProvider
+			"idClient":idClient
 		};
 		var data = insertInServer(createContactService, dataAndAccount, "Create Contact");
 		if(data.validate == "true"){
 			if(data.insert=="true"){
 				return true;
 			}else{
-				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear el contacto '+data.status+'</div>');		
-				ScreenUp("msCreateUser","msCreateUser");
+				$('#msCreateClient').html('<div class="alert alert-danger" role="alert">No se pudo crear el contacto '+data.status+'</div>');		
+				ScreenUp("msCreateClient","msCreateClient");
 				return false;
 			}
 		}else{
-			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear contactos</div>');
-			ScreenUp("msCreateUser","msCreateUser");
-			return false;
-		}
-	}else{
-		if(indexPage != window.location && indexPage != window.location+"index.html"){
-			window.location.assign(indexPage);
-		}
-	}
-}
-
-function saveProductServiceInServer(name, description, price, idProvider){
-	//console.log("SAVE PRODUCT SERVICE IN SERVER");
-	if(sessionStorage.username && sessionStorage.logincode){
-		var dataAndAccount = {
-			"username":sessionStorage.username,
-			"logincode":sessionStorage.logincode,
-			"name":name,
-			"description":description,
-			"price":price,
-			"idProvider":idProvider
-		};
-		var data = insertInServer(createProductServiceService, dataAndAccount, "Create Product or service");
-		if(data.validate == "true"){
-			if(data.insert=="true"){
-				return true;
-			}else{
-				$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No se pudo crear el producto o servicio'+data.status+'</div>');		
-				ScreenUp("msCreateUser","msCreateUser");
-				return false;
-			}
-		}else{
-			$('#msCreateUser').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear Productos o servicios</div>');
-			ScreenUp("msCreateUser","msCreateUser");
+			$('#msCreateClient').html('<div class="alert alert-danger" role="alert">No tiene permisos de crear contactos</div>');
+			ScreenUp("msCreateClient","msCreateClient");
 			return false;
 		}
 	}else{
@@ -668,12 +658,12 @@ function insertInServer(link, dataAndAccount, type) {
 		async : false,
 		dataTipe: 'JSON',
 		success: function (data) {
-			//console.log("WebService "+type+": "+JSON.stringify(data));
+			console.log("WebService "+type+": "+JSON.stringify(data));
 			returnData = data;
 		},
 		error: function(objXMLHttpRequest) {
-		   	$('#msCreateProvider').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
-		    ScreenUp("msCreateProvider", "msCreateProvider");
+		   	$('#msCreateClient').html('<div class="alert alert-danger" role="alert">Error de conexion</div>');
+		    ScreenUp("msCreateClient", "msCreateClient");
 		    console.log("error",objXMLHttpRequest);
 		}
 	});
