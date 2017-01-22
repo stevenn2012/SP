@@ -53,8 +53,13 @@ var createProductServiceService = page+'/WebServicesPresupuestos/AppProductServi
 var listProductServiceService = page+'/WebServicesPresupuestos/AppProductServiceCRUD/list';
 var editProductServiceService = page+'/WebServicesPresupuestos/AppProductServiceCRUD/update';
 var deleteProductServiceService = page+'/WebServicesPresupuestos/AppProductServiceCRUD/delete';
-//CRUD de clientes
+//AppClientCRUD - CRUD de clientes
 var createclientService = page+"/WebServicesPresupuestos/AppClientCRUD/create";
 var listClientService = page+"/WebServicesPresupuestos/AppClientCRUD/list";
 var editClientService = page+"/WebServicesPresupuestos/AppClientCRUD/update";
 var deleteClientService = page+"/WebServicesPresupuestos/AppClientCRUD/delete";
+//AppValueCRUD - CRUD de values
+var createValueService = page+"/WebServicesPresupuestos/AppValueCRUD/create";
+var listValueService = page+"/WebServicesPresupuestos/AppValueCRUD/list";
+var editValueService = page+"/WebServicesPresupuestos/AppValueCRUD/update";
+var deleteValueService = page+"/WebServicesPresupuestos/AppValueCRUD/delete";

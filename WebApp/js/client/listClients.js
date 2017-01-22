@@ -78,7 +78,7 @@ function seeContacts(idClient) {
 	var contacts = client.contactos;
 	var number = 2;
 	var data = '<div class="scroll panel panel-info"><div class="panel-heading"> Contactos de '+client.name+'</div><div class="panel-body">';
-	data += '<p>Acontinuacion se muestran los contactos del proveedor seleccionado, de click sobre el contacto para ver mas informacion.</p>';
+	data += '<p>Acontinuacion se muestran los contactos del cliente seleccionado, de click sobre el contacto para ver mas informacion.</p>';
 	data += '<div id="accordion'+number+'" class="panel-group" role="tablist" aria-multiselectable="true">';
 	for (var i = 0; i <contacts.length; i++) {
 		data += '<div class="panel panel-default">';
