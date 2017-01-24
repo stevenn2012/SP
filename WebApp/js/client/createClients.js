@@ -658,7 +658,7 @@ function insertInServer(link, dataAndAccount, type) {
 		async : false,
 		dataTipe: 'JSON',
 		success: function (data) {
-			console.log("WebService "+type+": "+JSON.stringify(data));
+			//console.log("WebService "+type+": "+JSON.stringify(data));
 			returnData = data;
 		},
 		error: function(objXMLHttpRequest) {
