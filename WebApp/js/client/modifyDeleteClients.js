@@ -1,6 +1,10 @@
 $(document).ready(function(){
 	loadClients();
 	$(".filter").keyup(function(){listClients()});
+	$('#modalAddAddress').on('hidden.bs.modal', function(){goTo('modalAddress','modalAddAddress')});
+	$('#modalEditAddress').on('hidden.bs.modal', function(){goTo('modalAddress','modalEditAddress')});
+	$('#modalAddContacts').on('hidden.bs.modal', function(){goTo('modalContacts','modalAddContacts')});
+	$('#modalEditContacts').on('hidden.bs.modal', function(){goTo('modalContacts','modalEditContacts')});
 });
 
 var clients = {};
@@ -532,6 +536,195 @@ function generateOptions(list, nameAttrib1, nameAttrib2, listName, messageInitia
 }
 
 function addContact(idClient) {
-	console.log("c: "+idClient);
+	$('#modalContacts').modal('hide');
+	$('#idClientAddContact').val(idClient);
+	$('#modalAddContacts').modal('show');
 }
 
+function approvedAddContact() {
+	var dataAndAccount = {
+		"username":sessionStorage.username, 
+		"logincode":sessionStorage.logincode, 
+		"name":$('#nameContact').val(),
+		"email":$('#emailContact').val(),
+		"phoneNumber":$('#phoneNumberContact').val(),
+		"idClient":$('#idClientAddContact').val()
+	};
+	var contact = newDinamicOWS(false);
+	if(notBlakSpaceValidation(dataAndAccount.name)==false){
+		contact.showMessage('messageAddContact', 'modalAddContacts', "Ingrese un nombre para el contacto", 'warning', 'modal', true);
+		return;
+	}
+	
+	if(notBlakSpaceValidation(dataAndAccount.email)==false){
+		contact.showMessage('messageAddContact', 'modalAddContacts', "Ingrese un correo electronico para el contacto", 'warning', 'modal', true);
+		return;
+	}
+
+	if(emailValidation(dataAndAccount.email)==false){
+		contact.showMessage('messageAddContact', 'modalAddContacts', "El correo electronico ingresado no es valido", 'warning', 'modal', true);
+		return;
+	}
+
+	if(notBlakSpaceValidation(dataAndAccount.phoneNumber)==false){
+		contact.showMessage('messageAddContact', 'modalAddContacts', "Ingrese un telefono para el contacto", 'warning', 'modal', true);
+		return;
+	}
+
+	//console.log(JSON.stringify(dataAndAccount));
+	var data = contact.add(createContactService ,dataAndAccount, '');
+	if(data.success == 'false') contact.showMessage('messageAddContact', 'modalAddContacts', "No se pudo Agregar el contacto<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	else{
+		$('#modalAddContacts').modal('hide');
+		loadClients();
+		seeContacts(dataAndAccount.idClient);
+		$('#modalContacts').modal('show');
+		contact.showMessage('msSeeContacts', 'msSeeContacts', "Se Agrego con exito el contacto!", 'success', 'modal', true);
+	}
+}
+
+function editContact(idClient, idContact) {
+	$('#modalContacts').modal('hide');
+	var client = findElement(clients,'idClient',idClient);
+	var contact = findElement(client.contactos,'idContact',idContact); 
+	$('#idClientEditContact').val(idClient);
+	$('#idContactEdit').val(contact.idContact);
+	$('#nameContactEdit').val(contact.name);
+	$('#emailContactEdit').val(contact.email);
+	$('#phoneNumberContactEdit').val(contact.phoneNumber);
+	$('#modalEditContacts').modal('show');
+}
+
+function approvedEditContact() {
+	var dataAndAccount = {
+		"username":sessionStorage.username, 
+		"logincode":sessionStorage.logincode, 
+		"name":$('#nameContactEdit').val(),
+		"email":$('#emailContactEdit').val(),
+		"phoneNumber":$('#phoneNumberContactEdit').val(),
+		"idClient":$('#idClientEditContact').val(),
+		"idContact":$('#idContactEdit').val()
+	};
+	var contact = newDinamicOWS(false);
+	if(notBlakSpaceValidation(dataAndAccount.name)==false){
+		contact.showMessage('messageEditContact', 'modalEditContacts', "Ingrese un nombre para el contacto", 'warning', 'modal', true);
+		return;
+	}
+	
+	if(notBlakSpaceValidation(dataAndAccount.email)==false){
+		contact.showMessage('messageEditContact', 'modalEditContacts', "Ingrese un correo electronico para el contacto", 'warning', 'modal', true);
+		return;
+	}
+
+	if(emailValidation(dataAndAccount.email)==false){
+		contact.showMessage('messageEditContact', 'modalEditContacts', "El correo electronico ingresado no es valido", 'warning', 'modal', true);
+		return;
+	}
+
+	if(notBlakSpaceValidation(dataAndAccount.phoneNumber)==false){
+		contact.showMessage('messageEditContact', 'modalEditContacts', "Ingrese un telefono para el contacto", 'warning', 'modal', true);
+		return;
+	}
+
+	//console.log(JSON.stringify(dataAndAccount));
+	var data = contact.set(editContactService ,dataAndAccount, '');
+	if(data.success == 'false') contact.showMessage('messageEditContact', 'modalEditContacts', "No se pudo editar el contacto<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	else{
+		$('#modalEditContacts').modal('hide');
+		loadClients();
+		seeContacts(dataAndAccount.idClient);
+		$('#modalContacts').modal('show');
+		contact.showMessage('msSeeContacts', 'msSeeContacts', "Se Editó con exito el contacto!", 'success', 'modal', true);
+	}
+}
+
+function editAddress(idClient, idAddress) {
+	$('#modalAddress').modal('hide');
+	$('#idClientEditAddress').val(idClient);
+	$('#idAddressEdit').val(idAddress);
+	var client = findElement(clients,'idClient',idClient);
+	var address = findElement(client.direcciones,'idAddress',idAddress); 
+	console.log(JSON.stringify(address));
+	loadCountries();
+ 	generateOptions(countriesForList.dataArray, 'idCountry', 'name', 'countryListEdit', 'Seleccione un pais');
+	for (var i = 0; i <countriesForList.dataArray.length; i++) {
+ 		if(countriesForList.dataArray[i].name==address.pais){
+ 			$('#countryListEdit').val(countriesForList.dataArray[i].idCountry);
+ 		}
+ 	}
+ 	getCitiesByIdCountry($('#countryListEdit').val(), 'cityListEdit');
+ 	for (var i = 0; i <cities.length; i++) {
+ 		if(cities[i].name==address.ciudad){
+ 			$('#cityListEdit').val(cities[i].idCity);
+ 		}
+ 	}
+ 	$('#countryListEdit').unbind();
+ 	$('#countryButtonEdit').unbind();
+ 	$('#cityButtonEdit').unbind();
+ 	buttonAddress('countryButtonEdit', 'countryListEdit', 'countryEdit');
+	buttonAddress('cityButtonEdit', 'cityListEdit', 'cityEdit');
+ 	$('#countryButtonEdit').click(function(){buttonAddress('countryButtonEdit', 'countryListEdit', 'countryEdit')});
+	$('#cityButtonEdit').click(function(){buttonAddress('cityButtonEdit', 'cityListEdit', 'cityEdit')});
+ 	$('#countryListEdit').change(function(){getCitiesByIdCountry($('#countryListEdit').val(), 'cityListEdit')});
+ 	$('#addressEdit').val(address.direccion);
+	$('#modalEditAddress').modal('show');
+}
+
+function approvedEditAddress() {
+	var dataAndAccount = {
+		"username":sessionStorage.username, 
+		"logincode":sessionStorage.logincode, 
+		"address":$('#addressEdit').val(),
+		"idCity":$('#cityListEdit').val(),
+		"idClient":$('#idClientEditAddress').val(),
+		"idAddress":$('#idAddressEdit').val()
+	};
+
+	var idCountry = $("#countryListEdit").val();
+	var country = $('#countryEdit').val();
+	var city = $('#cityEdit').val();
+
+	var address = newDinamicOWS(false);
+	if(country == "" && idCountry == 0){
+		address.showMessage('messageEditAddress', 'modalEditAddress', "Seleccione o ingrese un pais", 'warning', 'modal', true);
+		return;
+	}else{
+		if(country != "" && idCountry == 0){
+			var account = {"username":sessionStorage.username,"logincode":sessionStorage.logincode, "cname":country};
+			var countryObj = newDinamicOWS(false);
+			idCountry = countryObj.add(createCountryService ,account, '').data.idCountry;
+		}else if(country != "" && idCountry != 0){
+			address.showMessage('messageEditAddress', 'modalEditAddress', "Error seleccionando pais", 'warning', 'modal', true);
+			return;
+		}
+	}
+	if(city == "" && dataAndAccount.idCity == 0){
+		address.showMessage('messageEditAddress', 'modalEditAddress', "Seleccione o Ingrese una ciudad", 'warning', 'modal', true);
+		return;
+	}else{
+		if(city!="" && dataAndAccount.idCity == 0){
+			var account = {"username":sessionStorage.username,"logincode":sessionStorage.logincode, "name":city, "idCountry":idCountry};
+			var cityObj = newDinamicOWS(false);
+			dataAndAccount.idCity = cityObj.add(createCityService ,account, '').data.idCity;
+		}else if(city != "" && dataAndAccount.idCity != 0){
+			address.showMessage('messageEditAddress', 'modalEditAddress', "Error seleccionando ciudad", 'warning', 'modal', true);
+			return;
+		}
+	}
+
+	if(notBlakSpaceValidation(dataAndAccount.address)==false){
+		address.showMessage('messageEditAddress', 'modalEditAddress', "Ingrese una direccion", 'warning', 'modal', true);
+		return;
+	}
+
+	//console.log(JSON.stringify(dataAndAccount));
+	var data = address.set(editAddressService ,dataAndAccount, '');
+	if(data.success == 'false') address.showMessage('messageEditAddress', 'modalEditAddress', "No se pudo Editar la direccion<br><strong>Motivo: </strong>"+data.status, 'warning', 'modal', true);
+	else{
+		$('#modalEditAddress').modal('hide');
+		loadClients();
+		seeAddress(dataAndAccount.idClient);
+		$('#modalAddress').modal('show');
+		address.showMessage('msSeeAddress', 'msSeeAddress', "Se Editó con exito la direccion!", 'success', 'modal', true);
+	}
+}

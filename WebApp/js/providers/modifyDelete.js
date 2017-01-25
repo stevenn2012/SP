@@ -3,7 +3,7 @@ var modalPattern = '';
 $(document).ready(function(){
 	initProviders();
 	$(".filter").keyup(function(){listProviders()});
-	$('.modalElement').on('hidden.bs.modal', function(){cancelEditElement()})
+	$('.modalElement').on('hidden.bs.modal', function(){cancelEditElement()});
 	$(".filter").focus();
 });
 
